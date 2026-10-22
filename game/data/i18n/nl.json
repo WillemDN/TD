@@ -205,5 +205,16 @@
  "sv.cd": "Interval {0} s",
  "sv.rng": "Bereik {0}",
  "msg.sv_buy": "Koop ({0})",
- "wk.shoot": "Schiet op de dichtstbijzijnde vijand"
+ "wk.shoot": "Schiet op de dichtstbijzijnde vijand",
+ "update.checking": "Build {0} · zoeken naar updates…",
+ "update.current": "Build {0} · up-to-date",
+ "update.available": "Update beschikbaar: versie {0} (build {1})",
+ "update.downloading": "Downloaden… {0}% ({1} / {2} MB)",
+ "update.confirm": "Bevestig de update in het Android-venster. Het spel sluit tijdens de installatie; open het daarna opnieuw.",
+ "update.permission": "Sta installaties van Guardians toe in de instellingen die net opengingen, kom terug en tik op installeren.",
+ "update.error": "Updateprobleem: {0}",
+ "update.tap_update": "[ tik om nu te updaten ]",
+ "update.tap_check": "[ tik om opnieuw te zoeken ]",
+ "update.tap_retry": "[ tik om opnieuw te proberen ]",
+ "update.tap_install": "[ tik om te installeren ]"
 }

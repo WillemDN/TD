@@ -205,5 +205,16 @@
  "sv.cd": "Interval {0} s",
  "sv.rng": "Range {0}",
  "msg.sv_buy": "Buy ({0})",
- "wk.shoot": "Shoots the nearest enemy"
+ "wk.shoot": "Shoots the nearest enemy",
+ "update.checking": "Build {0} · checking for updates…",
+ "update.current": "Build {0} · up to date",
+ "update.available": "Update available: version {0} (build {1})",
+ "update.downloading": "Downloading… {0}% ({1} / {2} MB)",
+ "update.confirm": "Confirm the update in the Android prompt. The game closes while it installs; open it again afterwards.",
+ "update.permission": "Allow installs from Guardians in the settings that just opened, come back, then tap install.",
+ "update.error": "Update problem: {0}",
+ "update.tap_update": "[ tap to update now ]",
+ "update.tap_check": "[ tap to check again ]",
+ "update.tap_retry": "[ tap to retry ]",
+ "update.tap_install": "[ tap to install ]"
 }

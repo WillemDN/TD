@@ -31,3 +31,13 @@ export_presets.cfg.bak
 __pycache__/
 *.pyc
 .venv/
+
+# Android Gradle build template (the template itself is committed, its output is not)
+/game/android/build/.gradle/
+/game/android/build/build/
+/game/android/build/local.properties
+/game/build_info.json
+*.apk
+*.aab
+*.idsig
+/game/android/build/libs/

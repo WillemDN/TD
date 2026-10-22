@@ -1,0 +1,938 @@
+{
+ "creeps": {
+  "e01": {
+   "id": "e01",
+   "name": {
+    "nl": "Lichtgeest",
+    "en": "Light Wisp"
+   },
+   "hp": 22,
+   "armor": 0,
+   "armorType": "light",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [],
+   "model": "snow_scout",
+   "tint": "#ffe27a",
+   "bounty": {
+    "base": 2,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e02": {
+   "id": "e02",
+   "name": {
+    "nl": "Vuurling",
+    "en": "Fire Imp"
+   },
+   "hp": 27,
+   "armor": 1,
+   "armorType": "fire",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [],
+   "model": "frost_tinker",
+   "tint": "#ff6a3c",
+   "bounty": {
+    "base": 2,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e03": {
+   "id": "e03",
+   "name": {
+    "nl": "Snelle schaduwling",
+    "en": "Swift shade"
+   },
+   "hp": 33,
+   "armor": 1,
+   "armorType": "dark",
+   "speed": 3.25,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "fast"
+   ],
+   "model": "tundra_brute",
+   "tint": "#a56be8",
+   "bounty": {
+    "base": 2,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e04": {
+   "id": "e04",
+   "name": {
+    "nl": "Bosgeest",
+    "en": "Grove Spirit"
+   },
+   "hp": 40,
+   "armor": 2,
+   "armorType": "nature",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [],
+   "model": "ice_stalker",
+   "tint": "#6bd45f",
+   "bounty": {
+    "base": 3,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e05": {
+   "id": "e05",
+   "name": {
+    "nl": "Waterwachter",
+    "en": "Water Guardian"
+   },
+   "hp": 681,
+   "armor": 4,
+   "armorType": "water",
+   "speed": 2.0,
+   "air": false,
+   "boss": true,
+   "traits": [],
+   "model": "glacier_lord",
+   "tint": "#4da3ff",
+   "bounty": {
+    "base": 35,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e06": {
+   "id": "e06",
+   "name": {
+    "nl": "Steenling",
+    "en": "Rock Crawler"
+   },
+   "hp": 59,
+   "armor": 3,
+   "armorType": "earth",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [],
+   "model": "glacier_troll",
+   "tint": "#b88a5a",
+   "bounty": {
+    "base": 3,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e07": {
+   "id": "e07",
+   "name": {
+    "nl": "Snelle vuurling",
+    "en": "Swift fire imp"
+   },
+   "hp": 72,
+   "armor": 3,
+   "armorType": "fire",
+   "speed": 3.25,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "fast"
+   ],
+   "model": "wolf_raider",
+   "tint": "#ff6a3c",
+   "bounty": {
+    "base": 3,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e08": {
+   "id": "e08",
+   "name": {
+    "nl": "Helende steenling",
+    "en": "Healing rock crawler"
+   },
+   "hp": 87,
+   "armor": 4,
+   "armorType": "earth",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "healing"
+   ],
+   "model": "clockwork_brute",
+   "tint": "#b88a5a",
+   "bounty": {
+    "base": 4,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e09": {
+   "id": "e09",
+   "name": {
+    "nl": "Lichtgeest",
+    "en": "Light Wisp"
+   },
+   "hp": 106,
+   "armor": 4,
+   "armorType": "light",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [],
+   "model": "frost_lizard",
+   "tint": "#ffe27a",
+   "bounty": {
+    "base": 4,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e10": {
+   "id": "e10",
+   "name": {
+    "nl": "Natuurwachter",
+    "en": "Nature Guardian"
+   },
+   "hp": 1796,
+   "armor": 8,
+   "armorType": "nature",
+   "speed": 2.0,
+   "air": false,
+   "boss": true,
+   "traits": [],
+   "model": "dire_bear",
+   "tint": "#6bd45f",
+   "bounty": {
+    "base": 54,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e11": {
+   "id": "e11",
+   "name": {
+    "nl": "Snelle bosgeest",
+    "en": "Swift grove spirit"
+   },
+   "hp": 155,
+   "armor": 5,
+   "armorType": "nature",
+   "speed": 3.25,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "fast"
+   ],
+   "model": "shard_golem",
+   "tint": "#6bd45f",
+   "bounty": {
+    "base": 5,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e12": {
+   "id": "e12",
+   "name": {
+    "nl": "Onsterfelijke schaduwling",
+    "en": "Undying shade"
+   },
+   "hp": 188,
+   "armor": 6,
+   "armorType": "dark",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "undead"
+   ],
+   "model": "siege_sled",
+   "tint": "#a56be8",
+   "bounty": {
+    "base": 5,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e13": {
+   "id": "e13",
+   "name": {
+    "nl": "Helende watergeest",
+    "en": "Healing water sprite"
+   },
+   "hp": 228,
+   "armor": 6,
+   "armorType": "water",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "healing"
+   ],
+   "model": "frozen_husk",
+   "tint": "#4da3ff",
+   "bounty": {
+    "base": 6,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e14": {
+   "id": "e14",
+   "name": {
+    "nl": "Snelle bosgeest",
+    "en": "Swift grove spirit"
+   },
+   "hp": 275,
+   "armor": 7,
+   "armorType": "nature",
+   "speed": 3.25,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "fast"
+   ],
+   "model": "cursed_rider",
+   "tint": "#6bd45f",
+   "bounty": {
+    "base": 7,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e15": {
+   "id": "e15",
+   "name": {
+    "nl": "Lichtwachter",
+    "en": "Light Guardian"
+   },
+   "hp": 4657,
+   "armor": 12,
+   "armorType": "light",
+   "speed": 2.0,
+   "air": false,
+   "boss": true,
+   "traits": [],
+   "model": "ice_king",
+   "tint": "#ffe27a",
+   "bounty": {
+    "base": 86,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e16": {
+   "id": "e16",
+   "name": {
+    "nl": "Onsterfelijke schaduwling",
+    "en": "Undying shade"
+   },
+   "hp": 402,
+   "armor": 8,
+   "armorType": "dark",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "undead"
+   ],
+   "model": "frost_tinker",
+   "tint": "#a56be8",
+   "bounty": {
+    "base": 8,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e17": {
+   "id": "e17",
+   "name": {
+    "nl": "Helende lichtgeest",
+    "en": "Healing light wisp"
+   },
+   "hp": 485,
+   "armor": 8,
+   "armorType": "light",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "healing"
+   ],
+   "model": "tundra_brute",
+   "tint": "#ffe27a",
+   "bounty": {
+    "base": 9,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e18": {
+   "id": "e18",
+   "name": {
+    "nl": "Gepantserde vuurling",
+    "en": "Plated fire imp"
+   },
+   "hp": 585,
+   "armor": 9,
+   "armorType": "fire",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "mechanical"
+   ],
+   "model": "ice_stalker",
+   "tint": "#ff6a3c",
+   "bounty": {
+    "base": 9,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e19": {
+   "id": "e19",
+   "name": {
+    "nl": "Snelle steenling",
+    "en": "Swift rock crawler"
+   },
+   "hp": 705,
+   "armor": 9,
+   "armorType": "earth",
+   "speed": 3.25,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "fast"
+   ],
+   "model": "rime_runner",
+   "tint": "#b88a5a",
+   "bounty": {
+    "base": 10,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e20": {
+   "id": "e20",
+   "name": {
+    "nl": "Aardewachter",
+    "en": "Earth Guardian"
+   },
+   "hp": 11905,
+   "armor": 16,
+   "armorType": "earth",
+   "speed": 2.0,
+   "air": false,
+   "boss": true,
+   "traits": [],
+   "model": "frost_giant",
+   "tint": "#b88a5a",
+   "bounty": {
+    "base": 135,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e21": {
+   "id": "e21",
+   "name": {
+    "nl": "Onsterfelijke vuurling",
+    "en": "Undying fire imp"
+   },
+   "hp": 1024,
+   "armor": 10,
+   "armorType": "fire",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "undead"
+   ],
+   "model": "wolf_raider",
+   "tint": "#ff6a3c",
+   "bounty": {
+    "base": 12,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e22": {
+   "id": "e22",
+   "name": {
+    "nl": "Helende lichtgeest",
+    "en": "Healing light wisp"
+   },
+   "hp": 1234,
+   "armor": 11,
+   "armorType": "light",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "healing"
+   ],
+   "model": "clockwork_brute",
+   "tint": "#ffe27a",
+   "bounty": {
+    "base": 13,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e23": {
+   "id": "e23",
+   "name": {
+    "nl": "Snelle watergeest",
+    "en": "Swift water sprite"
+   },
+   "hp": 1485,
+   "armor": 11,
+   "armorType": "water",
+   "speed": 3.25,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "fast"
+   ],
+   "model": "frost_lizard",
+   "tint": "#4da3ff",
+   "bounty": {
+    "base": 15,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e24": {
+   "id": "e24",
+   "name": {
+    "nl": "Gepantserde bosgeest",
+    "en": "Plated grove spirit"
+   },
+   "hp": 1787,
+   "armor": 12,
+   "armorType": "nature",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "mechanical"
+   ],
+   "model": "shadow_imp",
+   "tint": "#6bd45f",
+   "bounty": {
+    "base": 16,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e25": {
+   "id": "e25",
+   "name": {
+    "nl": "Schaduwwachter",
+    "en": "Shadow Guardian"
+   },
+   "hp": 30098,
+   "armor": 20,
+   "armorType": "dark",
+   "speed": 2.0,
+   "air": false,
+   "boss": true,
+   "traits": [],
+   "model": "elder_wyrm",
+   "tint": "#a56be8",
+   "bounty": {
+    "base": 212,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e26": {
+   "id": "e26",
+   "name": {
+    "nl": "Gepantserde lichtgeest",
+    "en": "Plated light wisp"
+   },
+   "hp": 2585,
+   "armor": 13,
+   "armorType": "light",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "mechanical"
+   ],
+   "model": "siege_sled",
+   "tint": "#ffe27a",
+   "bounty": {
+    "base": 19,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e27": {
+   "id": "e27",
+   "name": {
+    "nl": "Onsterfelijke watergeest",
+    "en": "Undying water sprite"
+   },
+   "hp": 3107,
+   "armor": 13,
+   "armorType": "water",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "undead"
+   ],
+   "model": "frozen_husk",
+   "tint": "#4da3ff",
+   "bounty": {
+    "base": 21,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e28": {
+   "id": "e28",
+   "name": {
+    "nl": "Helende steenling",
+    "en": "Healing rock crawler"
+   },
+   "hp": 3734,
+   "armor": 14,
+   "armorType": "earth",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "healing"
+   ],
+   "model": "cursed_rider",
+   "tint": "#b88a5a",
+   "bounty": {
+    "base": 23,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e29": {
+   "id": "e29",
+   "name": {
+    "nl": "Snelle vuurling",
+    "en": "Swift fire imp"
+   },
+   "hp": 4485,
+   "armor": 14,
+   "armorType": "fire",
+   "speed": 3.25,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "fast"
+   ],
+   "model": "snow_scout",
+   "tint": "#ff6a3c",
+   "bounty": {
+    "base": 25,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e30": {
+   "id": "e30",
+   "name": {
+    "nl": "Vuurwachter",
+    "en": "Fire Guardian"
+   },
+   "hp": 75406,
+   "armor": 24,
+   "armorType": "fire",
+   "speed": 2.0,
+   "air": false,
+   "boss": true,
+   "traits": [],
+   "model": "blizzard_dragon",
+   "tint": "#ff6a3c",
+   "bounty": {
+    "base": 334,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e31": {
+   "id": "e31",
+   "name": {
+    "nl": "Gepantserde schaduwling",
+    "en": "Plated shade"
+   },
+   "hp": 6466,
+   "armor": 15,
+   "armorType": "dark",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "mechanical"
+   ],
+   "model": "tundra_brute",
+   "tint": "#a56be8",
+   "bounty": {
+    "base": 30,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e32": {
+   "id": "e32",
+   "name": {
+    "nl": "Gepantserde watergeest",
+    "en": "Plated water sprite"
+   },
+   "hp": 7760,
+   "armor": 16,
+   "armorType": "water",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "mechanical"
+   ],
+   "model": "ice_stalker",
+   "tint": "#4da3ff",
+   "bounty": {
+    "base": 33,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e33": {
+   "id": "e33",
+   "name": {
+    "nl": "Onsterfelijke bosgeest",
+    "en": "Undying grove spirit"
+   },
+   "hp": 9311,
+   "armor": 16,
+   "armorType": "nature",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "undead"
+   ],
+   "model": "rime_runner",
+   "tint": "#6bd45f",
+   "bounty": {
+    "base": 36,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e34": {
+   "id": "e34",
+   "name": {
+    "nl": "Helende vuurling",
+    "en": "Healing fire imp"
+   },
+   "hp": 11168,
+   "armor": 17,
+   "armorType": "fire",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "healing"
+   ],
+   "model": "glacier_troll",
+   "tint": "#ff6a3c",
+   "bounty": {
+    "base": 40,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e35": {
+   "id": "e35",
+   "name": {
+    "nl": "Natuurwachter",
+    "en": "Nature Guardian"
+   },
+   "hp": 187492,
+   "armor": 28,
+   "armorType": "nature",
+   "speed": 2.0,
+   "air": false,
+   "boss": true,
+   "traits": [],
+   "model": "warlord",
+   "tint": "#6bd45f",
+   "bounty": {
+    "base": 525,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e36": {
+   "id": "e36",
+   "name": {
+    "nl": "Gepantserde lichtgeest",
+    "en": "Plated light wisp"
+   },
+   "hp": 16055,
+   "armor": 18,
+   "armorType": "light",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "mechanical"
+   ],
+   "model": "clockwork_brute",
+   "tint": "#ffe27a",
+   "bounty": {
+    "base": 48,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e37": {
+   "id": "e37",
+   "name": {
+    "nl": "Onsterfelijke lichtgeest",
+    "en": "Undying light wisp"
+   },
+   "hp": 19243,
+   "armor": 18,
+   "armorType": "light",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "undead"
+   ],
+   "model": "frost_lizard",
+   "tint": "#ffe27a",
+   "bounty": {
+    "base": 52,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e38": {
+   "id": "e38",
+   "name": {
+    "nl": "Helende bosgeest",
+    "en": "Healing grove spirit"
+   },
+   "hp": 23059,
+   "armor": 19,
+   "armorType": "nature",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "healing"
+   ],
+   "model": "shadow_imp",
+   "tint": "#6bd45f",
+   "bounty": {
+    "base": 57,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e39": {
+   "id": "e39",
+   "name": {
+    "nl": "Onsterfelijke vuurling",
+    "en": "Undying fire imp"
+   },
+   "hp": 27625,
+   "armor": 19,
+   "armorType": "fire",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "traits": [
+    "undead"
+   ],
+   "model": "shard_golem",
+   "tint": "#ff6a3c",
+   "bounty": {
+    "base": 63,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  },
+  "e40": {
+   "id": "e40",
+   "name": {
+    "nl": "Waterwachter",
+    "en": "Water Guardian"
+   },
+   "hp": 463212,
+   "armor": 32,
+   "armorType": "water",
+   "speed": 2.0,
+   "air": false,
+   "boss": true,
+   "traits": [],
+   "model": "frost_marshal",
+   "tint": "#4da3ff",
+   "bounty": {
+    "base": 827,
+    "dice": 0,
+    "sides": 1
+   },
+   "source": "gen:elements"
+  }
+ }
+}

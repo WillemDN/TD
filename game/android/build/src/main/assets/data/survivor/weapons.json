@@ -1,0 +1,337 @@
+{
+ "rarities": [
+  "common",
+  "uncommon",
+  "rare",
+  "epic"
+ ],
+ "weapons": {
+  "knives": {
+   "id": "knives",
+   "name": {
+    "nl": "Werpmessen",
+    "en": "Throwing Knives"
+   },
+   "rarity": 0,
+   "cost": 60,
+   "kind": "projectile",
+   "dtype": "phys",
+   "damage": 18.0,
+   "cooldown": 0.7,
+   "range": 7.0,
+   "speed": 15.0,
+   "pierce": 0
+  },
+  "crossbow": {
+   "id": "crossbow",
+   "name": {
+    "nl": "Kruisboog",
+    "en": "Crossbow"
+   },
+   "rarity": 0,
+   "cost": 60,
+   "kind": "projectile",
+   "dtype": "phys",
+   "damage": 26.0,
+   "cooldown": 1.0,
+   "range": 9.0,
+   "speed": 17.0,
+   "pierce": 1
+  },
+  "spikering": {
+   "id": "spikering",
+   "name": {
+    "nl": "Stekelring",
+    "en": "Spike Ring"
+   },
+   "rarity": 0,
+   "cost": 60,
+   "kind": "orbit",
+   "dtype": "phys",
+   "damage": 14.0,
+   "cooldown": 0.45,
+   "range": 2.2,
+   "blades": 2,
+   "spin": 3.0,
+   "size": 0.55
+  },
+  "flask": {
+   "id": "flask",
+   "name": {
+    "nl": "Vuurflesje",
+    "en": "Fire Flask"
+   },
+   "rarity": 0,
+   "cost": 60,
+   "kind": "artillery",
+   "dtype": "magic",
+   "damage": 32.0,
+   "cooldown": 1.7,
+   "range": 8.0,
+   "splash": 1.5,
+   "flight": 0.7
+  },
+  "bell": {
+   "id": "bell",
+   "name": {
+    "nl": "Vorstbel",
+    "en": "Frost Bell"
+   },
+   "rarity": 0,
+   "cost": 60,
+   "kind": "aura",
+   "dtype": "magic",
+   "damage": 12.0,
+   "cooldown": 1.6,
+   "range": 3.2,
+   "slow": 0.35,
+   "slowTime": 1.6
+  },
+  "spark": {
+   "id": "spark",
+   "name": {
+    "nl": "Vonkensteen",
+    "en": "Spark Stone"
+   },
+   "rarity": 0,
+   "cost": 60,
+   "kind": "chain",
+   "dtype": "magic",
+   "damage": 18.0,
+   "cooldown": 1.1,
+   "range": 6.0,
+   "bounces": 3,
+   "chainRange": 3.0
+  },
+  "spikewheel": {
+   "id": "spikewheel",
+   "name": {
+    "nl": "Stekelwiel",
+    "en": "Spikewheel"
+   },
+   "rarity": 1,
+   "cost": 180,
+   "kind": "orbit",
+   "dtype": "phys",
+   "damage": 24.0,
+   "cooldown": 0.4,
+   "range": 3.0,
+   "blades": 3,
+   "spin": 2.6,
+   "size": 0.7
+  },
+  "mines": {
+   "id": "mines",
+   "name": {
+    "nl": "Landmijnen",
+    "en": "Land Mines"
+   },
+   "rarity": 1,
+   "cost": 180,
+   "kind": "mine",
+   "dtype": "phys",
+   "damage": 64.0,
+   "cooldown": 1.3,
+   "range": 5.5,
+   "splash": 1.5,
+   "maxMines": 8,
+   "mineLife": 25.0
+  },
+  "glaive": {
+   "id": "glaive",
+   "name": {
+    "nl": "Werpschijf",
+    "en": "Throwing Disc"
+   },
+   "rarity": 1,
+   "cost": 180,
+   "kind": "glaive",
+   "dtype": "phys",
+   "damage": 40.0,
+   "cooldown": 1.5,
+   "range": 8.0,
+   "speed": 11.0,
+   "heal": 0
+  },
+  "darts": {
+   "id": "darts",
+   "name": {
+    "nl": "Gifpijltjes",
+    "en": "Poison Darts"
+   },
+   "rarity": 1,
+   "cost": 180,
+   "kind": "projectile",
+   "dtype": "phys",
+   "damage": 14.0,
+   "cooldown": 0.8,
+   "range": 8.0,
+   "speed": 16.0,
+   "pierce": 0,
+   "poison": 18.0,
+   "poisonTime": 4.0
+  },
+  "catapult": {
+   "id": "catapult",
+   "name": {
+    "nl": "Katapult",
+    "en": "Catapult"
+   },
+   "rarity": 1,
+   "cost": 180,
+   "kind": "artillery",
+   "dtype": "phys",
+   "damage": 84.0,
+   "cooldown": 2.4,
+   "range": 11.0,
+   "splash": 2.2,
+   "flight": 1.0
+  },
+  "blight": {
+   "id": "blight",
+   "name": {
+    "nl": "Verderfaura",
+    "en": "Blight Aura"
+   },
+   "rarity": 1,
+   "cost": 180,
+   "kind": "aura",
+   "dtype": "magic",
+   "damage": 18.0,
+   "cooldown": 0.5,
+   "range": 3.6,
+   "slow": 0.0,
+   "slowTime": 0.0
+  },
+  "tesla": {
+   "id": "tesla",
+   "name": {
+    "nl": "Teslakanon",
+    "en": "Tesla Cannon"
+   },
+   "rarity": 2,
+   "cost": 550,
+   "kind": "chain",
+   "dtype": "magic",
+   "damage": 52.0,
+   "cooldown": 0.85,
+   "range": 7.0,
+   "bounces": 5,
+   "chainRange": 3.4
+  },
+  "storm": {
+   "id": "storm",
+   "name": {
+    "nl": "Stormgenerator",
+    "en": "Storm Generator"
+   },
+   "rarity": 2,
+   "cost": 550,
+   "kind": "strike",
+   "dtype": "magic",
+   "damage": 76.0,
+   "cooldown": 1.1,
+   "range": 7.0,
+   "count": 3
+  },
+  "impaler": {
+   "id": "impaler",
+   "name": {
+    "nl": "Spietser",
+    "en": "Impaler"
+   },
+   "rarity": 2,
+   "cost": 550,
+   "kind": "projectile",
+   "dtype": "phys",
+   "damage": 130.0,
+   "cooldown": 1.5,
+   "range": 11.0,
+   "speed": 18.0,
+   "pierce": 6
+  },
+  "gatling": {
+   "id": "gatling",
+   "name": {
+    "nl": "Snelvuurkoker",
+    "en": "Rapid Launcher"
+   },
+   "rarity": 2,
+   "cost": 550,
+   "kind": "projectile",
+   "dtype": "phys",
+   "damage": 12.0,
+   "cooldown": 0.12,
+   "range": 7.5,
+   "speed": 20.0,
+   "pierce": 0,
+   "jitter": 0.12
+  },
+  "scythe": {
+   "id": "scythe",
+   "name": {
+    "nl": "Doodssikkel",
+    "en": "Death Scythe"
+   },
+   "rarity": 3,
+   "cost": 1500,
+   "kind": "glaive",
+   "dtype": "phys",
+   "damage": 220.0,
+   "cooldown": 1.8,
+   "range": 7.0,
+   "speed": 9.0,
+   "heal": 4
+  },
+  "inferno": {
+   "id": "inferno",
+   "name": {
+    "nl": "Hellevuursteen",
+    "en": "Inferno Stone"
+   },
+   "rarity": 3,
+   "cost": 1500,
+   "kind": "aura",
+   "dtype": "magic",
+   "damage": 80.0,
+   "cooldown": 0.5,
+   "range": 4.5,
+   "slow": 0.0,
+   "slowTime": 0.0,
+   "burn": 160.0
+  },
+  "meteors": {
+   "id": "meteors",
+   "name": {
+    "nl": "Meteorenregen",
+    "en": "Meteor Rain"
+   },
+   "rarity": 3,
+   "cost": 1500,
+   "kind": "artillery",
+   "dtype": "magic",
+   "damage": 440.0,
+   "cooldown": 3.0,
+   "range": 12.0,
+   "splash": 2.5,
+   "flight": 1.2,
+   "count": 3
+  },
+  "arcreactor": {
+   "id": "arcreactor",
+   "name": {
+    "nl": "Boogreactor",
+    "en": "Arc Reactor"
+   },
+   "rarity": 3,
+   "cost": 1500,
+   "kind": "chain",
+   "dtype": "magic",
+   "damage": 140.0,
+   "cooldown": 0.55,
+   "range": 8.0,
+   "bounces": 8,
+   "chainRange": 3.6
+  }
+ }
+}

@@ -13,7 +13,7 @@ import os
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     extensions_map = {**http.server.SimpleHTTPRequestHandler.extensions_map, '.wasm': 'application/wasm',
-                      '.pck': 'application/octet-stream', '.js': 'text/javascript'}
+                      '.pck': 'application/octet-stream', '.apk': 'application/vnd.android.package-archive', '.js': 'text/javascript'}
 
     def end_headers(self):
         self.send_header('Cache-Control', 'no-cache')

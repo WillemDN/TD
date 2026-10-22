@@ -4,6 +4,8 @@ extends Control
 
 const Minimap := preload("res://client/minimap.gd")
 const GameData := preload("res://core/game_data.gd")
+const AppUpdater := preload("res://client/app_updater.gd")
+const UpdatePanel := preload("res://client/update_panel.gd")
 
 signal tower_chosen(id)
 signal card_down(id)
@@ -78,6 +80,7 @@ var _menu_footer: HBoxContainer
 var _menu_diff := {}
 var _menu_mode := {}
 var _menu_texts := {}
+var _update_panel
 var _pause_sheet: Control
 var _pause_texts := {}
 var _end: Control
@@ -408,6 +411,10 @@ func _build_menu() -> void:
 	tag.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(tag)
 	_menu_texts["tagline"] = tag
+	if AppUpdater.supported():          # right under the title, where it can't fall off a small screen
+		_update_panel = UpdatePanel.new()
+		_update_panel.setup(i18n)
+		col.add_child(_update_panel)
 	var ml := _label(14, UiKit.MUTED)
 	col.add_child(ml)
 	_menu_texts["choose_mode"] = ml
@@ -526,6 +533,8 @@ func refresh_static_texts() -> void:
 	_pause_texts.resume.text = " " + i18n.t("hud.resume")
 	_pause_texts.restart.text = " " + i18n.t("hud.restart")
 	_wall_btn.text = " " + i18n.t("hud.wall")
+	if _update_panel != null:
+		_update_panel.refresh_texts()
 	_refresh_menu()
 	_bar_sig = ""
 	call_deferred("fit_menu")

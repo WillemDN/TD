@@ -1,0 +1,62 @@
+{
+ "id": "elements",
+ "name": {
+  "nl": "Elementen",
+  "en": "Elements"
+ },
+ "map": "trail",
+ "files": {
+  "towers": "elements/towers.json",
+  "creeps": "elements/creeps.json",
+  "waves": "elements/waves.json",
+  "matrix": "elements/matrix.json"
+ },
+ "tickRate": 20,
+ "startGold": 70,
+ "startLumber": 2,
+ "lumberAtLevel": {
+  "5": 1,
+  "10": 1,
+  "15": 1,
+  "20": 1,
+  "25": 1,
+  "30": 1,
+  "35": 1,
+  "40": 1
+ },
+ "levelBonus": {
+  "base": 6,
+  "perLevel": 2
+ },
+ "firstWaveDelay": 45.0,
+ "waveDelay": 15.0,
+ "spawnRoundInterval": 0.5,
+ "spawnPoints": 1,
+ "playerScaleBase": 1,
+ "lastLevel": 40,
+ "difficulties": {
+  "easy": 60,
+  "normal": 40,
+  "hard": 25,
+  "perfection": 1
+ },
+ "hpMultiplier": {
+  "easy": 0.7,
+  "normal": 1.0,
+  "hard": 1.2,
+  "perfection": 1.2
+ },
+ "defaultDifficulty": "normal",
+ "sellRefund": {
+  "idle": 1.0,
+  "wave": 0.8
+ },
+ "skipBonusPerSecond": 0.2,
+ "armorStep": 0.06,
+ "interest": {
+  "rate": 0.02,
+  "interval": 15.0
+ },
+ "leakRespawn": true,
+ "moveBuildShare": 0.35
+}

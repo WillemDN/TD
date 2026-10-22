@@ -1,0 +1,669 @@
+{
+ "creeps": {
+  "snow_scout": {
+   "id": "snow_scout",
+   "name": {
+    "nl": "Sneeuwverkenner",
+    "en": "Snow Scout"
+   },
+   "hp": 15,
+   "armor": 0,
+   "armorType": "small",
+   "speed": 1.562,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 1,
+    "sides": 1
+   },
+   "source": "v13:ushd"
+  },
+  "frost_tinker": {
+   "id": "frost_tinker",
+   "name": {
+    "nl": "IJsknutselaar",
+    "en": "Frost Tinker"
+   },
+   "hp": 60,
+   "armor": 0,
+   "armorType": "medium",
+   "speed": 1.797,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 1,
+    "sides": 1
+   },
+   "source": "v13:hC04"
+  },
+  "dusk_archer": {
+   "id": "dusk_archer",
+   "name": {
+    "nl": "Schemerboogschutter",
+    "en": "Dusk Archer"
+   },
+   "hp": 115,
+   "armor": 2,
+   "armorType": "small",
+   "speed": 2.031,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 1,
+    "sides": 1
+   },
+   "source": "v13:eC05"
+  },
+  "tundra_brute": {
+   "id": "tundra_brute",
+   "name": {
+    "nl": "Toendrabrute",
+    "en": "Tundra Brute"
+   },
+   "hp": 150,
+   "armor": 2,
+   "armorType": "large",
+   "speed": 2.109,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 1,
+    "sides": 1
+   },
+   "source": "v13:hC16"
+  },
+  "frost_whelp": {
+   "id": "frost_whelp",
+   "name": {
+    "nl": "IJsvleermuis",
+    "en": "Frost Bat"
+   },
+   "hp": 135,
+   "armor": 1,
+   "armorType": "large",
+   "speed": 2.734,
+   "air": true,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 2,
+    "sides": 1
+   },
+   "source": "v13:nC17"
+  },
+  "ice_stalker": {
+   "id": "ice_stalker",
+   "name": {
+    "nl": "IJsspeurder",
+    "en": "Ice Stalker"
+   },
+   "hp": 225,
+   "armor": 3,
+   "armorType": "small",
+   "speed": 2.188,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 2,
+    "sides": 1
+   },
+   "source": "v13:uC28"
+  },
+  "rime_runner": {
+   "id": "rime_runner",
+   "name": {
+    "nl": "Rijmspin",
+    "en": "Rime Spider"
+   },
+   "hp": 260,
+   "armor": 4,
+   "armorType": "medium",
+   "speed": 2.188,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 2,
+    "sides": 1
+   },
+   "source": "v13:nC29"
+  },
+  "glacier_troll": {
+   "id": "glacier_troll",
+   "name": {
+    "nl": "Gletsjertrol",
+    "en": "Glacier Troll"
+   },
+   "hp": 300,
+   "armor": 5,
+   "armorType": "medium",
+   "speed": 2.344,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 2,
+    "sides": 1
+   },
+   "source": "v13:nC30"
+  },
+  "wolf_raider": {
+   "id": "wolf_raider",
+   "name": {
+    "nl": "Wolvenrijder",
+    "en": "Wolf Raider"
+   },
+   "hp": 345,
+   "armor": 7,
+   "armorType": "large",
+   "speed": 2.5,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 2,
+    "sides": 1
+   },
+   "source": "v13:oC31"
+  },
+  "frost_marshal": {
+   "id": "frost_marshal",
+   "name": {
+    "nl": "IJsmaarschalk",
+    "en": "Frost Marshal"
+   },
+   "hp": 15000,
+   "armor": 10,
+   "armorType": "medium",
+   "speed": 2.734,
+   "air": false,
+   "boss": true,
+   "bounty": {
+    "base": 0,
+    "dice": 50,
+    "sides": 1
+   },
+   "source": "v13:uC32"
+  },
+  "ice_skiff": {
+   "id": "ice_skiff",
+   "name": {
+    "nl": "IJsbizon",
+    "en": "Ice Bison"
+   },
+   "hp": 375,
+   "armor": 7,
+   "armorType": "fort",
+   "speed": 2.461,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 2,
+    "sides": 1
+   },
+   "source": "v13:nC33"
+  },
+  "clockwork_brute": {
+   "id": "clockwork_brute",
+   "name": {
+    "nl": "Radertuigbrute",
+    "en": "Clockwork Brute"
+   },
+   "hp": 500,
+   "armor": 8,
+   "armorType": "large",
+   "speed": 2.344,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 2,
+    "sides": 1
+   },
+   "source": "v13:eC38"
+  },
+  "frost_lizard": {
+   "id": "frost_lizard",
+   "name": {
+    "nl": "IJshagedis",
+    "en": "Frost Lizard"
+   },
+   "hp": 625,
+   "armor": 10,
+   "armorType": "medium",
+   "speed": 2.93,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 2,
+    "sides": 1
+   },
+   "source": "v13:nC39"
+  },
+  "shadow_imp": {
+   "id": "shadow_imp",
+   "name": {
+    "nl": "Schaduwkever",
+    "en": "Shadow Beetle"
+   },
+   "hp": 875,
+   "armor": 10,
+   "armorType": "small",
+   "speed": 2.734,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 2,
+    "sides": 1
+   },
+   "source": "v13:nC40"
+  },
+  "frost_drake": {
+   "id": "frost_drake",
+   "name": {
+    "nl": "IJsvalk",
+    "en": "Ice Hawk"
+   },
+   "hp": 675,
+   "armor": 12,
+   "armorType": "large",
+   "speed": 2.93,
+   "air": true,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 3,
+    "sides": 1
+   },
+   "source": "v13:nC41"
+  },
+  "shard_golem": {
+   "id": "shard_golem",
+   "name": {
+    "nl": "Scherfgolem",
+    "en": "Shard Golem"
+   },
+   "hp": 1100,
+   "armor": 12,
+   "armorType": "large",
+   "speed": 2.734,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 3,
+    "sides": 1
+   },
+   "source": "v13:nC42"
+  },
+  "winter_wisp": {
+   "id": "winter_wisp",
+   "name": {
+    "nl": "Winterspook",
+    "en": "Winter Wisp"
+   },
+   "hp": 1300,
+   "armor": 14,
+   "armorType": "small",
+   "speed": 2.891,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 3,
+    "sides": 1
+   },
+   "source": "v13:uC43"
+  },
+  "siege_sled": {
+   "id": "siege_sled",
+   "name": {
+    "nl": "Belegeringsneushoorn",
+    "en": "Siege Rhino"
+   },
+   "hp": 1300,
+   "armor": 10,
+   "armorType": "fort",
+   "speed": 2.812,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 3,
+    "sides": 1
+   },
+   "source": "v13:hC44"
+  },
+  "frozen_husk": {
+   "id": "frozen_husk",
+   "name": {
+    "nl": "Bevroren lijk",
+    "en": "Frozen Husk"
+   },
+   "hp": 1700,
+   "armor": 10,
+   "armorType": "large",
+   "speed": 2.812,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 3,
+    "sides": 1
+   },
+   "source": "v13:uC45"
+  },
+  "glacier_lord": {
+   "id": "glacier_lord",
+   "name": {
+    "nl": "Gletsjerheer",
+    "en": "Glacier Lord"
+   },
+   "hp": 30000,
+   "armor": 15,
+   "armorType": "medium",
+   "speed": 2.812,
+   "air": false,
+   "boss": true,
+   "bounty": {
+    "base": 0,
+    "dice": 100,
+    "sides": 1
+   },
+   "source": "v13:nC46"
+  },
+  "totem_bearer": {
+   "id": "totem_bearer",
+   "name": {
+    "nl": "Totemdrager",
+    "en": "Totem Bearer"
+   },
+   "hp": 2000,
+   "armor": 15,
+   "armorType": "large",
+   "speed": 2.969,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 4,
+    "sides": 1
+   },
+   "source": "v13:oC47"
+  },
+  "cursed_rider": {
+   "id": "cursed_rider",
+   "name": {
+    "nl": "Vervloekte ruiter",
+    "en": "Cursed Rider"
+   },
+   "hp": 2300,
+   "armor": 15,
+   "armorType": "large",
+   "speed": 3.125,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 4,
+    "sides": 1
+   },
+   "source": "v13:hC48"
+  },
+  "prism_mage": {
+   "id": "prism_mage",
+   "name": {
+    "nl": "Prismamagiër",
+    "en": "Prism Mage"
+   },
+   "hp": 2500,
+   "armor": 16,
+   "armorType": "small",
+   "speed": 2.734,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 4,
+    "sides": 1
+   },
+   "source": "v13:nC49"
+  },
+  "frost_infernal": {
+   "id": "frost_infernal",
+   "name": {
+    "nl": "IJsinferno",
+    "en": "Frost Infernal"
+   },
+   "hp": 2900,
+   "armor": 17,
+   "armorType": "large",
+   "speed": 2.93,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 4,
+    "sides": 1
+   },
+   "source": "v13:nC50"
+  },
+  "blizzard_dragon": {
+   "id": "blizzard_dragon",
+   "name": {
+    "nl": "Sneeuwstormgier",
+    "en": "Blizzard Vulture"
+   },
+   "hp": 2250,
+   "armor": 20,
+   "armorType": "large",
+   "speed": 3.125,
+   "air": true,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 4,
+    "sides": 1
+   },
+   "source": "v13:nC51"
+  },
+  "dire_bear": {
+   "id": "dire_bear",
+   "name": {
+    "nl": "Schrikyeti",
+    "en": "Dire Yeti"
+   },
+   "hp": 3400,
+   "armor": 18,
+   "armorType": "medium",
+   "speed": 3.008,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 4,
+    "sides": 1
+   },
+   "source": "v13:nC69"
+  },
+  "haunted_hunter": {
+   "id": "haunted_hunter",
+   "name": {
+    "nl": "Bezeten jager",
+    "en": "Haunted Hunter"
+   },
+   "hp": 4000,
+   "armor": 18,
+   "armorType": "medium",
+   "speed": 3.125,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 4,
+    "sides": 1
+   },
+   "source": "v13:eC52"
+  },
+  "warlord": {
+   "id": "warlord",
+   "name": {
+    "nl": "Krijgsheer",
+    "en": "Warlord"
+   },
+   "hp": 4500,
+   "armor": 19,
+   "armorType": "medium",
+   "speed": 3.125,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 4,
+    "sides": 1
+   },
+   "source": "v13:oC70"
+  },
+  "elder_wyrm": {
+   "id": "elder_wyrm",
+   "name": {
+    "nl": "Oerkraai",
+    "en": "Elder Crow"
+   },
+   "hp": 3750,
+   "armor": 19,
+   "armorType": "large",
+   "speed": 3.32,
+   "air": true,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 4,
+    "sides": 1
+   },
+   "source": "v13:uC71"
+  },
+  "ice_king": {
+   "id": "ice_king",
+   "name": {
+    "nl": "De IJskoning",
+    "en": "The Ice King"
+   },
+   "hp": 85000,
+   "armor": 20,
+   "armorType": "medium",
+   "speed": 4.688,
+   "air": false,
+   "boss": true,
+   "bounty": {
+    "base": 90,
+    "dice": 10,
+    "sides": 10
+   },
+   "source": "v13:uC72"
+  },
+  "yeti_scout": {
+   "id": "yeti_scout",
+   "name": {
+    "nl": "Yeti-verkenner",
+    "en": "Yeti Scout"
+   },
+   "hp": 5800,
+   "armor": 0,
+   "armorType": "medium",
+   "speed": 2.109,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 5,
+    "sides": 1
+   },
+   "source": "v13:hC75"
+  },
+  "snow_golem": {
+   "id": "snow_golem",
+   "name": {
+    "nl": "Sneeuwgolem",
+    "en": "Snow Golem"
+   },
+   "hp": 6500,
+   "armor": 5,
+   "armorType": "medium",
+   "speed": 2.344,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 5,
+    "sides": 1
+   },
+   "source": "v13:hC76"
+  },
+  "ice_wraith": {
+   "id": "ice_wraith",
+   "name": {
+    "nl": "IJsschim",
+    "en": "Ice Wraith"
+   },
+   "hp": 7000,
+   "armor": 15,
+   "armorType": "medium",
+   "speed": 3.125,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 5,
+    "sides": 1
+   },
+   "source": "v13:hC77"
+  },
+  "frost_giant": {
+   "id": "frost_giant",
+   "name": {
+    "nl": "IJsreus",
+    "en": "Frost Giant"
+   },
+   "hp": 8000,
+   "armor": 20,
+   "armorType": "medium",
+   "speed": 3.516,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 5,
+    "sides": 1
+   },
+   "source": "v13:zC78"
+  },
+  "aurora_sprite": {
+   "id": "aurora_sprite",
+   "name": {
+    "nl": "Noorderlichtgeest",
+    "en": "Aurora Sprite"
+   },
+   "hp": 1000,
+   "armor": 20,
+   "armorType": "divine",
+   "speed": 3.906,
+   "air": false,
+   "boss": false,
+   "bounty": {
+    "base": 0,
+    "dice": 100,
+    "sides": 1
+   },
+   "source": "v13:hC79"
+  }
+ }
+}

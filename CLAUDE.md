@@ -70,6 +70,7 @@ tools/           w3x-extract, import- en balance-tools
 ```sh
 godot --headless --path game --script res://tests/run_tests.gd    # alle headless tests, vóór elke commit
 tools/build_web.sh                                                # tests + webexport (game/build/web)
+tools/build_android.sh                                            # tests + getekende APK + version.json voor de in-game updater
 python3 server-mac/serve_web.py                                   # serveert de webbuild op 127.0.0.1:8060
 python3 -I tools/import_wintermaul.py                             # JSON-data opnieuw genereren uit het dataverslag
 python3 -I tools/gen_map.py && python3 -I tools/gen_design_doc.py # kaart en ontwerpdocument

@@ -83,6 +83,12 @@ Uitgelezen op 2026-10-22.
 
 ## Logboek
 
+### 2026-10-22: Android-APK met automatische updates
+- `tools/build_android.sh` bouwt een getekende release-APK (gradle-template in `game/android/build`, pakket `be.willem.guardians`, arm64) en publiceert `guardians.apk` + `version.json` in `game/build/web/app/`. Eerste installatie: <https://willems-macbook-pro.tail868144.ts.net:8443/app/guardians.apk> (Tailscale aan, "onbekende bronnen" toestaan)
+- Updatemechanisme naar het voorbeeld van WDungeoN: `client/app_updater.gd` (versiecheck, download met retry + sha256, PackageInstaller via `be.willem.guardians.Updater` in Java) en `client/update_panel.gd` (strook onder de titel in het hoofdmenu, alleen in de Android-build; `-- --update-ui` toont hem op desktop). Buildnummer = minuten sinds 1970, dus builds minstens een minuut uit elkaar
+- De keystore staat in `server-mac/secrets/` (niet in git). **Maak er een back-up van**: updates werken alleen met dezelfde sleutel
+- Niet getest op een echte telefoon: APK-handtekening, manifest en download zijn gecontroleerd, het installatievenster van Android nog niet
+
 ### 2026-10-22: Laatste toren (survivor) en de naam Wintermaul
 - **Aanleiding:** de eigenaar wil een nieuwe versie gebaseerd op *Tower Survivors* (Hive Workshop) en de modus "Klassiek" voortaan **Wintermaul** noemen. Het Element TD-bestand dat de eigenaar eerder aanleverde bleek afgekapt (de tabellen van het archief ontbraken), dus daar is niets uit gehaald
 - **Naam:** de keuzeknop heet nu Wintermaul (NL en EN); het id blijft `classic`. `CLAUDE.md` is aangepast: de naam mag alleen als modusnaam in het menu, op verzoek van de eigenaar
