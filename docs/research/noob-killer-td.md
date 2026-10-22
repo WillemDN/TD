@@ -16,7 +16,8 @@
 
 ### Wat we uit het mapbestand haalden
 
-Het bestand is gedownload en met [`tools/w3x-extract/`](../../tools/w3x-extract/) uitgepakt. Uit de mapteksten en de triggernamen:
+Het bestand is gedownload en met [`tools/w3x-extract/`](../../tools/w3x-extract/) uitgepakt. De ruwe unit-data staat in
+[`data/noob-killer-td-v1.8c-objectdata.json`](data/noob-killer-td-v1.8c-objectdata.json). Uit de mapteksten en de triggernamen:
 
 - **Eigen lane per speler**: per speler een spawnpunt en eigen regio's (*Player 1–8 Regions*, *Creature Spawning 1–8*)
 - **Runners**: de creeps heten "runners". Het spel begint na 30 s en *"It starts off hard and stays hard"*

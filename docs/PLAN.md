@@ -12,6 +12,9 @@
 
 Bijhorende documenten:
 
+- [`docs/STATUS.md`](STATUS.md): huidige fase, beslissingen, open vragen en logboek
+- [`docs/SETUP-MAC.md`](SETUP-MAC.md): stap-voor-stap installatie van de Mac (fase 0)
+
 - [`docs/research/wintermaul-v13-data.md`](research/wintermaul-v13-data.md): alle waves, torens, elementen en regels die rechtstreeks uit de originele map zijn gehaald
 - [`docs/research/wintermaul-layout.png`](research/wintermaul-layout.png): de originele kaart, gerenderd uit de pathing-data
 - [`docs/research/noob-killer-td.md`](research/noob-killer-td.md): analyse van NOOB Killer TD en andere WC3-TD's voor latere varianten
@@ -519,7 +522,7 @@ met de scripts in `tools/w3x-extract/`.
 
 ## 10. Software en accounts die op de Mac nodig zijn
 
-Voor de fase waarin je mij via de Mac toegang geeft:
+Voor de fase waarin je mij via de Mac toegang geeft. De concrete stappen en controles staan in [`SETUP-MAC.md`](SETUP-MAC.md).
 
 | Software | Waarvoor | Installatie |
 |---|---|---|
