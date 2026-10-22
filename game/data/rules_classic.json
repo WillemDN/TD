@@ -1,8 +1,8 @@
 {
  "id": "classic",
  "name": {
-  "nl": "Klassiek",
-  "en": "Classic"
+  "nl": "Wintermaul",
+  "en": "Wintermaul"
  },
  "map": "frostline",
  "tickRate": 20,

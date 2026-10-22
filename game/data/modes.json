@@ -1,6 +1,7 @@
 {
  "modes": [
-  {"id": "classic", "players": "1-9", "name": {"nl": "Klassiek", "en": "Classic"}},
-  {"id": "elements", "players": "1-4", "name": {"nl": "Elementen", "en": "Elements"}}
+  {"id": "classic", "players": "1-9", "name": {"nl": "Wintermaul", "en": "Wintermaul"}},
+  {"id": "elements", "players": "1-4", "name": {"nl": "Elementen", "en": "Elements"}},
+  {"id": "survivor", "players": "1", "name": {"nl": "Laatste toren", "en": "Last Tower"}}
  ]
 }

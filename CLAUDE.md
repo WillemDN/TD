@@ -20,6 +20,7 @@ van de eigenaar (altijd aan) en spelers verbinden via **Tailscale**. Het project
 | `docs/research/wc3-td-genre.md` | Overzicht van WC3-TD-varianten, mechanieken en ontwerp-inzichten |
 | `docs/research/element-td.md` | Onderzoek naar Element TD (bron voor de modus Elementen) |
 | `docs/design/elementen-modus.md` | Ontwerp, getallen en balans van de modus Elementen |
+| `docs/research/tower-survivors.md`, `docs/design/laatste-toren.md` | Onderzoek en ontwerp van de modus Laatste toren (survivor-stijl) |
 | `docs/research/data/*.json` | Ruwe unit-objectdata uit de WC3-maps |
 | `tools/w3x-extract/` | Python-scripts om WC3-maps uit te lezen |
 
@@ -39,8 +40,8 @@ van de eigenaar (altijd aan) en spelers verbinden via **Tailscale**. Het project
 
 - **Taal:** documentatie in het **Nederlands**. Code, identifiers, code-commentaar en commit-berichten in het **Engels**.
   Teksten die de speler ziet, gaan via vertaalbestanden (NL + EN), nooit hardcoded
-- **Juridisch:** **nooit** Warcraft III-assets (modellen, iconen, geluiden), de naam "Wintermaul" of teksten uit de maps
-  in het spel opnemen. Mechanieken en getallen mogen wel, met eigen namen. Commit geen `.w3m`/`.w3x`-bestanden
+- **Juridisch:** **nooit** Warcraft III-assets (modellen, iconen, geluiden) of teksten uit de maps. De naam **"Wintermaul"** staat sinds 2026-10-22 op uitdrukkelijk verzoek van de eigenaar als **naam van de spelmodus** (het vroegere "Klassiek") in het menu; gebruik hem nergens anders en neem verder geen namen uit WC3-maps over.
+  Mechanieken en getallen mogen wel, met eigen namen. Commit geen `.w3m`/`.w3x`-bestanden
 - **Assets:** alleen CC0 of CC-BY, met elk bestand en zijn licentie in `game/CREDITS.md`
 - **Simulatie** (`game/core/`) is puur GDScript zonder rendering of nodes van de scene tree, zodat ze headless
   testbaar is. Deterministisch met een seeded RNG
@@ -73,6 +74,7 @@ python3 server-mac/serve_web.py                                   # serveert de 
 python3 -I tools/import_wintermaul.py                             # JSON-data opnieuw genereren uit het dataverslag
 python3 -I tools/gen_map.py && python3 -I tools/gen_design_doc.py # kaart en ontwerpdocument
 python3 -I tools/gen_elements.py                                  # alle data van de modus Elementen (torens, creeps, waves, kaart, teksten)
+python3 -I tools/gen_survivor.py                                  # alle data van de modus Laatste toren (wapens, upgrades, vijanden, regels, teksten)
 ```
 
 - Godot-web start alleen in een **secure context**: via `tailscale serve --https=8443 http://127.0.0.1:8060` (poort 443 en 10000 zijn door andere services bezet, niet overschrijven)

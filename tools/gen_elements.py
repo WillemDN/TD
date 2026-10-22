@@ -393,14 +393,14 @@ def build_rules():
 
 TEXTS = {
     'nl': {
-        'mode.classic': 'Klassiek',
+        'mode.classic': 'Wintermaul',
         'mode.elements': 'Elementen',
         'mode.classic.desc': 'Bouw een maze van torens in een open veld. Samenwerken met meer spelers, solo erg zwaar.',
         'mode.elements.desc': 'Een vast pad met bouwplaten. Zes elementen die elkaar versterken of verzwakken, torens die je mengt. Geschikt voor alleen spelen.',
         'menu.choose_mode': 'Kies een spel',
         'menu.hint.classic': '1 speler · 35 levels · bouw een maze van torens',
         'menu.hint.elements': '1 speler · 40 levels · vast pad, 6 elementen, gemengde torens',
-        'menu.mode.classic': 'Modus: Klassiek',
+        'menu.mode.classic': 'Modus: Wintermaul',
         'menu.mode.elements': 'Modus: Elementen',
         'group.dual': 'Dubbel',
         'group.triple': 'Drievoudig',
@@ -430,14 +430,14 @@ TEXTS = {
         'hud.elements_none': 'Leer eerst meer elementen om te mengen',
     },
     'en': {
-        'mode.classic': 'Classic',
+        'mode.classic': 'Wintermaul',
         'mode.elements': 'Elements',
         'mode.classic.desc': 'Build a maze of towers in an open field. Co-op with more players, very hard solo.',
         'mode.elements.desc': 'A fixed path with build plates. Six elements that strengthen or weaken each other, towers you mix. Made for playing alone.',
         'menu.choose_mode': 'Choose a game',
         'menu.hint.classic': '1 player · 35 levels · build a maze of towers',
         'menu.hint.elements': '1 player · 40 levels · fixed path, 6 elements, mixed towers',
-        'menu.mode.classic': 'Mode: Classic',
+        'menu.mode.classic': 'Mode: Wintermaul',
         'menu.mode.elements': 'Mode: Elements',
         'group.dual': 'Dual',
         'group.triple': 'Triple',

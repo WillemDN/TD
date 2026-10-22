@@ -14,6 +14,7 @@ const WorldView := preload("res://client/world_view.gd")
 const Hud := preload("res://client/hud.gd")
 const Overlay := preload("res://client/overlay.gd")
 const I18n := preload("res://client/i18n.gd")
+const SurvivorGame := preload("res://client/survivor_game.gd")
 
 const SETTINGS_PATH := "user://settings.json"
 const TOWER_KEYS := [KEY_Q, KEY_W, KEY_E, KEY_R, KEY_T, KEY_Y]
@@ -25,6 +26,7 @@ var data
 var sim
 var i18n
 var world
+var survivor                  # SurvivorGame while the mode survivor is played
 var hud
 var overlay
 
@@ -122,9 +124,26 @@ func _ready() -> void:
 func _new_game(mode: String, difficulty: String) -> void:
 	if world != null:
 		world.queue_free()
+		world = null
+	if survivor != null:
+		survivor.queue_free()
+		survivor = null
 	if mode != data.mode:
 		data = GameData.load_all("res://data", mode)
 		hud.data = data
+	if data.kind == "survivor":
+		sim = null
+		hud.set_grid_ui(false)
+		survivor = SurvivorGame.new()
+		add_child(survivor)
+		survivor.setup(self, data, difficulty)
+		acc = 0.0
+		speed = 1
+		paused = false
+		end_shown = false
+		_reset_interaction()
+		return
+	hud.set_grid_ui(true)
 	sim = Sim.new(data, int(Time.get_ticks_usec() % 1000000007), difficulty, 1)
 	sim.record_events = true
 	world = WorldView.new()

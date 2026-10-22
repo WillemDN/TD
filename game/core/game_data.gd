@@ -10,6 +10,11 @@ var matrix := {}        # attack type -> armor type -> multiplier
 var rules := {}
 var map := {}
 var mode := "classic"
+var kind := "td"        # "td" (towers on a map) or "survivor" (one tower, a shop)
+var weapons := {}       # mode survivor
+var upgrades := {}
+var enemies := {}
+var rarities := []
 var groups := {}        # tray tabs besides the elements (mode "elements": dual and triple towers) id -> {towers: [ids], ...}
 
 
@@ -33,6 +38,14 @@ func load_from(dir: String, mode_id: String = "classic") -> void:
 	mode = mode_id
 	rules = _read(dir + "/rules_" + mode_id + ".json")
 	var files: Dictionary = rules.get("files", {})
+	kind = String(rules.get("kind", "td"))
+	if kind == "survivor":
+		var wf: Dictionary = _read(dir + "/" + String(files.weapons))
+		weapons = wf.weapons
+		rarities = wf.rarities
+		upgrades = _read(dir + "/" + String(files.upgrades)).upgrades
+		enemies = _read(dir + "/" + String(files.enemies)).enemies
+		return
 	var t: Dictionary = _read(dir + "/" + String(files.get("towers", "towers.json")))
 	towers = t.towers
 	elements = t.elements

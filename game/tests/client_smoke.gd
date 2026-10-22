@@ -5,6 +5,7 @@ extends SceneTree
 
 const Bot := preload("res://tests/bot.gd")
 const BotElements := preload("res://tests/bot_elements.gd")
+const BotSurvivor := preload("res://tests/bot_survivor.gd")
 
 
 func _init() -> void:
@@ -59,5 +60,27 @@ func _init() -> void:
 			main._cancel()
 	print("elements: level %d state %s towers %d creeps %d frames %d" % [esim.level, esim.state, esim.towers.size(), esim.creeps.size(), eframes])
 	if esim.level < 11 or main.data.mode != "elements":
+		bad += 1
+	# the mode survivor: own simulation and interface, then back to a tower defence mode
+	main._play("survivor", "easy")
+	var game = main.survivor
+	var ssim = game.sim
+	var sbot = BotSurvivor.new()
+	var sframes := 0
+	while ssim.time < 150.0 and ssim.state == "running" and sframes < 5000:
+		if sframes % 20 == 0:
+			sbot.step(ssim)
+		main._process(1.0 / 20.0)
+		game._process(1.0 / 20.0)
+		sframes += 1
+		if sframes % 300 == 0:
+			game.shud.select_card(sframes / 300 % 5)
+		if sframes % 600 == 0:
+			game._reroll()
+	print("survivor: %.0f s state %s weapons %d enemies %d frames %d" % [ssim.time, ssim.state, ssim.weapons.size(), ssim.enemies.size(), sframes])
+	if ssim.time < 150.0 or main.sim != null:
+		bad += 1
+	main._play("classic", "easy")
+	if main.survivor != null or main.sim == null or main.data.mode != "classic":
 		bad += 1
 	quit(bad)

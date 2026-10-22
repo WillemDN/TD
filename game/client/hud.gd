@@ -28,7 +28,7 @@ signal minimap_focus(tile)
 signal tray_toggled(open)
 
 const DIFFS := ["easy", "normal", "hard", "perfection"]
-const MODES := ["classic", "elements"]
+const MODES := ["classic", "elements", "survivor"]
 const GROUP_COLORS := {"dual": Color("ffd98a"), "triple": Color("ff9bd8")}
 const ARMOR_COLORS := {"small": Color("8be36a"), "medium": Color("f2d94a"), "large": Color("f08a3a"), "fort": Color("7fa6d6"), "divine": Color("ffffff")}
 
@@ -84,6 +84,7 @@ var _end: Control
 var _end_title: Label
 var _end_stats: Label
 var _bar_sig := ""
+var _grid_ui: Array = []               # the controls of the tower defence interface (hidden in the mode survivor)
 
 
 func _init() -> void:
@@ -102,6 +103,7 @@ func setup(p_data, p_i18n) -> void:
 	_build_sheet()
 	_build_tray()
 	_build_confirm()
+	_grid_ui = get_children()
 	_build_menu()
 	_build_pause_sheet()
 	_build_end()
@@ -120,6 +122,12 @@ func setup(p_data, p_i18n) -> void:
 	_interest.add_theme_constant_override("outline_size", 5)
 	add_child(_interest)
 	refresh_static_texts()
+
+
+## The tower defence interface (resources, wave pill, minimap, tray, sheet) is off in the mode survivor, which has its own.
+func set_grid_ui(on: bool) -> void:
+	for c in _grid_ui:
+		c.visible = on and (c != _sheet and c != _confirm_bar)
 
 
 func attach_minimap(sim, world) -> void:
@@ -409,7 +417,7 @@ func _build_menu() -> void:
 	for m in MODES:
 		var mb = UiKit.GlyphButton.new("", "", UiKit.ACCENT, Vector2(0, 56))
 		mb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		mb.add_theme_font_size_override("font_size", 18)
+		mb.add_theme_font_size_override("font_size", 15)
 		mb.pressed.connect(func():
 			mode = m
 			_refresh_menu())
@@ -531,11 +539,15 @@ func _refresh_menu() -> void:
 		mb.set_selected(m == mode)
 	_menu_texts.mode_desc.text = i18n.t("mode." + mode + ".desc")
 	_menu_texts.hint.text = i18n.t("menu.hint." + mode) + "\n" + i18n.t("help.tip." + mode)
-	var lives: Dictionary = GameData.rules_of(mode).difficulties
+	var rules: Dictionary = GameData.rules_of(mode)
+	var lives: Dictionary = rules.difficulties
 	for d in DIFFS:
 		var b = _menu_diff[d]
 		var n: int = int(lives[d])
-		b.text = "%s (%s)" % [i18n.t("diff." + d), i18n.t("menu.life") if n == 1 else i18n.t("menu.lives", [n])]
+		if rules.get("difficultyKind", "lives") == "strength":
+			b.text = "%s (%s)" % [i18n.t("diff." + d), i18n.t("menu.strength", [n])]
+		else:
+			b.text = "%s (%s)" % [i18n.t("diff." + d), i18n.t("menu.life") if n == 1 else i18n.t("menu.lives", [n])]
 		b.set_selected(d == difficulty)
 
 
@@ -554,10 +566,12 @@ func is_blocking() -> bool:
 	return _menu.visible or _pause_sheet.visible or _end.visible
 
 
-func show_end(won: bool, reason: String, stats_text: String) -> void:
-	_end_title.text = i18n.t("end.won") if won else i18n.t("end.lost")
+func show_end(won: bool, reason: String, stats_text: String, title := "", why_text := "") -> void:
+	_end_title.text = title if title != "" else (i18n.t("end.won") if won else i18n.t("end.lost"))
 	_end_title.add_theme_color_override("font_color", UiKit.GOLD if won else UiKit.BAD)
-	var why = "" if won else i18n.t("end.lost_boss" if reason == "boss" else "end.lost_lives") + "\n"
+	var why = ""
+	if not won and title == "":
+		why = i18n.t("end.lost_boss" if reason == "boss" else "end.lost_lives") + "\n"
 	_end_stats.text = why + stats_text
 	_end.visible = true
 

@@ -6,6 +6,7 @@ const GameData := preload("res://core/game_data.gd")
 const Sim := preload("res://core/sim.gd")
 const Bot := preload("res://tests/bot.gd")
 const ElementsChecks := preload("res://tests/elements_checks.gd")
+const SurvivorChecks := preload("res://tests/survivor_checks.gd")
 
 var failures := 0
 var checks := 0
@@ -28,6 +29,7 @@ func _init() -> void:
 	test_determinism(data)
 	test_bot_plays(data)
 	ElementsChecks.new().run(self)
+	SurvivorChecks.new().run(self)
 	print("\n%d checks, %d failures" % [checks, failures])
 	quit(1 if failures > 0 else 0)
 

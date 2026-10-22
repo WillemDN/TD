@@ -4,7 +4,7 @@
 
 ## Huidige fase
 
-**Speelbare browserversie met twee spelmodi (Klassiek en Elementen), mobiele UX en 3D-modellen.** Fase 0 is afgerond (op `sudo pmset -a autorestart 1` na), fase 1 (data en design) is gedaan voor de modus Klassiek, fase 2 (headless simulatie + tests) staat en de client (fase 3) is een eerste volwaardige versie voor telefoon én desktop.
+**Speelbare browserversie met drie spelmodi (Wintermaul, Elementen en Laatste toren), mobiele UX en 3D-modellen.** Fase 0 is afgerond (op `sudo pmset -a autorestart 1` na), fase 1 (data en design) is gedaan voor de modus Klassiek, fase 2 (headless simulatie + tests) staat en de client (fase 3) is een eerste volwaardige versie voor telefoon én desktop.
 
 ### Speel het nu
 
@@ -16,7 +16,8 @@
 
 ### Wat erin zit
 
-- **Spelkeuze in het titelmenu:** Klassiek (Wintermaul-stijl, blijft zoals het was maar is solo erg zwaar) of **Elementen** (vast pad, voor alleen), met eigen moeilijkheidsniveaus. De keuze wordt onthouden
+- **Spelkeuze in het titelmenu:** **Wintermaul** (het vroegere "Klassiek", blijft zoals het was maar is solo erg zwaar), **Elementen** (vast pad, voor alleen) of **Laatste toren** (survivor), met eigen moeilijkheidsniveaus. De keuze wordt onthouden
+- Modus **Laatste toren** (zie `docs/design/laatste-toren.md`): één toren in een arena, een winkel met 20 wapens en 22 verbeteringen (4 zeldzaamheden, herladen), vijanden die op de toren afkomen, goudstieren, eindbazen, een paniekknop; win door 15 minuten te overleven
 - Modus **Elementen** (zie `docs/design/elementen-modus.md`): 40 levels, vast slingerpad met bouwplaten, 6 elementen in een cirkel (x2 / x0,5), 18 enkele + 15 duo- + 20 trio-torens, Guardians elke 5 levels geven een nieuw element, rente, creepeigenschappen (snel, helend, onsterfelijk, gepantserd)
 - Modus **Klassiek**, 1 speler, 35 levels met eindbazen op 10/20/30 en luchtlevels, moeilijkheid Makkelijk/Normaal/Moeilijk/Perfectie
 - 9 elementen (46 torens) + de ultieme toren, NL/EN, effecten: slow, poison, crit, chain, bounce, armor-debuff, %-HP, zet-HP, vasthouden, bonusschade
@@ -43,7 +44,7 @@
 | Engine | **Godot 4** (laatste stabiele versie) + **GDScript**, Compatibility-renderer op alle platformen |
 | Stijl | **3D low-poly**, isometrische camera, CC0-assets (Kenney, Quaternius, KayKit) |
 | Spelers | **1–4 co-op** per match |
-| Modi | **Klassiek** (Wintermaul v13, blijft in het spel), **Elementen** (vast pad, solo-vriendelijk, 2026-10-22) + later **Modern** (upgrade-bomen, gebruiksgemak) |
+| Modi | **Wintermaul** (v13, blijft in het spel; id `classic`), **Elementen** (vast pad, solo-vriendelijk) en **Laatste toren** (survivor), alle drie op 2026-10-22 + later **Modern** (upgrade-bomen, gebruiksgemak) |
 | Taal | **NL + EN** (i18n vanaf het begin) |
 | Netwerk | Server-authoritative, **WebSocket over TLS** via `tailscale serve`, server op de MacBook |
 | Accounts | **Accounts met voortgang** (SQLite op de Mac), hervatbare matches |
@@ -81,6 +82,16 @@ Uitgelezen op 2026-10-22.
 - [ ] Optioneel: `pip install pillow` en `mpyq` als we de extractiescripts opnieuw willen draaien
 
 ## Logboek
+
+### 2026-10-22: Laatste toren (survivor) en de naam Wintermaul
+- **Aanleiding:** de eigenaar wil een nieuwe versie gebaseerd op *Tower Survivors* (Hive Workshop) en de modus "Klassiek" voortaan **Wintermaul** noemen. Het Element TD-bestand dat de eigenaar eerder aanleverde bleek afgekapt (de tabellen van het archief ontbraken), dus daar is niets uit gehaald
+- **Naam:** de keuzeknop heet nu Wintermaul (NL en EN); het id blijft `classic`. `CLAUDE.md` is aangepast: de naam mag alleen als modusnaam in het menu, op verzoek van de eigenaar
+- **Nieuwe simulatie** `game/core/survivor.gd` (los van de grid-simulatie, deterministisch, 20 Hz): arena met één toren, vijanden die aanlopen (ranged blijft staan, goudstieren lopen langs), wapens (projectiel, kling-ring, aura, bom, bliksem, mijn, werpschijf, inslag), verbeteringen, winkel met zeldzaamheden en herladen, paniekknop, Feniksklauw en Ankh, win na 15 minuten. 1554 checks in totaal (`tests/survivor_checks.gd`)
+- **Data:** `tools/gen_survivor.py` → `game/data/survivor/*.json`, `rules_survivor.json` en alle teksten (NL/EN). `GameData` kent nu een `kind` (`td` of `survivor`)
+- **Client:** `survivor_view.gd` (arena, toren, vijanden met KayKit- en dieren-modellen, schoten, klingen, mijnen, bommen, ringen), `survivor_hud.gd` (goud, tijd, leven met schild, winkelkaarten, je spullen, infokaart met Koop-knop, compacte indeling op telefoons), `survivor_game.gd` (verbindt alles, toetsen 1-5, R en spatie, knijpen en scrollen om te zoomen). `main.gd` start deze modus naast de bestaande
+- **Balans met de bot** (`tests/bot_survivor.gd`): Makkelijk wint, Normaal verliest rond 7 tot 13 minuten, Perfectie rond 3 tot 6. Zie het ontwerpdocument voor de bekende zwakte (te veel goud na de tweede baas)
+- Menu: drie knoppen, het menu scrolt met een vaste Start-knop, moeilijkheidslabels per modus (levens of vijandsterkte)
+
 
 ### 2026-10-22: spelkeuze en de modus Elementen
 - **Aanleiding:** Klassiek (Wintermaul) is leuk maar solo onmogelijk (bots haalden level 4 tot 11 van 35). De eigenaar wil het in het spel houden en er een tweede spel bij: Element TD-stijl. De pagina op wc3maps.com gaf HTTP 403, dus er is alleen publieke community-documentatie gebruikt (`docs/research/element-td.md`), geen mapdata

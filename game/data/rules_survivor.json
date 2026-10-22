@@ -1,0 +1,137 @@
+{
+ "id": "survivor",
+ "kind": "survivor",
+ "name": {
+  "nl": "Laatste toren",
+  "en": "Last Tower"
+ },
+ "files": {
+  "weapons": "survivor/weapons.json",
+  "upgrades": "survivor/upgrades.json",
+  "enemies": "survivor/enemies.json"
+ },
+ "tickRate": 20,
+ "winTime": 900,
+ "startGold": 120,
+ "baseIncome": 3.0,
+ "roundSeconds": 45,
+ "shopSlots": 5,
+ "rerollBase": 20,
+ "rerollStep": 15,
+ "maxWeapons": 6,
+ "maxWeaponLevel": 5,
+ "weaponLevelDamage": 0.4,
+ "weaponLevelSpeed": 0.93,
+ "starterWeapon": "knives",
+ "tower": {
+  "hp": 500,
+  "armor": 2,
+  "regen": 1.0,
+  "radius": 0.9,
+  "critMult": 2.5,
+  "shieldDelay": 8.0,
+  "phoenixRest": 90.0
+ },
+ "arenaRadius": 13.0,
+ "spawnRadius": 16.5,
+ "maxEnemies": 120,
+ "scale": {
+  "hpPerMinute": 1.2,
+  "dmgPerMinute": 1.08,
+  "bountyPerMinute": 1.05,
+  "lateHpAfter": 10,
+  "lateHpPerMinute": 1.05
+ },
+ "spawn": {
+  "base": 0.8,
+  "perMinute": 0.7
+ },
+ "wagon": {
+  "first": 60,
+  "every": 70
+ },
+ "bosses": [
+  {
+   "time": 240,
+   "enemy": "boss1"
+  },
+  {
+   "time": 420,
+   "enemy": "boss2"
+  },
+  {
+   "time": 600,
+   "enemy": "boss1"
+  },
+  {
+   "time": 750,
+   "enemy": "boss3"
+  },
+  {
+   "time": 840,
+   "enemy": "boss2"
+  }
+ ],
+ "clear": {
+  "cooldown": 120,
+  "startCooldown": 60,
+  "invuln": 1.0,
+  "heal": 0.25
+ },
+ "shopOdds": [
+  {
+   "from": 0,
+   "w": [
+    70,
+    27,
+    3,
+    0
+   ]
+  },
+  {
+   "from": 3,
+   "w": [
+    50,
+    35,
+    14,
+    1
+   ]
+  },
+  {
+   "from": 6,
+   "w": [
+    35,
+    35,
+    24,
+    6
+   ]
+  },
+  {
+   "from": 9,
+   "w": [
+    25,
+    32,
+    30,
+    13
+   ]
+  },
+  {
+   "from": 12,
+   "w": [
+    15,
+    28,
+    36,
+    21
+   ]
+  }
+ ],
+ "weaponShare": 0.5,
+ "difficultyKind": "strength",
+ "difficulties": {
+  "easy": 70,
+  "normal": 100,
+  "hard": 135,
+  "perfection": 180
+ },
+ "defaultDifficulty": "normal"
+}

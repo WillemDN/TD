@@ -1,0 +1,384 @@
+{
+ "upgrades": {
+  "whetstone": {
+   "id": "whetstone",
+   "name": {
+    "nl": "Slijpsteen",
+    "en": "Whetstone"
+   },
+   "rarity": 0,
+   "cost": 50,
+   "stat": {
+    "dmg": 0.1
+   },
+   "max": 6,
+   "desc": {
+    "nl": "+10% schade",
+    "en": "+10% damage"
+   }
+  },
+  "quickdraw": {
+   "id": "quickdraw",
+   "name": {
+    "nl": "Snelle hand",
+    "en": "Quick Hand"
+   },
+   "rarity": 0,
+   "cost": 50,
+   "stat": {
+    "aspd": 0.1
+   },
+   "max": 6,
+   "desc": {
+    "nl": "+10% aanvalssnelheid",
+    "en": "+10% attack speed"
+   }
+  },
+  "ironskin": {
+   "id": "ironskin",
+   "name": {
+    "nl": "IJzerhuid",
+    "en": "Iron Skin"
+   },
+   "rarity": 0,
+   "cost": 50,
+   "stat": {
+    "armor": 2
+   },
+   "max": 6,
+   "desc": {
+    "nl": "+2 pantser",
+    "en": "+2 armor"
+   }
+  },
+  "heartymeal": {
+   "id": "heartymeal",
+   "name": {
+    "nl": "Stevige maaltijd",
+    "en": "Hearty Meal"
+   },
+   "rarity": 0,
+   "cost": 50,
+   "stat": {
+    "maxHp": 80,
+    "heal": 80
+   },
+   "max": 6,
+   "desc": {
+    "nl": "+80 leven, geneest 80",
+    "en": "+80 life, heals 80"
+   }
+  },
+  "bandage": {
+   "id": "bandage",
+   "name": {
+    "nl": "Verband",
+    "en": "Bandage"
+   },
+   "rarity": 0,
+   "cost": 50,
+   "stat": {
+    "regen": 1.0
+   },
+   "max": 6,
+   "desc": {
+    "nl": "+1 leven per seconde",
+    "en": "+1 life per second"
+   }
+  },
+  "purse": {
+   "id": "purse",
+   "name": {
+    "nl": "Geldbuidel",
+    "en": "Coin Purse"
+   },
+   "rarity": 0,
+   "cost": 50,
+   "stat": {
+    "income": 1.0
+   },
+   "max": 6,
+   "desc": {
+    "nl": "+1 goud per seconde",
+    "en": "+1 gold per second"
+   }
+  },
+  "lucky": {
+   "id": "lucky",
+   "name": {
+    "nl": "Geluksbrenger",
+    "en": "Lucky Charm"
+   },
+   "rarity": 1,
+   "cost": 160,
+   "stat": {
+    "crit": 0.06
+   },
+   "max": 6,
+   "desc": {
+    "nl": "+6% kans op een kritieke treffer (x2,5)",
+    "en": "+6% chance for a critical hit (x2.5)"
+   }
+  },
+  "buckler": {
+   "id": "buckler",
+   "name": {
+    "nl": "Rond schild",
+    "en": "Buckler"
+   },
+   "rarity": 1,
+   "cost": 160,
+   "stat": {
+    "block": 3
+   },
+   "max": 6,
+   "desc": {
+    "nl": "Elke klap doet 3 minder schade",
+    "en": "Every hit does 3 less damage"
+   }
+  },
+  "thornsmail": {
+   "id": "thornsmail",
+   "name": {
+    "nl": "Doornenpantser",
+    "en": "Thorn Mail"
+   },
+   "rarity": 1,
+   "cost": 160,
+   "stat": {
+    "thorns": 8
+   },
+   "max": 6,
+   "desc": {
+    "nl": "Aanvallers krijgen 8 schade terug",
+    "en": "Attackers take 8 damage back"
+   }
+  },
+  "longsight": {
+   "id": "longsight",
+   "name": {
+    "nl": "Verrekijker",
+    "en": "Long Sight"
+   },
+   "rarity": 1,
+   "cost": 160,
+   "stat": {
+    "range": 0.12
+   },
+   "max": 6,
+   "desc": {
+    "nl": "+12% bereik",
+    "en": "+12% range"
+   }
+  },
+  "pact": {
+   "id": "pact",
+   "name": {
+    "nl": "Handelsverdrag",
+    "en": "Trade Pact"
+   },
+   "rarity": 1,
+   "cost": 160,
+   "stat": {
+    "income": 2.5,
+    "roundGold": 40
+   },
+   "max": 6,
+   "desc": {
+    "nl": "+2,5 goud per seconde en +40 per ronde",
+    "en": "+2.5 gold per second and +40 per round"
+   }
+  },
+  "sigil": {
+   "id": "sigil",
+   "name": {
+    "nl": "Buitzegel",
+    "en": "Bounty Sigil"
+   },
+   "rarity": 1,
+   "cost": 160,
+   "stat": {
+    "bounty": 0.25
+   },
+   "max": 6,
+   "desc": {
+    "nl": "+25% goud per kill",
+    "en": "+25% gold per kill"
+   }
+  },
+  "plate": {
+   "id": "plate",
+   "name": {
+    "nl": "Onbreekbaar pantser",
+    "en": "Unbreakable Plate"
+   },
+   "rarity": 2,
+   "cost": 500,
+   "stat": {
+    "armor": 7
+   },
+   "max": 5,
+   "desc": {
+    "nl": "+7 pantser",
+    "en": "+7 armor"
+   }
+  },
+  "decimation": {
+   "id": "decimation",
+   "name": {
+    "nl": "Genadeslag",
+    "en": "Decimation"
+   },
+   "rarity": 2,
+   "cost": 500,
+   "stat": {
+    "crit": 0.1,
+    "critMult": 0.5
+   },
+   "max": 4,
+   "desc": {
+    "nl": "+10% kritiek en +50% kritieke schade",
+    "en": "+10% crit and +50% crit damage"
+   }
+  },
+  "maw": {
+   "id": "maw",
+   "name": {
+    "nl": "Hongerige muil",
+    "en": "Hungering Maw"
+   },
+   "rarity": 2,
+   "cost": 500,
+   "stat": {
+    "thorns": 18,
+    "thornsHeal": 3
+   },
+   "max": 4,
+   "desc": {
+    "nl": "+18 doornschade, geneest 3 per tegenslag",
+    "en": "+18 thorns damage, heals 3 per retaliation"
+   }
+  },
+  "medallion": {
+   "id": "medallion",
+   "name": {
+    "nl": "Gouden medaillon",
+    "en": "Golden Medallion"
+   },
+   "rarity": 2,
+   "cost": 500,
+   "stat": {
+    "bounty": 0.6
+   },
+   "max": 4,
+   "desc": {
+    "nl": "+60% goud per kill",
+    "en": "+60% gold per kill"
+   }
+  },
+  "phoenix": {
+   "id": "phoenix",
+   "name": {
+    "nl": "Feniksklauw",
+    "en": "Phoenix Claw"
+   },
+   "rarity": 2,
+   "cost": 500,
+   "stat": {
+    "phoenix": 1
+   },
+   "max": 1,
+   "desc": {
+    "nl": "Redt je van de dood en geneest je, daarna 90 s rust",
+    "en": "Saves you from death and heals you, then rests for 90 s"
+   }
+  },
+  "energyshield": {
+   "id": "energyshield",
+   "name": {
+    "nl": "Energieschild",
+    "en": "Energy Shield"
+   },
+   "rarity": 2,
+   "cost": 500,
+   "stat": {
+    "shield": 150
+   },
+   "max": 4,
+   "desc": {
+    "nl": "+150 schild dat terugkomt na 8 s zonder schade",
+    "en": "+150 shield that returns after 8 s without damage"
+   }
+  },
+  "banner": {
+   "id": "banner",
+   "name": {
+    "nl": "Krijgsbanier",
+    "en": "War Banner"
+   },
+   "rarity": 3,
+   "cost": 1400,
+   "stat": {
+    "dmg": 0.3,
+    "aspd": 0.12
+   },
+   "max": 5,
+   "desc": {
+    "nl": "+30% schade en +12% aanvalssnelheid",
+    "en": "+30% damage and +12% attack speed"
+   }
+  },
+  "urn": {
+   "id": "urn",
+   "name": {
+    "nl": "Urn van hebzucht",
+    "en": "Urn of Greed"
+   },
+   "rarity": 3,
+   "cost": 1400,
+   "stat": {
+    "income": 9.0
+   },
+   "max": 4,
+   "desc": {
+    "nl": "+9 goud per seconde",
+    "en": "+9 gold per second"
+   }
+  },
+  "timecrystal": {
+   "id": "timecrystal",
+   "name": {
+    "nl": "Tijdkristal",
+    "en": "Time Crystal"
+   },
+   "rarity": 3,
+   "cost": 1400,
+   "stat": {
+    "aspd": 0.2,
+    "slowAll": 0.12
+   },
+   "max": 4,
+   "desc": {
+    "nl": "+20% aanvalssnelheid, vijanden 12% trager",
+    "en": "+20% attack speed, enemies 12% slower"
+   }
+  },
+  "ankh": {
+   "id": "ankh",
+   "name": {
+    "nl": "Ankh van herrijzenis",
+    "en": "Ankh of Rebirth"
+   },
+   "rarity": 3,
+   "cost": 1400,
+   "stat": {
+    "ankh": 1
+   },
+   "max": 1,
+   "desc": {
+    "nl": "Herrijst één keer met volledig leven",
+    "en": "Rises once with full life"
+   }
+  }
+ }
+}
