@@ -64,6 +64,8 @@ Uitgelezen op 2026-10-22.
 ### 2026-10-22: sessie op de Mac
 - Fase 0 gecontroleerd en Mac-gegevens vastgelegd, `gh` geïnstalleerd
 - Beslissingen: Tailscale-naam blijft `willems-macbook-pro`, telefoon niet koppelen (lokaal testen, de eigenaar test zelf op de telefoon)
+- v13-map opnieuw gedownload (inclusief wave-script) en de standaard WC3-tabellen opgehaald: alle gaten (`~`) in torens en creeps zijn ingevuld → `docs/research/wintermaul-v13-resolved.md` en `data/wintermaul-v13-resolved.json`. Nieuwe tools: `slk.py`, `resolve.py`, `report.py`. Het eerste dataverslag bleek enkele fouten te hebben (aanvalstypes, splash), die zijn gecorrigeerd
+- Wintermaul Wars x14.2 gedownload ([EpicWar](https://www.epicwar.com/maps/223952/)): de map is beschermd (versleutelde scripts en geen leesbare `.w3u`), dus nog niet uitgelezen. Dat vraagt een uitgebreidere MPQ-lezer
 - Genre-onderzoek naar WC3-TD's → `docs/research/wc3-td-genre.md` (met lijst van wat niet te vinden was)
 
 ## Volgende stappen

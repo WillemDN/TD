@@ -4,6 +4,8 @@
 > Getallen en spelregels zijn als basis voor balancing bruikbaar. Namen, teksten, modellen,
 > iconen en geluiden van Blizzard of van de mapmaker nemen we **niet** over (zie `docs/PLAN.md` §3).
 
+> **Let op (2026-10-22):** de waarden in §4 en §5 bevatten gaten (\`~\`) en een paar fouten. De volledig ingevulde en gecorrigeerde tabellen staan in [\`wintermaul-v13-resolved.md\`](wintermaul-v13-resolved.md). Gebruik die voor het importscript.
+
 ## 1. Bron en werkwijze
 
 | | |

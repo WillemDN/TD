@@ -30,6 +30,22 @@ python3 -I w3u.py out/war3map.w3u out/war3map.wts out/units.json
 python3 -I levels.py out/war3map.j out/units.json      # waves uit de trigger "Set Levels"
 python3 -I towers.py out/units.json                     # torentabel per element (Markdown)
 python3 -I wpm.py out/war3map.wpm layout.png            # pathing-kaart als PNG
+
+# 5. Gaten vullen met de standaard WC3-tabellen en tabellen maken (zie hieronder)
+python3 -I resolve.py out/units.json <slk-map> out/resolved.json
+python3 -I report.py out/resolved.json out/war3map.j    # waves + torens als Markdown
+```
+
+### Standaard WC3-tabellen (SLK)
+
+`resolve.py` vult de velden die de map niet wijzigt met de waarden van de basis-unit. Daarvoor zijn `unitbalance.slk`,
+`unitdata.slk` en `unitweapons.slk` nodig (Blizzard-bestanden: **niet committen**). Ze staan in publieke GitHub-extracties, bijvoorbeeld
+`MatthewMarinets/war3-ap-maps` onder `gamedata/1_30_4/custom_v0/units/`:
+
+```sh
+for f in unitbalance unitdata unitweapons; do
+  gh api repos/MatthewMarinets/war3-ap-maps/contents/gamedata/1_30_4/custom_v0/units/$f.slk -H "Accept: application/vnd.github.raw" > slk/$f.slk
+done
 ```
 
 ## Beperkingen
