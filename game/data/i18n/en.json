@@ -104,5 +104,6 @@
  "msg.nothing_placed": "No spot was valid",
  "hud.level_short": "Level {0}/{1}",
  "hud.starts_in": "starts in {0} s",
- "msg.air_wave": "Flyers! They ignore your maze and fly over towers. Only towers that hit air can bring them down"
+ "msg.air_wave": "Flyers! They ignore your maze and fly over towers. Only towers that hit air can bring them down",
+ "app.credits": "3D models: KayKit and Kenney (CC0), animals from the Everything Library by David OReilly (CC BY 4.0)"
 }

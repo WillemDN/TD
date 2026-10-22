@@ -393,6 +393,10 @@ func _build_menu() -> void:
 	controls.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(controls)
 	_menu_texts["controls"] = controls
+	var credits := _label(11, UiKit.MUTED)
+	credits.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	col.add_child(credits)
+	_menu_texts["credits"] = credits
 	add_child(_menu)
 
 
@@ -447,6 +451,7 @@ func refresh_static_texts() -> void:
 	_menu_texts.play.text = " " + i18n.t("menu.play")
 	_menu_texts.hint.text = i18n.t("menu.hint") + "\n" + i18n.t("help.tip")
 	_menu_texts.controls.text = i18n.t("help.controls")
+	_menu_texts.credits.text = i18n.t("app.credits")
 	_menu_texts.again.text = " " + i18n.t("end.again")
 	_pause_texts.title.text = i18n.t("hud.pause")
 	_pause_texts.resume.text = " " + i18n.t("hud.resume")

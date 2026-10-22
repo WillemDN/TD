@@ -146,31 +146,31 @@ Getallen uit het origineel (HP, armor, snelheid, bounty). Aantallen per spawnpun
 | 2 | IJsknutselaar | Frost Tinker | 60 | 0 | Medium |  | 20 |  |
 | 3 | Schemerboogschutter | Dusk Archer | 115 | 2 | Light |  | 20 |  |
 | 4 | Toendrabrute | Tundra Brute | 150 | 2 | Heavy |  | 20 |  |
-| 5 | IJswelp | Frost Whelp | 135 | 1 | Heavy | ja | 15 |  |
+| 5 | IJsvleermuis | Frost Bat | 135 | 1 | Heavy | ja | 15 |  |
 | 6 | IJsspeurder | Ice Stalker | 225 | 3 | Light |  | 20 |  |
-| 7 | Rijmloper | Rime Runner | 260 | 4 | Medium |  | 20 |  |
+| 7 | Rijmspin | Rime Spider | 260 | 4 | Medium |  | 20 |  |
 | 8 | Gletsjertrol | Glacier Troll | 300 | 5 | Medium |  | 20 |  |
 | 9 | Wolvenrijder | Wolf Raider | 345 | 7 | Heavy |  | 20 |  |
 | 10 | IJsmaarschalk | Frost Marshal | 15000 | 10 | Medium |  | 1 | eindbaas |
-| 11 | IJsglijder | Ice Skiff | 375 | 7 | Fortified |  | 20 |  |
+| 11 | IJsbizon | Ice Bison | 375 | 7 | Fortified |  | 20 |  |
 | 12 | Radertuigbrute | Clockwork Brute | 500 | 8 | Heavy |  | 20 |  |
 | 13 | IJshagedis | Frost Lizard | 625 | 10 | Medium |  | 20 |  |
-| 14 | Schaduwduiveltje | Shadow Imp | 875 | 10 | Light |  | 20 |  |
-| 15 | IJsdraak | Frost Drake | 675 | 12 | Heavy | ja | 15 |  |
+| 14 | Schaduwkever | Shadow Beetle | 875 | 10 | Light |  | 20 |  |
+| 15 | IJsvalk | Ice Hawk | 675 | 12 | Heavy | ja | 15 |  |
 | 16 | Scherfgolem | Shard Golem | 1100 | 12 | Heavy |  | 20 |  |
 | 17 | Winterspook | Winter Wisp | 1300 | 14 | Light |  | 20 |  |
-| 18 | Belegeringsslee | Siege Sled | 1300 | 10 | Fortified |  | 20 |  |
+| 18 | Belegeringsneushoorn | Siege Rhino | 1300 | 10 | Fortified |  | 20 |  |
 | 19 | Bevroren lijk | Frozen Husk | 1700 | 10 | Heavy |  | 20 |  |
 | 20 | Gletsjerheer | Glacier Lord | 30000 | 15 | Medium |  | 1 | eindbaas |
 | 21 | Totemdrager | Totem Bearer | 2000 | 15 | Heavy |  | 20 |  |
 | 22 | Vervloekte ruiter | Cursed Rider | 2300 | 15 | Heavy |  | 20 |  |
 | 23 | Prismamagiër | Prism Mage | 2500 | 16 | Light |  | 20 |  |
 | 24 | IJsinferno | Frost Infernal | 2900 | 17 | Heavy |  | 20 |  |
-| 25 | Sneeuwstormdraak | Blizzard Dragon | 2250 | 20 | Heavy | ja | 15 |  |
-| 26 | Schrikbeer | Dire Bear | 3400 | 18 | Medium |  | 20 |  |
+| 25 | Sneeuwstormgier | Blizzard Vulture | 2250 | 20 | Heavy | ja | 15 |  |
+| 26 | Schrikyeti | Dire Yeti | 3400 | 18 | Medium |  | 20 |  |
 | 27 | Bezeten jager | Haunted Hunter | 4000 | 18 | Medium |  | 20 |  |
 | 28 | Krijgsheer | Warlord | 4500 | 19 | Medium |  | 20 |  |
-| 29 | Oerdraak | Elder Wyrm | 3750 | 19 | Heavy | ja | 15 |  |
+| 29 | Oerkraai | Elder Crow | 3750 | 19 | Heavy | ja | 15 |  |
 | 30 | De IJskoning | The Ice King | 85000 | 20 | Medium |  | 1 | **laatste eindbaas: bereikt hij het schip, dan is het direct verloren** |
 | 31 | Yeti-verkenner | Yeti Scout | 5800 | 0 | Medium |  | 20 | bonus, geen levensverlies |
 | 32 | Sneeuwgolem | Snow Golem | 6500 | 5 | Medium |  | 20 | bonus, geen levensverlies |

@@ -1,0 +1,3 @@
+KayKit : Dungeon Remastered Pack (1.0, free version)
+Created/distributed by Kay Lousberg (www.kaylousberg.com), https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0
+License: CC0 1.0 Universal (public domain). Attribution is not required but appreciated.

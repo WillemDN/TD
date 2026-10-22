@@ -4,6 +4,29 @@ extends RefCounted
 ## built here from primitives in the same chunky low-poly style, with a simple procedural walk animation.
 
 const KT := "res://assets/kenney_td/"
+const KK := "res://assets/kaykit/"
+
+# one dark outline pass makes assets from different packs look like one game
+const OUTLINE_SHADER := "
+shader_type spatial;
+render_mode cull_front, unshaded, depth_draw_opaque;
+uniform vec4 line_color : source_color = vec4(0.03, 0.06, 0.12, 1.0);
+uniform float thickness = 0.025;
+void vertex() { VERTEX += NORMAL * thickness; }
+void fragment() { ALBEDO = line_color.rgb; }
+"
+
+# element -> KayKit tower colourway and an extra tint that tells elements with the same colourway apart
+const TOWER_STYLE := {
+	"fire": ["red", Color("ffb08a")], "ice": ["blue", Color("a6e4ff")], "tech": ["blue", Color("c8d0dc")],
+	"electric": ["yellow", Color("fff0a0")], "stone": ["yellow", Color("c9a77a")], "poison": ["green", Color("b6ff7a")],
+	"nature": ["green", Color("8fe08a")], "shadow": ["red", Color("b79aff")], "crystal": ["blue", Color("ffb0ec")],
+	"ultimate": ["blue", Color("e8fbff")],
+}
+# tier -> [model, scale]
+const TOWER_TIER := {1: ["base", 0.72], 2: ["A", 0.72], 3: ["B", 0.66], 4: ["B", 0.74], 5: ["catapult", 0.8], 6: ["catapult", 0.9]}
+const CREEP_SCALE := 0.42
+const CREEP_SIZE_MULT := 1.35   # monsters read bigger on the field than their table size     # KayKit characters are about two units tall
 
 # per element: tower style, weapon on top, colour variant letter
 const RECIPES := {
@@ -59,6 +82,46 @@ const CREEPS := {
 	"frost_drake": ["dragon", "5aa0d8", "e6f5ff", 1.0, ""],
 	"blizzard_dragon": ["dragon", "4a78c8", "d8ecff", 1.25, ""],
 	"elder_wyrm": ["dragon", "6a5ac8", "e0dcff", 1.55, ""],
+}
+
+# creep id -> [source, file, tint colour, tint strength, size in tiles, fit ("h" = height, "m" = longest side), anim speed factor]
+# source "kk" = KayKit character (assets/kaykit/chars), "cre" = animal or golem (assets/creatures)
+const CREEP_ASSETS := {
+	"snow_scout": ["cre", "rat", "a8d8ff", 0.5, 0.75, "m", 1.2],
+	"frost_tinker": ["kk", "Rogue", "6fb8d8", 0.55, 0.85, "h", 1.0],
+	"dusk_archer": ["kk", "Skeleton_Rogue", "9a7ad8", 0.5, 0.95, "h", 1.0],
+	"tundra_brute": ["kk", "Barbarian", "ffd0a0", 0.3, 1.05, "h", 0.9],
+	"frost_whelp": ["cre", "bat", "7fe0ff", 0.6, 1.15, "m", 1.0],
+	"ice_stalker": ["cre", "panther", "bcd8f0", 0.55, 1.05, "m", 1.0],
+	"rime_runner": ["cre", "spider", "a8e0ff", 0.6, 0.95, "m", 1.2],
+	"glacier_troll": ["cre", "ape", "8fd0c8", 0.55, 1.2, "m", 0.9],
+	"wolf_raider": ["cre", "panther", "8a8f9c", 0.7, 1.2, "m", 1.1],
+	"frost_marshal": ["kk", "Knight", "7aa4f0", 0.55, 1.5, "h", 0.8],
+	"ice_skiff": ["cre", "bull", "d4e6fa", 0.7, 1.2, "m", 0.9],
+	"clockwork_brute": ["cre", "scrap_golem", "c0c8d8", 0.35, 1.1, "h", 0.9],
+	"frost_lizard": ["cre", "lizard", "6fd0c0", 0.6, 1.15, "m", 1.0],
+	"shadow_imp": ["cre", "beetle", "a47ae0", 0.65, 0.8, "m", 1.2],
+	"frost_drake": ["cre", "hawk", "9ad8ff", 0.55, 1.2, "m", 1.0],
+	"shard_golem": ["cre", "scrap_golem", "8fd8ff", 0.7, 1.25, "h", 0.8],
+	"winter_wisp": ["cre", "wisp", "bfe8ff", 0.6, 0.85, "m", 1.0],
+	"siege_sled": ["cre", "rhino", "cdbba0", 0.45, 1.3, "m", 0.8],
+	"frozen_husk": ["kk", "Skeleton_Minion", "9fc8e8", 0.6, 1.0, "h", 0.9],
+	"glacier_lord": ["cre", "yeti", "7ab4ff", 0.65, 2.0, "m", 0.7],
+	"totem_bearer": ["kk", "Barbarian", "8fe09a", 0.55, 1.1, "h", 0.9],
+	"cursed_rider": ["kk", "Skeleton_Warrior", "8a6ad0", 0.6, 1.15, "h", 1.0],
+	"prism_mage": ["kk", "Mage", "ff9be0", 0.5, 1.05, "h", 1.0],
+	"frost_infernal": ["kk", "Skeleton_Warrior", "ff9a5a", 0.65, 1.3, "h", 1.0],
+	"blizzard_dragon": ["cre", "vulture", "9ab8ff", 0.5, 1.6, "m", 1.0],
+	"dire_bear": ["cre", "yeti", "a89a8a", 0.4, 1.45, "m", 0.9],
+	"haunted_hunter": ["kk", "Skeleton_Rogue", "6fe0c8", 0.6, 1.1, "h", 1.0],
+	"warlord": ["kk", "Skeleton_Warrior", "e06a6a", 0.55, 1.5, "h", 0.9],
+	"elder_wyrm": ["cre", "crow", "7a6ad8", 0.6, 1.9, "m", 0.9],
+	"ice_king": ["kk", "Knight", "a8d8ff", 0.65, 2.0, "h", 0.7],
+	"yeti_scout": ["cre", "yeti", "f4f8ff", 0.5, 1.05, "m", 1.0],
+	"snow_golem": ["cre", "scrap_golem", "f4f8ff", 0.8, 1.3, "h", 0.8],
+	"ice_wraith": ["cre", "wisp", "7aa8ff", 0.7, 1.15, "m", 1.0],
+	"frost_giant": ["cre", "ape", "9ac0e8", 0.6, 2.1, "m", 0.7],
+	"aurora_sprite": ["cre", "wisp", "7affc8", 0.7, 0.95, "m", 1.2],
 }
 
 static var _scenes := {}
@@ -158,56 +221,129 @@ static func cylinder(top: float, bottom: float, h: float, seg := 10) -> Cylinder
 
 # ------------------------------------------------------------------ towers
 
-## Build a tower for a definition. The returned node has children "stack" (finished tower), "turret" (the part that turns
-## to the target) and "build" (construction stages), see set_build_progress.
+## Build a tower for a definition. Children: "stack" (finished tower with a "turret" accent node on top) and "build"
+## (construction stages), see set_build_progress. All parts come from the KayKit Medieval Hexagon pack (CC0).
 static func make_tower(def: Dictionary, color: Color) -> Node3D:
 	var root := Node3D.new()
-	var r: Dictionary = RECIPES.get(def.element, RECIPES["fire"])
-	var style: String = r.style
-	var v: String = r.v
+	var style: Array = TOWER_STYLE.get(def.element, TOWER_STYLE["fire"])
 	var tier: int = int(def.tier)
 	var ultimate: bool = def.element == "ultimate"
+	var pick: Array = TOWER_TIER.get(tier, TOWER_TIER[5])
+	var model_name: String = pick[0]
+	var sc: float = float(pick[1])
+	if ultimate:
+		model_name = "catapult"
+		sc = 1.15
 	var stack := Node3D.new()
 	stack.name = "stack"
 	root.add_child(stack)
-	var y := 0.0
-	var parts: Array = ["tower-round-base", "tower-%s-bottom-%s" % [style, v]]
-	if tier >= 3:
-		parts.append("tower-%s-middle-%s" % [style, v])
-	if tier >= 5:
-		parts.append("tower-%s-middle-%s" % [style, "a" if v != "a" else "b"])
-	if tier >= 2:
-		parts.append("tower-%s-top-%s" % [style, v])
-	if ultimate:
-		parts = ["tower-round-base", "tower-round-bottom-a", "tower-round-middle-a", "tower-round-middle-b", "tower-round-middle-c", "tower-round-top-c"]
-	for p in parts:
-		var n := inst(p)
-		n.position.y = y
-		stack.add_child(n)
-		y += part_height(p)
+	var body := inst_kk("towers/building_tower_%s_%s.gltf" % [model_name, style[0]])
+	body.scale = Vector3.ONE * sc
+	tint_model(body, style[1], 0.45)
+	outline_model(body, 0.03 / sc)
+	stack.add_child(body)
+	var top_y := model_height(body) * sc
 	var turret := Node3D.new()
 	turret.name = "turret"
-	turret.position.y = y
-	turret.scale = Vector3(1.0, 1.0 / STACK_Y, 1.0)   # the weapon keeps its own proportions
+	turret.position.y = top_y
 	stack.add_child(turret)
-	var w := inst(r.weapon)
-	turret.add_child(w)
-	if ultimate:
-		w.scale = Vector3(1.4, 1.4, 1.4)
-	var wy := 0.5
-	_accent(turret, def.element, color, wy, tier)
-	# colour ring on the foot so the element reads from far away
-	# the real build footprint: exactly one tile, so you can see which tiles a tower blocks
-	var pad := add_mesh(root, box(Vector3(0.98, 0.04, 0.98)), color.darkened(0.25), Vector3(0, 0.02, 0), Vector3.ZERO, 0.35)
+	_accent(turret, def.element, color, 0.05, tier)
+	# colour pad on the foot: exactly the one-tile build footprint
+	var pad := add_mesh(root, box(Vector3(0.98, 0.04, 0.98)), color.lerp(Color('1b2a3c'), 0.72), Vector3(0, 0.02, 0), Vector3.ZERO, 0.0)
 	pad.name = "ring"
 	var build := Node3D.new()
 	build.name = "build"
 	build.visible = false
 	root.add_child(build)
-	stack.scale = Vector3(TOWER_SCALE, TOWER_SCALE * STACK_Y, TOWER_SCALE)
-	build.scale = Vector3(TOWER_SCALE, TOWER_SCALE * STACK_Y, TOWER_SCALE)
-	root.set_meta("height", y * TOWER_SCALE * STACK_Y + 0.45)
+	root.set_meta("height", top_y + 0.35)
 	return root
+
+
+static func model_height(n: Node) -> float:
+	return _mesh_height_world(n, Transform3D.IDENTITY)
+
+
+static func _mesh_height_world(n: Node, xf: Transform3D) -> float:
+	var t := xf
+	if n is Node3D:
+		t = xf * (n as Node3D).transform
+	var top := 0.0
+	if n is MeshInstance3D:
+		var b: AABB = t * (n as MeshInstance3D).get_aabb()
+		top = b.position.y + b.size.y
+	for c in n.get_children():
+		top = maxf(top, _mesh_height_world(c, t))
+	return top
+
+
+static func inst_kk(path: String) -> Node3D:
+	if not _scenes.has(path):
+		_scenes[path] = load(KK + path)
+	return (_scenes[path] as PackedScene).instantiate() as Node3D
+
+
+## Tint every textured surface of a model: the palette texture is multiplied with a colour mixed towards white.
+static func tint_model(n: Node, color: Color, strength: float, gain: float = 1.0) -> void:
+	if n is MeshInstance3D:
+		var mi := n as MeshInstance3D
+		for i in mi.mesh.get_surface_count():
+			var m = mi.mesh.surface_get_material(i)
+			if m is BaseMaterial3D:
+				var d: BaseMaterial3D = m.duplicate()
+				var c := Color.WHITE.lerp(color, strength)
+				d.albedo_color = Color(c.r * gain, c.g * gain, c.b * gain, 1.0)
+				d.normal_enabled = false     # the baked normal maps cost memory and barely show at this size
+				mi.set_surface_override_material(i, d)
+	for c in n.get_children():
+		tint_model(c, color, strength, gain)
+
+
+static var _outline_mat: ShaderMaterial
+
+static func outline_model(n: Node, thickness: float) -> void:
+	if _outline_mat == null:
+		var sh := Shader.new()
+		sh.code = OUTLINE_SHADER
+		_outline_mat = ShaderMaterial.new()
+		_outline_mat.shader = sh
+	if n is MeshInstance3D:
+		var mi := n as MeshInstance3D
+		var m: ShaderMaterial = _outline_mat.duplicate()
+		m.set_shader_parameter("thickness", thickness)
+		mi.material_overlay = m
+	for c in n.get_children():
+		outline_model(c, thickness)
+
+
+## Show construction: stages while building, the finished tower when done. progress is 0..1.
+static func set_build_progress(root: Node3D, progress: float) -> void:
+	var stack: Node3D = root.get_node("stack")
+	var build: Node3D = root.get_node("build")
+	if progress >= 1.0:
+		if not stack.visible:
+			stack.visible = true
+			build.visible = false
+		return
+	stack.visible = false
+	build.visible = true
+	var stage := clampi(int(progress * 3.0), 0, 2)
+	var want := "towers/building_stage_%s.gltf" % "ABC"[stage]
+	var current: String = build.get_meta("stage", "")
+	if current != want:
+		for c in build.get_children():
+			c.queue_free()
+		var m := inst_kk(want)
+		m.scale = Vector3.ONE * 0.8
+		outline_model(m, 0.03)
+		build.add_child(m)
+		build.set_meta("stage", want)
+
+
+static func aim_turret(root: Node3D, from: Vector2, to: Vector2) -> void:
+	var turret: Node3D = root.get_node("stack/turret")
+	var d := to - from
+	if d.length() > 0.01:
+		turret.rotation.y = atan2(-d.x, -d.y)
 
 
 static func _accent(parent: Node3D, element: String, color: Color, y: float, tier: int) -> void:
@@ -248,38 +384,69 @@ static func _accent(parent: Node3D, element: String, color: Color, y: float, tie
 			add_mesh(parent, sphere(0.2), Color("bff6ff"), Vector3(0, y + 0.5, 0), Vector3.ZERO, 2.4)
 
 
-## Show construction: stages a-f while building, the finished tower when done. progress is 0..1.
-static func set_build_progress(root: Node3D, progress: float) -> void:
-	var stack: Node3D = root.get_node("stack")
-	var build: Node3D = root.get_node("build")
-	if progress >= 1.0:
-		if not stack.visible:
-			stack.visible = true
-			build.visible = false
-		return
-	stack.visible = false
-	build.visible = true
-	var stage := clampi(int(progress * 6.0), 0, 5)
-	var current: String = build.get_meta("stage", "")
-	var want := "tower-round-build-%s" % "abcdef"[stage]
-	if current != want:
-		for c in build.get_children():
-			c.queue_free()
-		build.add_child(inst(want))
-		build.set_meta("stage", want)
-
-
-static func aim_turret(root: Node3D, from: Vector2, to: Vector2) -> void:
-	var turret: Node3D = root.get_node("stack/turret")
-	var d := to - from
-	if d.length() > 0.01:
-		turret.rotation.y = atan2(-d.x, -d.y)
-
-
 # ------------------------------------------------------------------ monsters
 
 ## A creep model facing -Z. Meta: "legs" (nodes to swing), "wings", "bob" (how much it bobs), "float" (hover height).
 static func make_creep(creep_id: String, def: Dictionary) -> Node3D:
+	if CREEP_ASSETS.has(creep_id):
+		return _make_asset_creep(creep_id, def)
+	return make_creep_procedural(creep_id, def)
+
+
+## Monsters from real models: KayKit characters and animals, tinted and scaled to a size in tiles.
+static func _make_asset_creep(creep_id: String, def: Dictionary) -> Node3D:
+	var spec: Array = CREEP_ASSETS[creep_id]
+	var root := Node3D.new()
+	var model := Node3D.new()
+	model.name = "model"
+	root.add_child(model)
+	var path: String = "chars/%s.scn" % spec[1] if spec[0] == "kk" else "../creatures/%s.glb" % spec[1]
+	var inst := inst_kk(path)
+	inst.rotation.y = PI                      # the models face +Z, our monsters walk towards -Z
+	model.add_child(inst)
+	var box := _model_bounds(inst)
+	var fit_h: bool = spec[5] == "h"
+	var extent: float = box.size.y if fit_h else maxf(box.size.y, maxf(box.size.x, box.size.z))
+	var k: float = float(spec[4]) * CREEP_SIZE_MULT / maxf(extent, 0.01)
+	inst.scale = Vector3.ONE * k
+	# stand on the ground: the lowest point of the model at y = 0 (flyers are lifted by the view)
+	inst.position = Vector3(0.0, -box.position.y * k, 0.0)
+	tint_model(inst, Color(spec[2]), float(spec[3]), 1.0 if spec[0] == "kk" else 1.7)   # the animals are painted dark
+	var ap: AnimationPlayer = inst.find_child("AnimationPlayer", true, false)
+	if ap != null:
+		for a in ["Walking_A", "Running_A", "Idle"]:
+			if ap.has_animation(a):
+				ap.get_animation(a).loop_mode = Animation.LOOP_LINEAR
+		var anim := "Running_A" if float(def.speed) > 2.6 and ap.has_animation("Running_A") else "Walking_A"
+		ap.play(anim)
+		ap.seek(randf() * ap.current_animation_length, true)
+	root.set_meta("ap", ap)
+	root.set_meta("anim_factor", float(spec[6]))
+	root.set_meta("legs", [])
+	root.set_meta("wings", [])
+	root.set_meta("scale", float(spec[4]) * 0.5)
+	root.set_meta("kind", "asset")
+	return root
+
+
+static func _model_bounds(n: Node3D) -> AABB:
+	var box := AABB()
+	var first := true
+	for mi in n.find_children("*", "MeshInstance3D", true, false):
+		var m := mi as MeshInstance3D
+		var t := Transform3D.IDENTITY
+		var cur: Node = m
+		while cur != null and cur != n:
+			if cur is Node3D:
+				t = (cur as Node3D).transform * t
+			cur = cur.get_parent()
+		var b: AABB = t * m.get_aabb()
+		box = b if first else box.merge(b)
+		first = false
+	return box
+
+
+static func make_creep_procedural(creep_id: String, def: Dictionary) -> Node3D:
 	var root := Node3D.new()
 	var model := Node3D.new()
 	model.name = "model"
@@ -515,6 +682,12 @@ static func _dragon(m: Node3D, c1: Color, c2: Color, wings: Array) -> void:
 
 ## Advance the walk animation of a creep model. t is a clock in seconds, speed the creep speed in tiles/s.
 static func animate_creep(root: Node3D, t: float, speed: float, stagger: float) -> void:
+	if root.get_meta("kind") == "asset":
+		var ap = root.get_meta("ap")
+		if ap != null:
+			# the clip speed follows the creep speed, and stops when it is held
+			(ap as AnimationPlayer).speed_scale = 0.0 if speed <= 0.01 and t == 0.0 else clampf(speed * 0.55, 0.5, 2.4) * float(root.get_meta("anim_factor"))
+		return
 	var model: Node3D = root.get_node("model")
 	var phase := t * (5.0 + speed * 2.2) + stagger
 	for l in root.get_meta("legs"):

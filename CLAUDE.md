@@ -74,7 +74,7 @@ python3 -I tools/gen_map.py && python3 -I tools/gen_design_doc.py # kaart en ont
 
 - Godot-web start alleen in een **secure context**: via `tailscale serve --https=8443 http://127.0.0.1:8060` (poort 443 en 10000 zijn door andere services bezet, niet overschrijven)
 - Gebruik in GDScript `preload("res://...")` in plaats van `class_name`. Enige uitzondering is `UiKit` (`client/ui_kit.gd`), omdat de inner classes het nodig hebben. Draai na het toevoegen van een `class_name` eenmalig `godot --headless --path game --import`
-- **Assets:** alleen CC0/CC-BY, elk bestand in `game/CREDITS.md`. De torenonderdelen komen uit `game/assets/kenney_td` (Kenney, CC0). Monsters en UI-iconen zijn in code getekend (`client/models.gd`, `client/ui_kit.gd`). Bekijk modellen met `tests/model_gallery.gd`
+- **Assets:** alleen CC0/CC-BY, elk bestand in `game/CREDITS.md`. De modelbibliotheek van het zusterproject `WDungeoN` (`../WDungeoN/assets/models`) mag hergebruikt worden (alleen lezen, niet wijzigen: daar werken andere chats), maar let op de licenties in `WDungeoN/assets/models/LICENSES` (wolf/beer/everzwijn, weerwolf/weerbeer en de Diablo-bazen zijn uitgesloten). KayKit-figuren verklein je met `tools/kaykit/slim.gd`. De torenonderdelen komen uit `game/assets/kenney_td` (Kenney, CC0). Monsters en UI-iconen zijn in code getekend (`client/models.gd`, `client/ui_kit.gd`). Bekijk modellen met `tests/model_gallery.gd`
 - Een UI-wijziging controleer je met `tests/screenshot_runner.gd` (echt venster, optioneel `phone` voor 844x390 met touch-UI)
 
 ## Volgende stap

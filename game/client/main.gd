@@ -240,6 +240,9 @@ func _pan_with_keys(delta: float) -> void:
 
 
 func _handle_events() -> void:
+	var kill_gold := 0
+	var kill_pos := Vector2.ZERO
+	var kills := 0
 	for e in sim.events:
 		match e.type:
 			"wave":
@@ -251,7 +254,10 @@ func _handle_events() -> void:
 				elif creep.air:
 					hud.toast(i18n.t("msg.air_wave"), Color("ffe45a"), 3.6)
 			"kill":
-				overlay.add_text(e.pos, "+%d" % int(e.gold), UiKit.GOLD, 22 if e.boss else 18)
+				# one floating number per frame, not one per kill
+				kill_gold += int(e.gold)
+				kill_pos += e.pos
+				kills += 1
 				world.add_kill_burst(e.pos, e.boss)
 			"leak":
 				overlay.add_text(e.pos, "-1", Color("ff5d5d"), 26)
@@ -264,6 +270,8 @@ func _handle_events() -> void:
 				world.add_impact(e.pos, e.element, e.air)
 			"crit":
 				overlay.add_text(e.pos, "!", Color("ff9a3c"), 28)
+	if kills > 0:
+		overlay.add_text(kill_pos / float(kills), "+%d" % kill_gold, UiKit.GOLD, 18)
 	sim.events.clear()
 
 

@@ -11,11 +11,14 @@ const MIN_VIEW_W := 9.0        # closest zoom: tiles visible across the screen
 const MAX_VIEW_FRACTION := 0.5 # farthest zoom: at most this share of the map width is visible
 const DEFAULT_VIEW_W := 17.0
 
-# soft mottled snow: value noise on the world position modulates the terrain colours
-const SNOW_SHADER := "
+# The ground in the spirit of a frozen WC3 map: glossy teal ice with cracks on the paths, dark slate plates with a tile grid
+# where you may build, dark forest soil under the trees, a wooden dock at the ship. One texture holds the regions
+# (r = build plate, g = ice path, b = forest ground, a = marker: 0.5 spawn zone, 1.0 dock); linear filtering blends the edges.
+const TERRAIN_SHADER := "
 shader_type spatial;
-uniform sampler2D tex : source_color, filter_linear_mipmap;
+uniform sampler2D region : filter_linear;
 uniform vec2 map_size;
+uniform float build_glow = 0.0;
 float h(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float vnoise(vec2 p) {
 	vec2 i = floor(p);
@@ -23,13 +26,32 @@ float vnoise(vec2 p) {
 	f = f * f * (3.0 - 2.0 * f);
 	return mix(mix(h(i), h(i + vec2(1.0, 0.0)), f.x), mix(h(i + vec2(0.0, 1.0)), h(i + vec2(1.0, 1.0)), f.x), f.y);
 }
+float fbm(vec2 p) { return vnoise(p) * 0.5 + vnoise(p * 2.1) * 0.3 + vnoise(p * 4.7) * 0.2; }
 void fragment() {
-	vec3 c = texture(tex, UV).rgb;
+	vec4 r = texture(region, UV);
 	vec2 w = UV * map_size;
-	float n = vnoise(w * 0.55) * 0.55 + vnoise(w * 2.1) * 0.3 + vnoise(w * 7.0) * 0.15;
-	c *= 0.9 + n * 0.14;
-	ALBEDO = c;
-	ROUGHNESS = 1.0;
+	float n = fbm(w * 0.4);
+	float crack = 1.0 - smoothstep(0.0, 0.04, abs(vnoise(w * 0.85 + vec2(5.0, 2.0)) - 0.5));
+	crack += 0.6 * (1.0 - smoothstep(0.0, 0.03, abs(vnoise(w * 1.9 + vec2(1.0, 8.0)) - 0.5)));
+	vec3 ice = mix(vec3(0.05, 0.24, 0.34), vec3(0.13, 0.4, 0.5), n) + crack * vec3(0.05, 0.14, 0.16);
+	vec3 plate = mix(vec3(0.045, 0.085, 0.155), vec3(0.08, 0.135, 0.225), n);
+	vec2 g = abs(fract(w) - 0.5);
+	float tile_line = smoothstep(0.465, 0.5, max(g.x, g.y));
+	vec2 g2 = abs(fract(w * 2.0) - 0.5);
+	float cell_line = smoothstep(0.45, 0.5, max(g2.x, g2.y));
+	plate += vec3(0.06, 0.2, 0.4) * tile_line * 0.35;
+	plate += vec3(0.06, 0.24, 0.5) * cell_line * build_glow * 0.18;
+	plate += vec3(0.05, 0.14, 0.3) * build_glow * 0.15;
+	vec3 forest = mix(vec3(0.025, 0.06, 0.075), vec3(0.06, 0.12, 0.13), n);
+	float total = max(r.r + r.g + r.b, 0.001);
+	vec3 col = (plate * r.r + ice * r.g + forest * r.b) / total;
+	float spawn = smoothstep(0.2, 0.4, r.a) * (1.0 - smoothstep(0.6, 0.8, r.a));
+	float dock = smoothstep(0.75, 0.95, r.a);
+	col = mix(col, mix(vec3(0.16, 0.1, 0.28), vec3(0.3, 0.16, 0.5), n), spawn);
+	col = mix(col, vec3(0.38, 0.25, 0.14) * (0.75 + n * 0.5), dock);
+	ALBEDO = col;
+	ROUGHNESS = mix(0.8, 0.22, r.g * (1.0 - spawn));
+	SPECULAR = 0.6;
 }
 "
 
@@ -68,6 +90,8 @@ var _snow: CPUParticles3D
 var _element_colors := {}
 var _lifted_id := 0
 var _tower_height := {}
+var _terrain_mat: ShaderMaterial
+var _sun: DirectionalLight3D
 var _wall_ghosts: Array = []
 
 
@@ -209,19 +233,28 @@ func _dist_to_segment(p: Vector2, a: Vector2, b: Vector2) -> float:
 func _build_environment() -> void:
 	var env := Environment.new()
 	env.background_mode = Environment.BG_COLOR
-	env.background_color = Color("0b1422")
+	env.background_color = Color("050a14")
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color("a9bfe0")
-	env.ambient_light_energy = 0.8
+	env.ambient_light_color = Color("6f8fc0")
+	env.ambient_light_energy = 0.62
+	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	env.glow_enabled = true
+	env.glow_intensity = 0.45
+	env.glow_bloom = 0.08
+	env.glow_hdr_threshold = 1.25
 	var we := WorldEnvironment.new()
 	we.environment = env
 	add_child(we)
-	var sun := DirectionalLight3D.new()
-	sun.rotation = Vector3(-0.95, -0.7, 0.0)
-	sun.light_color = Color("fff1dc")
-	sun.light_energy = 0.9
-	sun.shadow_enabled = false
-	add_child(sun)
+	_sun = DirectionalLight3D.new()
+	_sun.rotation = Vector3(-1.0, -0.8, 0.0)
+	_sun.light_color = Color("c4d8ff")
+	_sun.light_energy = 1.15
+	_sun.shadow_enabled = true
+	_sun.shadow_bias = 0.04
+	_sun.shadow_opacity = 0.5
+	_sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL
+	_sun.directional_shadow_max_distance = 36.0
+	add_child(_sun)
 	cam = Camera3D.new()
 	cam.projection = Camera3D.PROJECTION_ORTHOGONAL
 	cam.near = 0.1
@@ -229,37 +262,39 @@ func _build_environment() -> void:
 	add_child(cam)
 
 
+func set_shadows(on: bool) -> void:
+	if _sun != null:
+		_sun.shadow_enabled = on
+
+
 func _build_terrain() -> void:
 	var w: int = sim.grid.w
 	var h: int = sim.grid.h
-	var img := Image.create(w * CELL_PX, h * CELL_PX, false, Image.FORMAT_RGBA8)
-	var rng := RandomNumberGenerator.new()
-	rng.seed = 7
+	var img := Image.create(w, h, false, Image.FORMAT_RGBA8)
 	var g: Array = data.map.goal.rect
 	for y in h:
 		var row: String = data.map.rows[y]
 		for x in w:
 			var c := row[x]
-			var col: Color
+			var px := Color(0, 0, 0, 0)
 			if c == "#":
-				col = Color("2d4a4a")
+				px = Color(0, 0, 1, 0)
 			elif c == ",":
-				col = Color("c4d3e2")
+				px = Color(0, 1, 0, 0)
 				if x <= 7:
-					col = Color("b8aed6")
+					px.a = 0.5
 				elif x >= int(g[0]) - 2:
-					col = Color("a98e6a")
+					px.a = 1.0
 			else:
-				col = Color("edf4fb")
-			col = col.darkened(rng.randf_range(0.0, 0.012))
-			img.fill_rect(Rect2i(x * CELL_PX, y * CELL_PX, CELL_PX, CELL_PX), col)
-	var tex := ImageTexture.create_from_image(img)
+				px = Color(1, 0, 0, 0)
+			img.set_pixel(x, y, px)
 	var m := ShaderMaterial.new()
 	var sh := Shader.new()
-	sh.code = SNOW_SHADER
+	sh.code = TERRAIN_SHADER
 	m.shader = sh
-	m.set_shader_parameter("tex", tex)
+	m.set_shader_parameter("region", ImageTexture.create_from_image(img))
 	m.set_shader_parameter("map_size", map_tiles)
+	_terrain_mat = m
 	var plane := PlaneMesh.new()
 	plane.size = map_tiles
 	var mi := MeshInstance3D.new()
@@ -267,12 +302,12 @@ func _build_terrain() -> void:
 	mi.material_override = m
 	mi.position = Vector3(map_tiles.x * 0.5, 0.0, map_tiles.y * 0.5)
 	add_child(mi)
-	# dark ground around the map so the camera never sees the void
+	# the dark void around the map, like the black edge of the original
 	var outer := PlaneMesh.new()
 	outer.size = map_tiles * 3.0
 	var om := MeshInstance3D.new()
 	om.mesh = outer
-	om.material_override = Models.mat(Color("233a3c"))
+	om.material_override = Models.mat(Color("070d18"))
 	om.position = Vector3(map_tiles.x * 0.5, -0.02, map_tiles.y * 0.5)
 	add_child(om)
 
@@ -309,9 +344,9 @@ func _build_forest() -> void:
 				continue
 			var pos := Vector3((float(x) + rng.randf()) * cs, 0.0, (float(y) + rng.randf()) * cs)
 			var roll := rng.randf()
-			if near == 1 and roll < 0.7:
+			if near == 1 and roll < 0.85:
 				banks.append(Vector3((float(x) + 0.5) * cs, 0.0, (float(y) + 0.5) * cs))
-			if roll < 0.55:
+			if roll < 0.42:
 				kinds["snow-detail-tree-large" if roll < 0.3 else "snow-detail-tree"].append(pos)
 			elif roll < 0.62:
 				kinds["snow-detail-rocks"].append(pos)
@@ -322,9 +357,16 @@ func _build_forest() -> void:
 		if list.is_empty():
 			continue
 		var src := _first_mesh(Models.inst(name))
+		var forest_mesh: Mesh = src.mesh.duplicate()
+		for si in forest_mesh.get_surface_count():
+			var fm = forest_mesh.surface_get_material(si)
+			if fm is BaseMaterial3D:
+				var fd: BaseMaterial3D = fm.duplicate()
+				fd.albedo_color = Color("56697c")
+				forest_mesh.surface_set_material(si, fd)
 		var mm := MultiMesh.new()
 		mm.transform_format = MultiMesh.TRANSFORM_3D
-		mm.mesh = src.mesh
+		mm.mesh = forest_mesh
 		mm.instance_count = list.size()
 		var base_scale := 1.9 if name.contains("tree") else 1.5
 		for i in list.size():
@@ -334,18 +376,29 @@ func _build_forest() -> void:
 		var inst := MultiMeshInstance3D.new()
 		inst.multimesh = mm
 		add_child(inst)
-	# snow banks along the edge of the playable area
+	# jagged ice cliffs along the edge of the playable area
 	if not banks.is_empty():
 		var mm2 := MultiMesh.new()
 		mm2.transform_format = MultiMesh.TRANSFORM_3D
-		mm2.mesh = Models.box(Vector3(cs * 1.1, 1.0, cs * 1.1))
+		mm2.mesh = Models.box(Vector3(1.0, 1.0, 1.0))
 		mm2.instance_count = banks.size()
 		for i in banks.size():
-			var hh := rng.randf_range(0.12, 0.3)
-			mm2.set_instance_transform(i, Transform3D(Basis.from_scale(Vector3(1, hh, 1)), banks[i] + Vector3(0, hh * 0.5, 0)))
+			var hh := rng.randf_range(0.25, 0.7)
+			var sx := cs * rng.randf_range(0.9, 1.4)
+			var sz := cs * rng.randf_range(0.9, 1.4)
+			var basis := Basis.from_euler(Vector3(rng.randf_range(-0.18, 0.18), rng.randf() * TAU, rng.randf_range(-0.18, 0.18)))
+			basis = basis.scaled(Vector3(sx, hh, sz))
+			mm2.set_instance_transform(i, Transform3D(basis, banks[i] + Vector3(0, hh * 0.45, 0)))
 		var bi := MultiMeshInstance3D.new()
 		bi.multimesh = mm2
-		bi.material_override = Models.mat(Color("f4f9ff"))
+		var ice := StandardMaterial3D.new()
+		ice.albedo_color = Color("3d8aa6")
+		ice.roughness = 0.25
+		ice.metallic_specular = 0.8
+		ice.emission_enabled = true
+		ice.emission = Color("2f8fb0")
+		ice.emission_energy_multiplier = 0.12
+		bi.material_override = ice
 		add_child(bi)
 
 
@@ -455,12 +508,12 @@ func _build_pools() -> void:
 		p.initial_velocity_max = 2.6
 		p.gravity = Vector3(0, -7.0, 0)
 		var sm := SphereMesh.new()
-		sm.radius = 0.05
-		sm.height = 0.1
+		sm.radius = 0.035
+		sm.height = 0.07
 		sm.radial_segments = 4
 		sm.rings = 2
 		p.mesh = sm
-		p.material_override = Models.mat(Color("ffd45e"), 1.6)
+		p.material_override = Models.mat(Color("ffd45e"), 0.9)
 		add_child(p)
 		_puff_pool.append(p)
 
@@ -478,11 +531,11 @@ func _build_snow() -> void:
 	_snow.initial_velocity_max = 1.8
 	_snow.gravity = Vector3.ZERO
 	var q := QuadMesh.new()
-	q.size = Vector2(0.07, 0.07)
+	q.size = Vector2(0.045, 0.045)
 	_snow.mesh = q
 	var m := StandardMaterial3D.new()
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	m.albedo_color = Color(1, 1, 1, 0.85)
+	m.albedo_color = Color(1, 1, 1, 0.6)
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
 	_snow.material_override = m
@@ -493,9 +546,7 @@ func _build_snow() -> void:
 
 func set_build_mode(on: bool) -> void:
 	_build_mode = on
-	_grid_mesh.visible = on
-	if on:
-		_refresh_grid()
+	_terrain_mat.set_shader_parameter("build_glow", 1.0 if on else 0.0)
 	_path_mat.albedo_color = Color(1, 1, 1, 1.0 if on else 0.55)
 
 
@@ -565,7 +616,7 @@ func show_range(world_pos: Vector3, radius: float, ok: bool = true) -> void:
 	cyl.top_radius = r
 	cyl.bottom_radius = r
 	_range_disc.position = Vector3(world_pos.x, 0.035, world_pos.z)
-	_range_disc.material_override = Models.mat(Color("4fb8ff") if ok else Color("ff7070"), 0.6, 0.13)
+	_range_disc.material_override = Models.mat(Color("4fb8ff") if ok else Color("ff7070"), 0.0, 0.09)
 	_range_disc.visible = true
 
 
@@ -595,8 +646,6 @@ func update_view(alpha: float, delta: float) -> void:
 	if _path_rev != sim.grid_revision:
 		_path_rev = sim.grid_revision
 		_rebuild_paths()
-	if _build_mode and _grid_rev != sim.grid_revision:
-		_refresh_grid()
 	_path_mat.uv1_offset.x -= delta * 1.2
 
 

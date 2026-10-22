@@ -1,0 +1,5 @@
+Everything Library - ANIMALS 0.2 (21/06/2020), (c) David OReilly, http://davidoreilly.com/library
+Licence: Creative Commons Attribution 4.0 International for the creative work (the models), MIT for the software. Credit is shown in the game's Credits window (title menu).
+Used in assets/models/creatures: rat, panther (Cheetah), bull (Bison), rhino, ape and yeti (Gorilla), frog (Toad), lizard (Komodo Dragon), spider (Tarantula), beetle (Stag Beetle),
+maggot (Caterpillar), crow, hawk (Falcon), vulture and mosquito. The meshes and their vertex colours are the library's; the rig, the animations and the baked surface are ours (tools/make_library.py).
+The library file itself (a .blend) is not in the project.

@@ -104,5 +104,6 @@
  "msg.nothing_placed": "Geen enkele plek was geldig",
  "hud.level_short": "Level {0}/{1}",
  "hud.starts_in": "start over {0} s",
- "msg.air_wave": "Vliegers! Ze negeren je maze en vliegen over torens heen. Alleen torens die lucht raken kunnen ze neerhalen"
+ "msg.air_wave": "Vliegers! Ze negeren je maze en vliegen over torens heen. Alleen torens die lucht raken kunnen ze neerhalen",
+ "app.credits": "3D-modellen: KayKit en Kenney (CC0), dieren van de Everything Library door David OReilly (CC BY 4.0)"
 }

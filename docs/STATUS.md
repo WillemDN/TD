@@ -86,6 +86,14 @@ Uitgelezen op 2026-10-22.
 - Plan en architectuur → `docs/PLAN.md`, Mac-setup → `docs/SETUP-MAC.md`, context voor Claude Code → `CLAUDE.md`
 - Extractiescripts → `tools/w3x-extract/`
 
+### 2026-10-22: nieuwe visuele stijl (versie 3, naar het echte Wintermaul)
+- Referentie bekeken (minimaps en schermafbeeldingen van Wintermaul-varianten, `docs/research/wc3-visual-reference.md`): donkere void, geglazuurd turkoois ijs, donkere bouwplaten met tegelraster, ijskliffen, gedetailleerde modellen
+- **Omgeving:** terrein-shader (ijs met barsten, leisteenplaten met raster, houten dok), gekantelde ijsblokken, donkere bomen, koude belichting met tonemapping, gloed en schaduwen (schaduwen uit op touch)
+- **Torens:** KayKit Medieval Hexagon (CC0), 4 kleurvarianten, ander model per tier, tint en accent per element, omlijning, bouwfases
+- **Monsters:** echte, geanimeerde modellen: KayKit-figuren en dieren van de Everything Library (CC BY 4.0, vermeld in het titelmenu), hergebruikt uit het project WDungeoN (daar is niets gewijzigd). Namen van de vliegers en een paar andere monsters zijn aangepast aan hun nieuwe model (bijv. "IJsvleermuis", "IJsbizon")
+- **Bewust niet overgenomen uit WDungeoN:** wolf/beer/everzwijn (CraftPix-licentie onbevestigd), weerwolf/weerbeer (Meshy/Hunyuan3D) en de Diablo-bazen
+- Webbuild blijft klein genoeg voor mobiel (pck ca. 8,7 MB, was 1 MB; texturen verkleind en genormaliseerd)
+
 ### 2026-10-22: bugfix torens blokkeerden niet meer
 - **Oorzaak:** met te weinig goud controleerde `can_place` de bouwplek niet eerst, waarna de client het pad-voorbeeld uitrekende. Die berekening zette tijdelijk een toren neer en haalde hem daarna weer weg, ook als er al een toren stond. Zweven met een ghost over een bestaande toren wiste zo zijn blokkade: monsters liepen erdoorheen en je kon eroverheen bouwen
 - **Fix:** controleren van de plek gaat vóór de prijs, en proberen laat het grid altijd precies zoals het was (`_save_footprint`/`_restore_footprint`). Regressietest `test_probing_never_damages_the_grid` (faalt op de oude code)

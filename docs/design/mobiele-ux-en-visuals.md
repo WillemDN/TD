@@ -36,12 +36,15 @@ Een logisch scherm van ongeveer 440 px hoog (de UI schaalt dus mee naar de echte
 - **Links:** het infopaneel met de knoppen Verplaats en Verkoop (groot, 50 px)
 - Alle iconen zijn vectoren die in code getekend worden (`client/ui_kit.gd`), dus scherp op elk scherm en zonder assetbestanden
 
-## Visuele stijl
+## Visuele stijl (versie 3: donker en ijzig, naar het voorbeeld van het echte spel)
 
-- Laag-poly 3D, wintertema, zachte kleuren. **Torens** zijn samengesteld uit de CC0-onderdelen van de Kenney Tower Defense Kit (rond/vierkant, onderstuk, middenstuk, top, wapen). Het element bepaalt het wapen, de kleurvariant en een gloeiend accent (vlam, ijskristallen, bol, rotsen, druppel, bladeren, kristallen). Hoger tier = meer lagen, maar de stapel is laag gehouden (hoogste toren ca. 1,4 tegel) en onder elke toren ligt een vlak met de echte bouwvoetafdruk van één tegel. De **bouwfases** van de kit tonen de opbouw. Het wapen draait naar zijn doel
-- **Monsters** zijn zelf gebouwd uit primitieven (`client/models.gd`), 11 archetypes (imp, humanoïde, bruut, beest, ruiter, hagedis, golem, geest, slee, machine, yeti) en een draak voor de luchtlevels, met looptekening, vleugelslag en zweven. Bazen zijn groter en gekroond. Onder elk monster staat een gekleurde ring voor het **pantsertype** (groen licht, geel middel, oranje zwaar, blauw versterkt, wit goddelijk). Die wordt blauw bij vertragen, groen bij gif en wit bij vastgehouden
-- **Omgeving:** sneeuwveld, sneeuwbos met bomen, rotsen en kristallen (Kenney), sneeuwbanken langs de rand, een zeilschip als doel, sneeuwval, zachte blob-schaduwen
-- **Effecten:** inslagringen per element, bliksemlijnen, gouddeeltjes bij een kill, vlotte routelijnen (lopende streepjes) die oplichten tijdens het bouwen, een rasteroverlay en het bereikscherm
+Zie [`../research/wc3-visual-reference.md`](../research/wc3-visual-reference.md) voor de referentie.
+
+- **Sfeer:** bijna zwarte marineblauwe void, koude belichting met tonemapping, zachte gloed en dynamische schaduwen (uit op touch). **Terrein-shader:** glanzend turkoois ijs met barsten op de paden, donkere leisteenplaten met een tegelraster waar je bouwt (het fijnere celraster licht op tijdens het bouwen), donkere bosgrond, een houten dok bij het schip
+- **Torens:** KayKit Medieval Hexagon (CC0), vier kleurvarianten en een ander model per tier (basis, A, B, catapult). Elk element heeft een eigen tint en een gloeiend accent bovenop. Zwarte omlijning, bouwfases en een voetafdrukvlak van één tegel
+- **Monsters:** echte modellen met animatie: KayKit-figuren (skeletten, ridders, barbaren, magiërs) en dieren van de Everything Library (rat, panter, bizon, neushoorn, gorilla/yeti, hagedis, spin, kever, vleermuis, gier, havik, kraai, wisp) en een golem. Kleurtint en schaal per monster, de looptekening volgt de snelheid. Onder elk monster staat een gekleurde ring voor het **pantsertype**; die wordt blauw bij vertragen, groen bij gif en wit bij vastgehouden
+- **Omgeving:** gekantelde ijsblokken langs de rand, donkere sneeuwbomen, rotsen en kristallen (Kenney), een schip als doel, sneeuwval
+- **Effecten:** inslagringen per element, bliksemlijnen, gouddeeltjes bij een kill (één getal per beeld), lopende routelijnen die oplichten tijdens het bouwen en het bereikscherm
 
 ## Prestaties
 

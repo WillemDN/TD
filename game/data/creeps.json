@@ -79,8 +79,8 @@
   "frost_whelp": {
    "id": "frost_whelp",
    "name": {
-    "nl": "IJswelp",
-    "en": "Frost Whelp"
+    "nl": "IJsvleermuis",
+    "en": "Frost Bat"
    },
    "hp": 135,
    "armor": 1,
@@ -117,8 +117,8 @@
   "rime_runner": {
    "id": "rime_runner",
    "name": {
-    "nl": "Rijmloper",
-    "en": "Rime Runner"
+    "nl": "Rijmspin",
+    "en": "Rime Spider"
    },
    "hp": 260,
    "armor": 4,
@@ -193,8 +193,8 @@
   "ice_skiff": {
    "id": "ice_skiff",
    "name": {
-    "nl": "IJsglijder",
-    "en": "Ice Skiff"
+    "nl": "IJsbizon",
+    "en": "Ice Bison"
    },
    "hp": 375,
    "armor": 7,
@@ -250,8 +250,8 @@
   "shadow_imp": {
    "id": "shadow_imp",
    "name": {
-    "nl": "Schaduwduiveltje",
-    "en": "Shadow Imp"
+    "nl": "Schaduwkever",
+    "en": "Shadow Beetle"
    },
    "hp": 875,
    "armor": 10,
@@ -269,8 +269,8 @@
   "frost_drake": {
    "id": "frost_drake",
    "name": {
-    "nl": "IJsdraak",
-    "en": "Frost Drake"
+    "nl": "IJsvalk",
+    "en": "Ice Hawk"
    },
    "hp": 675,
    "armor": 12,
@@ -326,8 +326,8 @@
   "siege_sled": {
    "id": "siege_sled",
    "name": {
-    "nl": "Belegeringsslee",
-    "en": "Siege Sled"
+    "nl": "Belegeringsneushoorn",
+    "en": "Siege Rhino"
    },
    "hp": 1300,
    "armor": 10,
@@ -459,8 +459,8 @@
   "blizzard_dragon": {
    "id": "blizzard_dragon",
    "name": {
-    "nl": "Sneeuwstormdraak",
-    "en": "Blizzard Dragon"
+    "nl": "Sneeuwstormgier",
+    "en": "Blizzard Vulture"
    },
    "hp": 2250,
    "armor": 20,
@@ -478,8 +478,8 @@
   "dire_bear": {
    "id": "dire_bear",
    "name": {
-    "nl": "Schrikbeer",
-    "en": "Dire Bear"
+    "nl": "Schrikyeti",
+    "en": "Dire Yeti"
    },
    "hp": 3400,
    "armor": 18,
@@ -535,8 +535,8 @@
   "elder_wyrm": {
    "id": "elder_wyrm",
    "name": {
-    "nl": "Oerdraak",
-    "en": "Elder Wyrm"
+    "nl": "Oerkraai",
+    "en": "Elder Crow"
    },
    "hp": 3750,
    "armor": 19,
