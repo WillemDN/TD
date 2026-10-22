@@ -3,7 +3,9 @@
 > Werktitel: **Frostgate TD**, een moderne mobiele tower defense in de geest van *Wintermaul* (Warcraft III).
 > Multiplayer via een eigen server op de MacBook, bereikbaar via **Tailscale**.
 >
-> Versie 0.1, 22 oktober 2026. Dit is een levend document: keuzes die nog open staan, zijn gemarkeerd met **❓** en verzameld in §11.
+> Versie 0.2, 22 oktober 2026. Dit is een levend document: keuzes die nog open staan, zijn gemarkeerd met **❓** en verzameld in §11.
+>
+> **Beslist (22-10-2026):** platform **alleen Android** · **1–4 spelers co-op** · modi **Klassiek + Modern** · stijl **3D low-poly isometrisch**.
 
 Bijhorende documenten:
 
@@ -39,16 +41,17 @@ Bijhorende documenten:
 | Netwerkmodel | **Server-authoritative**: de Mac simuleert, telefoons sturen alleen commando's | Geen valsspelen of desyncs. Telefoons die even wegvallen kunnen opnieuw verbinden |
 | Transport | ENet (UDP) via Godot, met WebSocket als fallback | Lage latency over Tailscale (WireGuard/UDP). WebSocket is nodig als we ooit Tailscale Funnel of een web-client willen |
 | Netwerk | **Tailscale**: server op de MacBook, spelers in je tailnet of via *node sharing* | Geen port forwarding, end-to-end versleuteld en gratis voor persoonlijk gebruik |
-| Stijl | **3D low-poly, isometrische camera** (alternatief: 2D top-down) | Gratis CC0-assets van Kenney, Quaternius en KayKit passen perfect en draaien licht op gsm's |
-| Inhoud v1 | Wintermaul v13-ruleset: 9 elementen, ±46 torens + ultieme toren, 30 waves + 5 bonus, 4 moeilijkheden | Volledig gedocumenteerd vanuit de originele map |
-| Spelers | 1–4 co-op (origineel 9) | Leesbaar op een klein scherm. Uitbreidbaar ❓ |
+| Stijl | **3D low-poly, isometrische camera** ✅ beslist | Gratis CC0-assets van Kenney, Quaternius en KayKit passen perfect en draaien licht op gsm's |
+| Inhoud v1 | Modi **Klassiek** (exact v13) + **Modern** (upgrade-bomen, QoL) ✅ beslist. Wintermaul v13-ruleset: 9 elementen, ±46 torens + ultieme toren, 30 waves + 5 bonus, 4 moeilijkheden | Volledig gedocumenteerd vanuit de originele map |
+| Platform | **Android** ✅ beslist | Geen Apple-kosten of provisioning. APK delen of Play "internal testing". iOS kan later met dezelfde Godot-code |
+| Spelers | **1–4 co-op** ✅ beslist (origineel 9) | Leesbaar op een klein scherm, eigen lane per speler |
 | Later | Varianten als *data packs*: Wintermaul Wars (PvP/sends), endless, eigen maps | De architectuur is data-gedreven vanaf dag 1 |
 
 ```mermaid
 flowchart LR
   subgraph Telefoons
-    A[iPhone / Android<br/>Godot-client + Tailscale-app]
-    B[Telefoon vriend<br/>Godot-client + Tailscale-app]
+    A[Android-telefoon<br/>Godot-client + Tailscale-app]
+    B[Android-telefoon vriend<br/>Godot-client + Tailscale-app]
   end
   subgraph Mac["MacBook (macOS)"]
     S[Headless Godot gameserver<br/>lobby + rooms + simulatie]
@@ -141,14 +144,14 @@ release laten we het nakijken.
 | | **Godot 4.x** ✅ | Unity 6 | Web (Three.js/Phaser + PWA) |
 |---|---|---|---|
 | Kosten/licentie | Gratis, MIT | Gratis tot een omzetgrens, licentievoorwaarden wisselen | Gratis |
-| iOS + Android | Ja (iOS-export vereist Xcode op de Mac) | Ja | Via de browser, geen store nodig |
+| Android (en later iOS) | Ja, APK/AAB-export vanaf de Mac | Ja | Via de browser, geen store nodig |
 | Zelfde code als server | **Ja**, headless/dedicated-server export | Ja (Netcode/Mirror), zwaarder | Ja (Node), maar de client is minder performant |
 | Gewicht/build-tijd | Licht (~40 MB editor) | Zwaar (GB's) | Licht |
 | Geschikt om met Claude te bouwen | **Zeer**: alles is tekst (`.gd`, `.tscn`, `.tres`), CLI-builds en headless tests | Matig: veel binaire en GUI-gebonden setup | Zeer |
 | 3D op gsm | Goed (Mobile/Compatibility-renderer) | Zeer goed | Matig tot goed |
 
 **Aanbeveling: Godot 4** (de laatste stabiele versie op het moment van installeren, in 2026 de 4.6/4.7-reeks).
-Programmeertaal **GDScript**: de C#-export naar iOS en Android is minder volwassen en GDScript is in Godot het best ondersteund. ❓
+Programmeertaal **GDScript**: de C#-export naar mobiel is minder volwassen en GDScript is in Godot het best ondersteund. ❓
 
 ### 4.2 Netwerkmodel
 
@@ -162,8 +165,8 @@ Programmeertaal **GDScript**: de C#-export naar iOS en Android is minder volwass
 
 Bandbreedte: 120 creeps × ~8 bytes × 20 Hz ≈ 19 KB/s per speler. Dat is ruim haalbaar over 4G en Tailscale.
 
-Waarom geen **lockstep** (zoals WC3 zelf)? Lockstep vraagt bit-exacte determinisme over iOS (ARM) en
-Android (diverse CPU's) en een vastloper bij één trage speler. Dat is te fragiel voor mobiel.
+Waarom geen **lockstep** (zoals WC3 zelf)? Lockstep vraagt bit-exacte determinisme over
+Android-toestellen met diverse CPU's en een vastloper bij één trage speler. Dat is te fragiel voor mobiel.
 
 ### 4.3 Repository-structuur (voorstel)
 
@@ -262,8 +265,8 @@ waar mogelijk) met de Mac. Er is geen port forwarding of publiek IP nodig.
 | **B. Node sharing** ✅ | Alleen de **Mac** delen via een invite-link (herbruikbaar). De vriend heeft een eigen gratis Tailscale-account | De vriend ziet enkel de Mac, die in quarantaine staat. Je andere toestellen blijven onzichtbaar | De vriend moet een Tailscale-account aanmaken |
 
 **Aanbeveling:** jijzelf en je eigen toestellen zitten in je tailnet, vrienden krijgen de Mac via **node sharing**.
-Elke speler moet de Tailscale-app (iOS/Android) installeren en aanzetten. Let op: op iOS kan maar
-**één VPN tegelijk** actief zijn.
+Elke speler moet de Tailscale-app voor Android installeren en aanzetten. Let op: Android laat maar
+**één VPN tegelijk** toe ("Always-on VPN" van een andere app moet uit).
 
 ### 5.3 Toegangsbeleid (ACL/grants), conceptversie
 
@@ -396,8 +399,8 @@ Inschatting: "sessies" van ±2–4 uur samenwerken met Claude op de Mac. De door
 - [ ] Open vragen in §11 beantwoorden
 - [ ] Software op de Mac installeren (§10). Claude Code met toegang tot deze repo
 - [ ] Tailscale-account, Mac in het tailnet, MagicDNS aan
-- [ ] Apple Developer-account (voor TestFlight/iOS) en/of Android-toestel in ontwikkelaarsmodus
-- **Klaar als:** `godot --version`, `xcodebuild -version` en `tailscale status` werken op de Mac en de repo is gecloned
+- [ ] Android-toestel in ontwikkelaarsmodus (USB-debugging, of draadloos debuggen via `adb pair`)
+- **Klaar als:** `godot --version`, `adb devices` (telefoon zichtbaar) en `tailscale status` werken op de Mac en de repo is gecloned
 
 ### Fase 1: Data en design (1–2 sessies)
 - [ ] `tools/w3x-extract` → `tools/import_wintermaul.py`: zet v13-data om naar ons JSON-schema (§4.5), inclusief eenheden-omrekening
@@ -415,7 +418,7 @@ Inschatting: "sessies" van ±2–4 uur samenwerken met Claude op de Mac. De door
 ### Fase 3: Singleplayer-client op de telefoon (3–5 sessies)
 - [ ] Greybox-visuals (blokken en kleuren), camera, touch-input, bouw-UX met pad-preview en drag-to-wall
 - [ ] HUD: goud, hout, levens, wave-timer, element-balk, torenpaneel
-- [ ] Export naar je eigen iPhone (Xcode, gratis provisioning) en/of Android (APK)
+- [ ] Export naar je Android-telefoon (debug-APK via `adb install`, later een eigen release-keystore)
 - **Klaar als:** jij een volledige solo-game speelt op je telefoon en de bouw-UX "goed voelt"
 
 ### Fase 4: Multiplayer (3–4 sessies)
@@ -444,8 +447,8 @@ Inschatting: "sessies" van ±2–4 uur samenwerken met Claude op de Mac. De door
 - **Klaar als:** elk element solo Normal kan uitspelen met een goede maze en Perfection zeldzaam haalbaar is
 
 ### Fase 8: Distributie naar vrienden (1–2 sessies)
-- [ ] iOS: **TestFlight** (Apple Developer Program, $99/jaar). Zonder betaald account: zelf installeren via Xcode, 7 dagen geldig
-- [ ] Android: APK delen, of Play Console "internal testing" (eenmalig $25)
+- [ ] Android: een getekende release-APK delen (link of QR, "installeren uit onbekende bronnen" toestaan), **of** Play Console "internal testing" (eenmalig $25) voor automatische updates ❓
+- [ ] In-app update-check: de server meldt de nieuwste APK-versie en de download-link
 - [ ] In-app "server-adres" + QR-code om snel te verbinden
 - **Klaar als:** een vriend de app installeert, Tailscale-share accepteert en joint, zonder jouw hulp
 
@@ -470,17 +473,16 @@ Voor de fase waarin je mij via de Mac toegang geeft:
 | Git + GitHub-toegang | Repo, branches, PR's | `brew install git gh` |
 | **Claude Code** (CLI) | Mij laten bouwen, testen en exporteren op de Mac | <https://claude.com/claude-code> |
 | **Godot 4.x** + export templates | Engine, editor, headless server en exports | <https://godotengine.org/download/macos/> of `brew install --cask godot` |
-| **Xcode** + Command Line Tools | iOS-builds en signing | Mac App Store, daarna `xcode-select --install` |
+| Xcode Command Line Tools | Git/compilers (iOS-builds zijn niet nodig) | `xcode-select --install` |
 | Android Studio (SDK, platform-tools) + JDK 17 | Android-builds, `adb` | <https://developer.android.com/studio>, `brew install openjdk@17` |
 | **Tailscale** (macOS) | Netwerk | <https://tailscale.com/download/mac> |
 | Blender | Assets aanpassen, kitbashen, glTF-export | <https://www.blender.org/download/> |
 | Python 3 | Data-tools, balance-sims | `brew install python` |
 | (optioneel) Godot MCP-server | Laat Claude de Godot-editor besturen of scènes runnen | Te evalueren in fase 0 |
 
-**Accounts:** GitHub (repo `willemdn/td`), Tailscale (Personal), Apple ID + eventueel Apple Developer Program,
-eventueel Google Play Console.
+**Accounts:** GitHub (repo `willemdn/td`), Tailscale (Personal), eventueel Google Play Console.
 
-**Toestellen:** jouw telefoon(s) met developer mode (Android) of als ontwikkeltoestel gekoppeld in Xcode (iPhone).
+**Toestellen:** jouw Android-telefoon(s) met developer mode en USB-debugging (of draadloos debuggen).
 
 ---
 
@@ -490,18 +492,18 @@ Bij elke vraag staat mijn aanbeveling vetgedrukt.
 
 | # | Vraag | Opties | Aanbeveling |
 |---|---|---|---|
-| 1 | Welke platformen? | iOS / Android / beide | **Beide**, eerst je eigen toestel |
-| 2 | Heb je een Apple Developer-account ($99/j) of wil je dat? | Ja / nee (7-dagen-installs via Xcode) | **Ja zodra vrienden meespelen** (TestFlight) |
-| 3 | 2D of 3D? | 2D top-down / 3D low-poly isometrisch | **3D low-poly** |
+| 1 | ~~Welke platformen?~~ | | ✅ **Alleen Android** |
+| 2 | Android-distributie naar vrienden | APK-link/QR / Play internal testing ($25 eenmalig) | **APK-link** in het begin, Play later als updates lastig worden |
+| 3 | ~~2D of 3D?~~ | | ✅ **3D low-poly isometrisch** |
 | 4 | Engine | Godot / Unity / web | **Godot 4 + GDScript** |
-| 5 | Max. aantal spelers per match | 1–4 / 1–6 / 1–9 zoals origineel | **1–4** (later uitbreiden) |
-| 6 | Hoe trouw? | Exact v13 (losse torens) / modern (upgrade-bomen) / beide als modus | **Beide**: "Klassiek" + "Modern" |
+| 5 | ~~Max. aantal spelers per match~~ | | ✅ **1–4 co-op** |
+| 6 | ~~Hoe trouw?~~ | | ✅ **Klassiek + Modern** als twee modi |
 | 7 | Wie speelt mee en hoe? | Alleen jijzelf + gezin (users) / vrienden via node sharing / publiek | **Node sharing** voor vrienden |
 | 8 | Taal van het spel | NL / EN / beide | **NL + EN** (i18n vanaf het begin) |
 | 9 | Werktitel en thema | "Frostgate TD" / ander voorstel | Jij kiest |
 | 10 | Commercieel ooit? | Nee (privé) / misschien later | Beïnvloedt Tailscale-plan, hosting en licenties |
 | 11 | MacBook-gebruik | Altijd aan op netstroom / alleen als je speelt | Bepaalt launchd- en slaapstand-setup |
-| 12 | Welk Mac-model en welke macOS-versie? | Apple Silicon / Intel | Nodig voor de Godot-, Xcode- en Android-installatie |
+| 12 | Welk Mac-model en welke macOS-versie? | Apple Silicon / Intel | Nodig voor de Godot- en Android SDK-installatie |
 | 13 | Accounts en profielen | Alleen naam / account + stats + leaderboards | **Naam + toestel-token** in v1, stats in SQLite |
 | 14 | Volgende variant na Klassiek | Wintermaul Wars / Endless / Element TD | **Wintermaul Wars** |
 
@@ -514,7 +516,7 @@ Bij elke vraag staat mijn aanbeveling vetgedrukt.
 | Bouw-UX voelt slecht op touch | Hoog | Fase 3 vroeg op een echt toestel. Pad-preview + drag-to-wall |
 | Mac slaapt, valt weg of updatet | Middel | launchd KeepAlive, slaap-instellingen, `/health`, reconnect in de client |
 | Tailscale-drempel voor vrienden | Middel | Node sharing-link + korte handleiding in de app. Later Funnel + WebSocket of een VPS |
-| iOS-distributie (provisioning) | Middel | TestFlight via Apple Developer |
+| Android-fragmentatie (oude/trage toestellen) | Middel | Mobile/Compatibility-renderer, kwaliteitsinstellingen, testen op het traagste toestel van de groep |
 | Performance bij 120+ creeps + projectielen | Middel | Flow fields, MultiMesh/instancing, pooled projectielen, LOD |
 | IP-problemen | Laag als we het plan volgen | Geen WC3-assets of -namen. Credits-bestand |
 | Scope creep (9 spelers, 49 races, ...) | Hoog | Fases strikt afwerken. Varianten pas na Klassiek |
