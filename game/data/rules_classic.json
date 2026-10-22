@@ -1,0 +1,60 @@
+{
+ "id": "classic",
+ "name": {
+  "nl": "Klassiek",
+  "en": "Classic"
+ },
+ "map": "frostline",
+ "tickRate": 20,
+ "startGold": 30,
+ "startLumber": 1,
+ "lumberAtLevel": {
+  "15": 1
+ },
+ "levelBonus": {
+  "base": 12,
+  "perLevel": 2
+ },
+ "firstWaveDelay": 60.0,
+ "waveDelay": 30.0,
+ "spawnRoundInterval": 0.35,
+ "spawnPoints": 6,
+ "playerScaleBase": 9,
+ "lastLevel": 35,
+ "difficulties": {
+  "easy": 40,
+  "normal": 20,
+  "hard": 10,
+  "perfection": 1
+ },
+ "defaultDifficulty": "normal",
+ "sellRefund": {
+  "idle": 1.0,
+  "wave": 0.75
+ },
+ "skipBonusPerSecond": 0.2,
+ "armorStep": 0.06,
+ "playerBoost": {
+  "_comment": "Provisional help for small teams: the original is balanced for 9 players building one big maze together. Multipliers on start gold, level bonus and kill bounty. To be tuned with the balance sims.",
+  "1": {
+   "startGold": 3.0,
+   "levelBonus": 1.5,
+   "bounty": 1.5
+  },
+  "2": {
+   "startGold": 2.0,
+   "levelBonus": 1.3,
+   "bounty": 1.3
+  },
+  "3": {
+   "startGold": 1.5,
+   "levelBonus": 1.15,
+   "bounty": 1.15
+  },
+  "4": {
+   "startGold": 1.25,
+   "levelBonus": 1.0,
+   "bounty": 1.0
+  }
+ }
+}

@@ -1,0 +1,249 @@
+{
+ "waves": [
+  {
+   "level": 1,
+   "creep": "snow_scout",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 2,
+   "creep": "frost_tinker",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 3,
+   "creep": "dusk_archer",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 4,
+   "creep": "tundra_brute",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 5,
+   "creep": "frost_whelp",
+   "countPerSpawn": 15,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 6,
+   "creep": "ice_stalker",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 7,
+   "creep": "rime_runner",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 8,
+   "creep": "glacier_troll",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 9,
+   "creep": "wolf_raider",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 10,
+   "creep": "frost_marshal",
+   "countPerSpawn": 1,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 11,
+   "creep": "ice_skiff",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 12,
+   "creep": "clockwork_brute",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 13,
+   "creep": "frost_lizard",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 14,
+   "creep": "shadow_imp",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 15,
+   "creep": "frost_drake",
+   "countPerSpawn": 15,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 16,
+   "creep": "shard_golem",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 17,
+   "creep": "winter_wisp",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 18,
+   "creep": "siege_sled",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 19,
+   "creep": "frozen_husk",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 20,
+   "creep": "glacier_lord",
+   "countPerSpawn": 1,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 21,
+   "creep": "totem_bearer",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 22,
+   "creep": "cursed_rider",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 23,
+   "creep": "prism_mage",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 24,
+   "creep": "frost_infernal",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 25,
+   "creep": "blizzard_dragon",
+   "countPerSpawn": 15,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 26,
+   "creep": "dire_bear",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 27,
+   "creep": "haunted_hunter",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 28,
+   "creep": "warlord",
+   "countPerSpawn": 20,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 29,
+   "creep": "elder_wyrm",
+   "countPerSpawn": 15,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 30,
+   "creep": "ice_king",
+   "countPerSpawn": 1,
+   "noLifeLoss": false,
+   "finalBoss": true
+  },
+  {
+   "level": 31,
+   "creep": "yeti_scout",
+   "countPerSpawn": 20,
+   "noLifeLoss": true,
+   "finalBoss": false
+  },
+  {
+   "level": 32,
+   "creep": "snow_golem",
+   "countPerSpawn": 20,
+   "noLifeLoss": true,
+   "finalBoss": false
+  },
+  {
+   "level": 33,
+   "creep": "ice_wraith",
+   "countPerSpawn": 20,
+   "noLifeLoss": true,
+   "finalBoss": false
+  },
+  {
+   "level": 34,
+   "creep": "frost_giant",
+   "countPerSpawn": 20,
+   "noLifeLoss": true,
+   "finalBoss": false
+  },
+  {
+   "level": 35,
+   "creep": "aurora_sprite",
+   "countPerSpawn": 50,
+   "noLifeLoss": true,
+   "finalBoss": false
+  }
+ ]
+}

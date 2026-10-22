@@ -1,0 +1,11 @@
+{
+ "_comment": "Damage multiplier per attack type (rows) against armor type (columns). Based on the WC3 attack/armor table, because the wave HP and armor were tuned against it; the names are our own (see i18n).",
+ "attackTypes": ["normal", "pierce", "siege", "chaos"],
+ "armorTypes": ["small", "medium", "large", "fort", "divine"],
+ "multipliers": {
+  "normal": {"small": 1.0, "medium": 1.5, "large": 1.0, "fort": 0.7, "divine": 0.1},
+  "pierce": {"small": 2.0, "medium": 0.75, "large": 1.0, "fort": 0.35, "divine": 0.1},
+  "siege":  {"small": 1.0, "medium": 0.5, "large": 1.0, "fort": 1.5, "divine": 0.1},
+  "chaos":  {"small": 1.0, "medium": 1.0, "large": 1.0, "fort": 1.0, "divine": 1.0}
+ }
+}

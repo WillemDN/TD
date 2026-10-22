@@ -1,0 +1,2011 @@
+{
+ "elements": [
+  {
+   "id": "fire",
+   "color": "#e8622c",
+   "name": {
+    "nl": "Vuur",
+    "en": "Fire"
+   },
+   "towers": [
+    "ember_post",
+    "cinder_spinner",
+    "comet_tower",
+    "magma_forge",
+    "inferno_spire"
+   ]
+  },
+  {
+   "id": "ice",
+   "color": "#6fd0ff",
+   "name": {
+    "nl": "IJs",
+    "en": "Ice"
+   },
+   "towers": [
+    "frost_shard",
+    "snow_cannon",
+    "blizzard_spire",
+    "glacier_sprayer",
+    "frost_nova_spire"
+   ]
+  },
+  {
+   "id": "tech",
+   "color": "#9aa7b4",
+   "name": {
+    "nl": "Techniek",
+    "en": "Tech"
+   },
+   "towers": [
+    "crossbow_post",
+    "marksman_nest",
+    "rocket_rack",
+    "pulse_cannon",
+    "warhead_silo"
+   ]
+  },
+  {
+   "id": "electric",
+   "color": "#f2e13c",
+   "name": {
+    "nl": "Bliksem",
+    "en": "Lightning"
+   },
+   "towers": [
+    "spark_post",
+    "storm_coil",
+    "arc_weaver",
+    "lightning_rod",
+    "dynamo"
+   ]
+  },
+  {
+   "id": "stone",
+   "color": "#a07a52",
+   "name": {
+    "nl": "Steen",
+    "en": "Stone"
+   },
+   "towers": [
+    "pebble_slinger",
+    "boulder_thrower",
+    "granite_ballista",
+    "rune_weaver",
+    "petrifier"
+   ]
+  },
+  {
+   "id": "poison",
+   "color": "#7ccf3a",
+   "name": {
+    "nl": "Gif",
+    "en": "Poison"
+   },
+   "towers": [
+    "venom_spike",
+    "toxin_spire",
+    "sludge_mortar",
+    "plague_totem",
+    "miasma_vent"
+   ]
+  },
+  {
+   "id": "nature",
+   "color": "#3f9a4f",
+   "name": {
+    "nl": "Natuur",
+    "en": "Nature"
+   },
+   "towers": [
+    "thorn_pool",
+    "grove_guardian",
+    "spore_pod",
+    "quake_root",
+    "heartwood"
+   ]
+  },
+  {
+   "id": "shadow",
+   "color": "#8d5fc4",
+   "name": {
+    "nl": "Schaduw",
+    "en": "Shadow"
+   },
+   "towers": [
+    "bone_spitter",
+    "grave_watcher",
+    "wyrm_skeleton",
+    "doom_sentinel"
+   ]
+  },
+  {
+   "id": "crystal",
+   "color": "#ff82d4",
+   "name": {
+    "nl": "Kristal",
+    "en": "Crystal"
+   },
+   "towers": [
+    "crystal_shard",
+    "prism_blaster",
+    "mirror_prism",
+    "shatterstorm",
+    "frozen_lens",
+    "dissolution_obelisk"
+   ]
+  }
+ ],
+ "ultimate": "aurora_cannon",
+ "towers": {
+  "ember_post": {
+   "id": "ember_post",
+   "element": "fire",
+   "tier": 1,
+   "name": {
+    "nl": "Gloedpost",
+    "en": "Ember Post"
+   },
+   "cost": {
+    "gold": 10,
+    "lumber": 0
+   },
+   "buildTime": 5,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     3,
+     8
+    ],
+    "cooldown": 1.0,
+    "range": 5.469,
+    "type": "pierce",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 9.375,
+    "splash": [
+     0.039,
+     0.078,
+     0.195
+    ]
+   },
+   "effects": [],
+   "source": "v13:hC02"
+  },
+  "cinder_spinner": {
+   "id": "cinder_spinner",
+   "element": "fire",
+   "tier": 2,
+   "name": {
+    "nl": "Sintelspinner",
+    "en": "Cinder Spinner"
+   },
+   "cost": {
+    "gold": 45,
+    "lumber": 0
+   },
+   "buildTime": 18,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     20,
+     50
+    ],
+    "cooldown": 0.9,
+    "range": 6.25,
+    "type": "pierce",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 7.422,
+    "splash": [
+     0.117,
+     0.234,
+     0.352
+    ]
+   },
+   "effects": [],
+   "source": "v13:oC19"
+  },
+  "comet_tower": {
+   "id": "comet_tower",
+   "element": "fire",
+   "tier": 3,
+   "name": {
+    "nl": "Komeettoren",
+    "en": "Comet Tower"
+   },
+   "cost": {
+    "gold": 95,
+    "lumber": 0
+   },
+   "buildTime": 32,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     75,
+     100
+    ],
+    "cooldown": 1.2,
+    "range": 7.031,
+    "type": "pierce",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 0.0,
+    "splash": [
+     0.352,
+     0.781,
+     1.562
+    ]
+   },
+   "effects": [],
+   "source": "v13:oC58"
+  },
+  "magma_forge": {
+   "id": "magma_forge",
+   "element": "fire",
+   "tier": 4,
+   "name": {
+    "nl": "Magmasmederij",
+    "en": "Magma Forge"
+   },
+   "cost": {
+    "gold": 200,
+    "lumber": 0
+   },
+   "buildTime": 61,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     225,
+     250
+    ],
+    "cooldown": 1.15,
+    "range": 6.25,
+    "type": "pierce",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 0.0,
+    "splash": [
+     0.703,
+     1.562,
+     3.125
+    ]
+   },
+   "effects": [],
+   "source": "v13:oC64"
+  },
+  "inferno_spire": {
+   "id": "inferno_spire",
+   "element": "fire",
+   "tier": 5,
+   "name": {
+    "nl": "Hellevuurspits",
+    "en": "Inferno Spire"
+   },
+   "cost": {
+    "gold": 350,
+    "lumber": 0
+   },
+   "buildTime": 90,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     100,
+     150
+    ],
+    "cooldown": 0.6,
+    "range": 5.469,
+    "type": "pierce",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 8.594,
+    "splash": [
+     0.391,
+     0.781,
+     1.172
+    ]
+   },
+   "effects": [],
+   "source": "v13:oC65"
+  },
+  "frost_shard": {
+   "id": "frost_shard",
+   "element": "ice",
+   "tier": 1,
+   "name": {
+    "nl": "IJsscherf",
+    "en": "Frost Shard"
+   },
+   "cost": {
+    "gold": 10,
+    "lumber": 0
+   },
+   "buildTime": 5,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     6,
+     6
+    ],
+    "cooldown": 1.1,
+    "range": 5.469,
+    "type": "normal",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 9.766,
+    "splash": [
+     0.039,
+     0.078,
+     0.117
+    ]
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.25,
+     "duration": 2.0
+    }
+   ],
+   "source": "v13:oC24"
+  },
+  "snow_cannon": {
+   "id": "snow_cannon",
+   "element": "ice",
+   "tier": 2,
+   "name": {
+    "nl": "Sneeuwkanon",
+    "en": "Snow Cannon"
+   },
+   "cost": {
+    "gold": 40,
+    "lumber": 0
+   },
+   "buildTime": 23,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     26,
+     26
+    ],
+    "cooldown": 1.0,
+    "range": 6.25,
+    "type": "normal",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 6.25,
+    "splash": [
+     0.273,
+     0.43,
+     0.586
+    ]
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.3,
+     "duration": 2.0
+    }
+   ],
+   "source": "v13:hC34"
+  },
+  "blizzard_spire": {
+   "id": "blizzard_spire",
+   "element": "ice",
+   "tier": 3,
+   "name": {
+    "nl": "Sneeuwstormtoren",
+    "en": "Blizzard Spire"
+   },
+   "cost": {
+    "gold": 100,
+    "lumber": 0
+   },
+   "buildTime": 41,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     80,
+     90
+    ],
+    "cooldown": 1.2,
+    "range": 6.25,
+    "type": "normal",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 0.0,
+    "splash": [
+     0.234,
+     0.352,
+     0.469
+    ]
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.35,
+     "duration": 2.0
+    }
+   ],
+   "source": "v13:oC37"
+  },
+  "glacier_sprayer": {
+   "id": "glacier_sprayer",
+   "element": "ice",
+   "tier": 4,
+   "name": {
+    "nl": "Gletsjerspuit",
+    "en": "Glacier Sprayer"
+   },
+   "cost": {
+    "gold": 200,
+    "lumber": 0
+   },
+   "buildTime": 63,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     50,
+     50
+    ],
+    "cooldown": 5.0,
+    "range": 5.859,
+    "type": "normal",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 9.766,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "root",
+     "duration": 9999.0,
+     "bossImmune": true
+    }
+   ],
+   "source": "v13:oC61"
+  },
+  "frost_nova_spire": {
+   "id": "frost_nova_spire",
+   "element": "ice",
+   "tier": 5,
+   "name": {
+    "nl": "IJsnovatoren",
+    "en": "Frost Nova Spire"
+   },
+   "cost": {
+    "gold": 350,
+    "lumber": 0
+   },
+   "buildTime": 90,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     700,
+     700
+    ],
+    "cooldown": 1.0,
+    "range": 6.055,
+    "type": "normal",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 0.0,
+    "splash": [
+     0.117,
+     0.195,
+     0.273
+    ]
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.4,
+     "duration": 2.5
+    }
+   ],
+   "source": "v13:oC62"
+  },
+  "crossbow_post": {
+   "id": "crossbow_post",
+   "element": "tech",
+   "tier": 1,
+   "name": {
+    "nl": "Kruisboogpost",
+    "en": "Crossbow Post"
+   },
+   "cost": {
+    "gold": 7,
+    "lumber": 0
+   },
+   "buildTime": 5,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     3,
+     7
+    ],
+    "cooldown": 1.8,
+    "range": 11.719,
+    "type": "pierce",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 9.375,
+    "splash": null
+   },
+   "effects": [],
+   "source": "v13:hC66"
+  },
+  "marksman_nest": {
+   "id": "marksman_nest",
+   "element": "tech",
+   "tier": 2,
+   "name": {
+    "nl": "Scherpschuttersnest",
+    "en": "Marksman Nest"
+   },
+   "cost": {
+    "gold": 30,
+    "lumber": 0
+   },
+   "buildTime": 22,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     28,
+     34
+    ],
+    "cooldown": 1.75,
+    "range": 12.5,
+    "type": "pierce",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 12.5,
+    "splash": null
+   },
+   "effects": [],
+   "source": "v13:hC08"
+  },
+  "rocket_rack": {
+   "id": "rocket_rack",
+   "element": "tech",
+   "tier": 3,
+   "name": {
+    "nl": "Raketlanceerder",
+    "en": "Rocket Rack"
+   },
+   "cost": {
+    "gold": 80,
+    "lumber": 0
+   },
+   "buildTime": 46,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     100,
+     130
+    ],
+    "cooldown": 2.5,
+    "range": 14.062,
+    "type": "pierce",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 7.812,
+    "splash": [
+     0.391,
+     0.781,
+     0.977
+    ]
+   },
+   "effects": [],
+   "source": "v13:hC54"
+  },
+  "pulse_cannon": {
+   "id": "pulse_cannon",
+   "element": "tech",
+   "tier": 4,
+   "name": {
+    "nl": "Pulskanon",
+    "en": "Pulse Cannon"
+   },
+   "cost": {
+    "gold": 170,
+    "lumber": 0
+   },
+   "buildTime": 60,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     300,
+     375
+    ],
+    "cooldown": 3.0,
+    "range": 23.438,
+    "type": "pierce",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 0.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "bonus_damage",
+     "amount": 500
+    }
+   ],
+   "source": "v13:hC55"
+  },
+  "warhead_silo": {
+   "id": "warhead_silo",
+   "element": "tech",
+   "tier": 5,
+   "name": {
+    "nl": "Kernkopsilo",
+    "en": "Warhead Silo"
+   },
+   "cost": {
+    "gold": 310,
+    "lumber": 0
+   },
+   "buildTime": 90,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     902,
+     1000
+    ],
+    "cooldown": 6.0,
+    "range": 58.594,
+    "type": "pierce",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 0.0,
+    "splash": [
+     2.344,
+     4.688,
+     7.031
+    ]
+   },
+   "effects": [],
+   "source": "v13:hC59"
+  },
+  "spark_post": {
+   "id": "spark_post",
+   "element": "electric",
+   "tier": 1,
+   "name": {
+    "nl": "Vonkpaal",
+    "en": "Spark Post"
+   },
+   "cost": {
+    "gold": 10,
+    "lumber": 0
+   },
+   "buildTime": 5,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     7,
+     7
+    ],
+    "cooldown": 0.6,
+    "range": 7.031,
+    "type": "normal",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 0.0,
+    "splash": null
+   },
+   "effects": [],
+   "source": "v13:hC11"
+  },
+  "storm_coil": {
+   "id": "storm_coil",
+   "element": "electric",
+   "tier": 2,
+   "name": {
+    "nl": "Stormspoel",
+    "en": "Storm Coil"
+   },
+   "cost": {
+    "gold": 40,
+    "lumber": 0
+   },
+   "buildTime": 23,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     30,
+     30
+    ],
+    "cooldown": 0.8,
+    "range": 3.906,
+    "type": "normal",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 0.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "chain",
+     "targets": 3,
+     "falloff": 0.8,
+     "range": 3.0
+    }
+   ],
+   "source": "v13:oC18"
+  },
+  "arc_weaver": {
+   "id": "arc_weaver",
+   "element": "electric",
+   "tier": 3,
+   "name": {
+    "nl": "Boogwever",
+    "en": "Arc Weaver"
+   },
+   "cost": {
+    "gold": 100,
+    "lumber": 0
+   },
+   "buildTime": 30,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     2,
+     2
+    ],
+    "cooldown": 1.0,
+    "range": 3.125,
+    "type": "normal",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 0.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "chain",
+     "targets": 4,
+     "falloff": 0.85,
+     "range": 3.5,
+     "damage": 90
+    }
+   ],
+   "source": "v13:hC36"
+  },
+  "lightning_rod": {
+   "id": "lightning_rod",
+   "element": "electric",
+   "tier": 4,
+   "name": {
+    "nl": "Bliksemafleider",
+    "en": "Lightning Rod"
+   },
+   "cost": {
+    "gold": 200,
+    "lumber": 0
+   },
+   "buildTime": 62,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     1,
+     1
+    ],
+    "cooldown": 2.0,
+    "range": 2.734,
+    "type": "normal",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 0.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "percent_hp",
+     "percent": 0.25,
+     "bossImmune": true
+    }
+   ],
+   "source": "v13:oC60"
+  },
+  "dynamo": {
+   "id": "dynamo",
+   "element": "electric",
+   "tier": 5,
+   "name": {
+    "nl": "Dynamo",
+    "en": "Dynamo"
+   },
+   "cost": {
+    "gold": 350,
+    "lumber": 0
+   },
+   "buildTime": 50,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     401,
+     401
+    ],
+    "cooldown": 0.6,
+    "range": 7.805,
+    "type": "normal",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 12.5,
+    "splash": null
+   },
+   "effects": [],
+   "source": "v13:oC68"
+  },
+  "pebble_slinger": {
+   "id": "pebble_slinger",
+   "element": "stone",
+   "tier": 1,
+   "name": {
+    "nl": "Keienslinger",
+    "en": "Pebble Slinger"
+   },
+   "cost": {
+    "gold": 10,
+    "lumber": 0
+   },
+   "buildTime": 10,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     10,
+     25
+    ],
+    "cooldown": 1.07,
+    "range": 3.125,
+    "type": "siege",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 9.375,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.2,
+     "multiplier": 2.0
+    }
+   ],
+   "source": "v13:oC14"
+  },
+  "boulder_thrower": {
+   "id": "boulder_thrower",
+   "element": "stone",
+   "tier": 2,
+   "name": {
+    "nl": "Rotsgooier",
+    "en": "Boulder Thrower"
+   },
+   "cost": {
+    "gold": 40,
+    "lumber": 0
+   },
+   "buildTime": 21,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     55,
+     105
+    ],
+    "cooldown": 1.1,
+    "range": 3.516,
+    "type": "siege",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 12.5,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.2,
+     "multiplier": 2.0
+    }
+   ],
+   "source": "v13:oC35"
+  },
+  "granite_ballista": {
+   "id": "granite_ballista",
+   "element": "stone",
+   "tier": 3,
+   "name": {
+    "nl": "Granietballista",
+    "en": "Granite Ballista"
+   },
+   "cost": {
+    "gold": 100,
+    "lumber": 0
+   },
+   "buildTime": 42,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     190,
+     250
+    ],
+    "cooldown": 1.2,
+    "range": 3.125,
+    "type": "siege",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 7.812,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.2,
+     "multiplier": 2.0
+    }
+   ],
+   "source": "v13:hC53"
+  },
+  "rune_weaver": {
+   "id": "rune_weaver",
+   "element": "stone",
+   "tier": 4,
+   "name": {
+    "nl": "Runenwever",
+    "en": "Rune Weaver"
+   },
+   "cost": {
+    "gold": 200,
+    "lumber": 0
+   },
+   "buildTime": 63,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     475,
+     550
+    ],
+    "cooldown": 1.1,
+    "range": 3.906,
+    "type": "siege",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 11.25,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.2,
+     "multiplier": 2.0
+    },
+    {
+     "kind": "armor_reduce",
+     "amount": 5,
+     "duration": 5.0
+    }
+   ],
+   "source": "v13:oC26"
+  },
+  "petrifier": {
+   "id": "petrifier",
+   "element": "stone",
+   "tier": 5,
+   "name": {
+    "nl": "Versteneraar",
+    "en": "Petrifier"
+   },
+   "cost": {
+    "gold": 350,
+    "lumber": 0
+   },
+   "buildTime": 90,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     1,
+     1
+    ],
+    "cooldown": 5.0,
+    "range": 3.906,
+    "type": "siege",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 6.25,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "set_hp",
+     "hp": 10,
+     "bossImmune": true
+    }
+   ],
+   "source": "v13:oC67"
+  },
+  "venom_spike": {
+   "id": "venom_spike",
+   "element": "poison",
+   "tier": 1,
+   "name": {
+    "nl": "Gifpunt",
+    "en": "Venom Spike"
+   },
+   "cost": {
+    "gold": 15,
+    "lumber": 0
+   },
+   "buildTime": 5,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     5,
+     8
+    ],
+    "cooldown": 1.25,
+    "range": 7.812,
+    "type": "chaos",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 10.938,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "poison",
+     "slow": 0.2,
+     "dpsFactor": 0.15,
+     "duration": 3.0
+    }
+   ],
+   "source": "v13:hC21"
+  },
+  "toxin_spire": {
+   "id": "toxin_spire",
+   "element": "poison",
+   "tier": 2,
+   "name": {
+    "nl": "Toxinetoren",
+    "en": "Toxin Spire"
+   },
+   "cost": {
+    "gold": 60,
+    "lumber": 0
+   },
+   "buildTime": 22,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     20,
+     35
+    ],
+    "cooldown": 1.0,
+    "range": 7.812,
+    "type": "chaos",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 0.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "poison",
+     "slow": 0.2,
+     "dpsFactor": 0.15,
+     "duration": 3.0
+    }
+   ],
+   "source": "v13:hC27"
+  },
+  "sludge_mortar": {
+   "id": "sludge_mortar",
+   "element": "poison",
+   "tier": 3,
+   "name": {
+    "nl": "Slijkmortier",
+    "en": "Sludge Mortar"
+   },
+   "cost": {
+    "gold": 120,
+    "lumber": 0
+   },
+   "buildTime": 55,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     70,
+     90
+    ],
+    "cooldown": 1.2,
+    "range": 8.594,
+    "type": "chaos",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 6.25,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "poison",
+     "slow": 0.2,
+     "dpsFactor": 0.15,
+     "duration": 3.0
+    }
+   ],
+   "source": "v13:oC56"
+  },
+  "plague_totem": {
+   "id": "plague_totem",
+   "element": "poison",
+   "tier": 4,
+   "name": {
+    "nl": "Pesttotem",
+    "en": "Plague Totem"
+   },
+   "cost": {
+    "gold": 230,
+    "lumber": 0
+   },
+   "buildTime": 61,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     270,
+     340
+    ],
+    "cooldown": 1.15,
+    "range": 7.031,
+    "type": "chaos",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 0.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "poison",
+     "slow": 0.2,
+     "dpsFactor": 0.15,
+     "duration": 3.0
+    }
+   ],
+   "source": "v13:oC73"
+  },
+  "miasma_vent": {
+   "id": "miasma_vent",
+   "element": "poison",
+   "tier": 5,
+   "name": {
+    "nl": "Miasmaschacht",
+    "en": "Miasma Vent"
+   },
+   "cost": {
+    "gold": 390,
+    "lumber": 0
+   },
+   "buildTime": 90,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     500,
+     590
+    ],
+    "cooldown": 0.9,
+    "range": 7.812,
+    "type": "chaos",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 7.812,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "poison",
+     "slow": 0.25,
+     "dpsFactor": 0.15,
+     "duration": 3.0
+    }
+   ],
+   "source": "v13:oC74"
+  },
+  "thorn_pool": {
+   "id": "thorn_pool",
+   "element": "nature",
+   "tier": 1,
+   "name": {
+    "nl": "Doornenpoel",
+    "en": "Thorn Pool"
+   },
+   "cost": {
+    "gold": 10,
+    "lumber": 0
+   },
+   "buildTime": 5,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     3,
+     6
+    ],
+    "cooldown": 1.0,
+    "range": 5.469,
+    "type": "pierce",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 14.062,
+    "splash": [
+     0.273,
+     0.547,
+     0.82
+    ]
+   },
+   "effects": [],
+   "source": "v13:emow"
+  },
+  "grove_guardian": {
+   "id": "grove_guardian",
+   "element": "nature",
+   "tier": 2,
+   "name": {
+    "nl": "Bosbeschermer",
+    "en": "Grove Guardian"
+   },
+   "cost": {
+    "gold": 40,
+    "lumber": 0
+   },
+   "buildTime": 23,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     31,
+     38
+    ],
+    "cooldown": 1.0,
+    "range": 5.469,
+    "type": "siege",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 14.062,
+    "splash": [
+     0.273,
+     0.547,
+     0.82
+    ]
+   },
+   "effects": [],
+   "source": "v13:hC80"
+  },
+  "spore_pod": {
+   "id": "spore_pod",
+   "element": "nature",
+   "tier": 3,
+   "name": {
+    "nl": "Sporenpeul",
+    "en": "Spore Pod"
+   },
+   "cost": {
+    "gold": 100,
+    "lumber": 0
+   },
+   "buildTime": 40,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     76,
+     100
+    ],
+    "cooldown": 1.75,
+    "range": 5.469,
+    "type": "siege",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 14.062,
+    "splash": [
+     0.586,
+     0.977,
+     1.367
+    ]
+   },
+   "effects": [],
+   "source": "v13:hC82"
+  },
+  "quake_root": {
+   "id": "quake_root",
+   "element": "nature",
+   "tier": 4,
+   "name": {
+    "nl": "Aardbevingswortel",
+    "en": "Quake Root"
+   },
+   "cost": {
+    "gold": 200,
+    "lumber": 0
+   },
+   "buildTime": 60,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     50,
+     340
+    ],
+    "cooldown": 1.5,
+    "range": 0.781,
+    "type": "siege",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 14.062,
+    "splash": [
+     0.781,
+     1.953,
+     3.516
+    ]
+   },
+   "effects": [],
+   "source": "v13:hC84"
+  },
+  "heartwood": {
+   "id": "heartwood",
+   "element": "nature",
+   "tier": 5,
+   "name": {
+    "nl": "Hartboom",
+    "en": "Heartwood"
+   },
+   "cost": {
+    "gold": 350,
+    "lumber": 0
+   },
+   "buildTime": 90,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     250,
+     300
+    ],
+    "cooldown": 1.0,
+    "range": 3.906,
+    "type": "siege",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 14.062,
+    "splash": [
+     0.781,
+     1.953,
+     3.516
+    ]
+   },
+   "effects": [],
+   "source": "v13:eC83"
+  },
+  "bone_spitter": {
+   "id": "bone_spitter",
+   "element": "shadow",
+   "tier": 1,
+   "name": {
+    "nl": "Beenderspuwer",
+    "en": "Bone Spitter"
+   },
+   "cost": {
+    "gold": 15,
+    "lumber": 0
+   },
+   "buildTime": 5,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     16,
+     16
+    ],
+    "cooldown": 2.0,
+    "range": 5.469,
+    "type": "normal",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 6.25,
+    "splash": null
+   },
+   "effects": [],
+   "source": "v13:hC86"
+  },
+  "grave_watcher": {
+   "id": "grave_watcher",
+   "element": "shadow",
+   "tier": 2,
+   "name": {
+    "nl": "Grafwachter",
+    "en": "Grave Watcher"
+   },
+   "cost": {
+    "gold": 25,
+    "lumber": 0
+   },
+   "buildTime": 22,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     26,
+     26
+    ],
+    "cooldown": 1.0,
+    "range": 6.25,
+    "type": "pierce",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 9.375,
+    "splash": null
+   },
+   "effects": [],
+   "source": "v13:hC90"
+  },
+  "wyrm_skeleton": {
+   "id": "wyrm_skeleton",
+   "element": "shadow",
+   "tier": 3,
+   "name": {
+    "nl": "Draakskelet",
+    "en": "Wyrm Skeleton"
+   },
+   "cost": {
+    "gold": 150,
+    "lumber": 0
+   },
+   "buildTime": 46,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     150,
+     150
+    ],
+    "cooldown": 1.1,
+    "range": 6.25,
+    "type": "chaos",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 9.375,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 4,
+     "duration": 5.0
+    }
+   ],
+   "source": "v13:hC88"
+  },
+  "doom_sentinel": {
+   "id": "doom_sentinel",
+   "element": "shadow",
+   "tier": 4,
+   "name": {
+    "nl": "Noodlotswachter",
+    "en": "Doom Sentinel"
+   },
+   "cost": {
+    "gold": 200,
+    "lumber": 0
+   },
+   "buildTime": 60,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     76,
+     76
+    ],
+    "cooldown": 0.6,
+    "range": 7.812,
+    "type": "chaos",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 19.531,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.15,
+     "multiplier": 2.0
+    },
+    {
+     "kind": "root",
+     "chance": 0.1,
+     "duration": 2.0,
+     "bossImmune": true
+    },
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 5.0
+    }
+   ],
+   "source": "v13:hC89"
+  },
+  "crystal_shard": {
+   "id": "crystal_shard",
+   "element": "crystal",
+   "tier": 1,
+   "name": {
+    "nl": "Kristalscherf",
+    "en": "Crystal Shard"
+   },
+   "cost": {
+    "gold": 15,
+    "lumber": 0
+   },
+   "buildTime": 8,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     10,
+     13
+    ],
+    "cooldown": 0.8,
+    "range": 5.859,
+    "type": "chaos",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 9.375,
+    "splash": null
+   },
+   "effects": [],
+   "source": "v13:hgtw"
+  },
+  "prism_blaster": {
+   "id": "prism_blaster",
+   "element": "crystal",
+   "tier": 2,
+   "name": {
+    "nl": "Prismastraler",
+    "en": "Prism Blaster"
+   },
+   "cost": {
+    "gold": 65,
+    "lumber": 0
+   },
+   "buildTime": 25,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     41,
+     62
+    ],
+    "cooldown": 1.0,
+    "range": 5.469,
+    "type": "chaos",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 14.062,
+    "splash": [
+     0.391,
+     0.781,
+     0.977
+    ]
+   },
+   "effects": [],
+   "source": "v13:hctw"
+  },
+  "mirror_prism": {
+   "id": "mirror_prism",
+   "element": "crystal",
+   "tier": 3,
+   "name": {
+    "nl": "Spiegelprisma",
+    "en": "Mirror Prism"
+   },
+   "cost": {
+    "gold": 130,
+    "lumber": 0
+   },
+   "buildTime": 45,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     71,
+     85
+    ],
+    "cooldown": 0.6,
+    "range": 6.25,
+    "type": "chaos",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 14.062,
+    "splash": [
+     3.125,
+     null,
+     null
+    ]
+   },
+   "effects": [
+    {
+     "kind": "bounce",
+     "targets": 3,
+     "falloff": 0.75,
+     "range": 4.0
+    }
+   ],
+   "source": "v13:nfrm"
+  },
+  "shatterstorm": {
+   "id": "shatterstorm",
+   "element": "crystal",
+   "tier": 4,
+   "name": {
+    "nl": "Scherfstorm",
+    "en": "Shatterstorm"
+   },
+   "cost": {
+    "gold": 240,
+    "lumber": 0
+   },
+   "buildTime": 50,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     111,
+     130
+    ],
+    "cooldown": 0.3,
+    "range": 5.469,
+    "type": "chaos",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 14.062,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.1,
+     "multiplier": 2.0
+    }
+   ],
+   "source": "v13:hwtw"
+  },
+  "frozen_lens": {
+   "id": "frozen_lens",
+   "element": "crystal",
+   "tier": 5,
+   "name": {
+    "nl": "Vrieslens",
+    "en": "Frozen Lens"
+   },
+   "cost": {
+    "gold": 270,
+    "lumber": 0
+   },
+   "buildTime": 60,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     211,
+     235
+    ],
+    "cooldown": 0.7,
+    "range": 6.25,
+    "type": "chaos",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 14.062,
+    "splash": [
+     0.391,
+     0.586,
+     0.781
+    ]
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.35,
+     "duration": 2.5
+    }
+   ],
+   "source": "v13:hhou"
+  },
+  "dissolution_obelisk": {
+   "id": "dissolution_obelisk",
+   "element": "crystal",
+   "tier": 6,
+   "name": {
+    "nl": "Ontbindingsobelisk",
+    "en": "Dissolution Obelisk"
+   },
+   "cost": {
+    "gold": 550,
+    "lumber": 0
+   },
+   "buildTime": 80,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     1001,
+     1100
+    ],
+    "cooldown": 0.9,
+    "range": 23.438,
+    "type": "chaos",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 9.375,
+    "splash": null
+   },
+   "effects": [],
+   "source": "v13:owtw"
+  },
+  "aurora_cannon": {
+   "id": "aurora_cannon",
+   "element": "ultimate",
+   "tier": 1,
+   "name": {
+    "nl": "Poollichtkanon",
+    "en": "Aurora Cannon"
+   },
+   "cost": {
+    "gold": 750,
+    "lumber": 1
+   },
+   "buildTime": 120,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     500,
+     500
+    ],
+    "cooldown": 0.6,
+    "range": 78.125,
+    "type": "chaos",
+    "targets": [
+     "air",
+     "ground"
+    ],
+    "projectileSpeed": 10.938,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.15,
+     "multiplier": 2.0
+    },
+    {
+     "kind": "slow",
+     "amount": 0.3,
+     "duration": 2.0
+    },
+    {
+     "kind": "poison",
+     "slow": 0.2,
+     "dpsFactor": 0.1,
+     "duration": 3.0
+    }
+   ],
+   "source": "v13:hC63"
+  }
+ }
+}
