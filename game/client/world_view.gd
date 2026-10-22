@@ -4,7 +4,7 @@ extends Node3D
 
 const Models := preload("res://client/models.gd")
 
-const PITCH := 0.96            # camera pitch in radians (55 degrees)
+const PITCH := 1.2             # camera pitch in radians (69 degrees): steep, so tall things do not cover the tile behind them
 const CELL_PX := 8             # terrain texture pixels per grid cell
 const AIR_HEIGHT := 2.1
 const MIN_VIEW_W := 9.0        # closest zoom: tiles visible across the screen

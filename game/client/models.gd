@@ -20,7 +20,7 @@ const RECIPES := {
 }
 
 const TOWER_SCALE := 0.78
-const STACK_Y := 0.72     # vertical squash of the tower stack so rows of towers do not hide each other
+const STACK_Y := 0.42     # vertical squash of the tower stack so rows of towers do not hide each other
 
 # creep id -> [archetype, main colour, accent colour, scale, option]
 const CREEPS := {
@@ -188,23 +188,25 @@ static func make_tower(def: Dictionary, color: Color) -> Node3D:
 	var turret := Node3D.new()
 	turret.name = "turret"
 	turret.position.y = y
+	turret.scale = Vector3(1.0, 1.0 / STACK_Y, 1.0)   # the weapon keeps its own proportions
 	stack.add_child(turret)
 	var w := inst(r.weapon)
 	turret.add_child(w)
 	if ultimate:
 		w.scale = Vector3(1.4, 1.4, 1.4)
 	var wy := 0.5
-	_accent(stack, def.element, color, y + wy, tier)
+	_accent(turret, def.element, color, wy, tier)
 	# colour ring on the foot so the element reads from far away
-	var ring := add_mesh(root, cylinder(0.5, 0.5, 0.03, 20), color, Vector3(0, 0.02, 0), Vector3.ZERO, 0.45)
-	ring.name = "ring"
+	# the real build footprint: exactly one tile, so you can see which tiles a tower blocks
+	var pad := add_mesh(root, box(Vector3(0.98, 0.04, 0.98)), color.darkened(0.25), Vector3(0, 0.02, 0), Vector3.ZERO, 0.35)
+	pad.name = "ring"
 	var build := Node3D.new()
 	build.name = "build"
 	build.visible = false
 	root.add_child(build)
 	stack.scale = Vector3(TOWER_SCALE, TOWER_SCALE * STACK_Y, TOWER_SCALE)
 	build.scale = Vector3(TOWER_SCALE, TOWER_SCALE * STACK_Y, TOWER_SCALE)
-	root.set_meta("height", y * TOWER_SCALE * STACK_Y + 0.5)
+	root.set_meta("height", y * TOWER_SCALE * STACK_Y + 0.45)
 	return root
 
 

@@ -4,7 +4,7 @@ Hoort bij [`../research/mobile-td-ux.md`](../research/mobile-td-ux.md). Dit is d
 
 ## Camera: nooit de hele kaart
 
-- Isometrische orthogonale camera (55 graden). De kaart is 48 x 30 tegels. Standaard zie je **17 tegels** breed rond het gedeelde bouwveld voor het schip
+- Isometrische orthogonale camera, **steil (69 graden)**: bij 55 graden beslaan hoge torens optisch ook de tegel erachter en lijken ze op elkaar gestapeld, en lijken monsters erdoorheen te lopen (de simulatie was correct, getest met duizenden willekeurige plaatsingen, verplaatsingen en verkopen tijdens golven) De kaart is 48 x 30 tegels. Standaard zie je **17 tegels** breed rond het gedeelde bouwveld voor het schip
 - Uitzoomen kan tot **de helft van de kaartbreedte** (24 tegels), inzoomen tot 9 tegels. De speler ziet dus nooit de hele kaart
 - Panning: één vinger of linkermuisknop slepen, pijltjestoetsen, of tikken en slepen op de **minimap**. Knop "doel" (cirkel met kruis) zet de camera terug
 - Knijpen en scrollwiel zoomen rond het aanraakpunt
@@ -38,7 +38,7 @@ Een logisch scherm van ongeveer 440 px hoog (de UI schaalt dus mee naar de echte
 
 ## Visuele stijl
 
-- Laag-poly 3D, wintertema, zachte kleuren. **Torens** zijn samengesteld uit de CC0-onderdelen van de Kenney Tower Defense Kit (rond/vierkant, onderstuk, middenstuk, top, wapen). Het element bepaalt het wapen, de kleurvariant en een gloeiend accent (vlam, ijskristallen, bol, rotsen, druppel, bladeren, kristallen). Hoger tier = meer lagen. De **bouwfases** van de kit tonen de opbouw. Het wapen draait naar zijn doel
+- Laag-poly 3D, wintertema, zachte kleuren. **Torens** zijn samengesteld uit de CC0-onderdelen van de Kenney Tower Defense Kit (rond/vierkant, onderstuk, middenstuk, top, wapen). Het element bepaalt het wapen, de kleurvariant en een gloeiend accent (vlam, ijskristallen, bol, rotsen, druppel, bladeren, kristallen). Hoger tier = meer lagen, maar de stapel is laag gehouden (hoogste toren ca. 1,4 tegel) en onder elke toren ligt een vlak met de echte bouwvoetafdruk van één tegel. De **bouwfases** van de kit tonen de opbouw. Het wapen draait naar zijn doel
 - **Monsters** zijn zelf gebouwd uit primitieven (`client/models.gd`), 11 archetypes (imp, humanoïde, bruut, beest, ruiter, hagedis, golem, geest, slee, machine, yeti) en een draak voor de luchtlevels, met looptekening, vleugelslag en zweven. Bazen zijn groter en gekroond. Onder elk monster staat een gekleurde ring voor het **pantsertype** (groen licht, geel middel, oranje zwaar, blauw versterkt, wit goddelijk). Die wordt blauw bij vertragen, groen bij gif en wit bij vastgehouden
 - **Omgeving:** sneeuwveld, sneeuwbos met bomen, rotsen en kristallen (Kenney), sneeuwbanken langs de rand, een zeilschip als doel, sneeuwval, zachte blob-schaduwen
 - **Effecten:** inslagringen per element, bliksemlijnen, gouddeeltjes bij een kill, vlotte routelijnen (lopende streepjes) die oplichten tijdens het bouwen, een rasteroverlay en het bereikscherm
