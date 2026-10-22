@@ -88,6 +88,8 @@ func footprint_problem(cx: int, cy: int, fw: int, fh: int) -> String:
 func set_footprint(cx: int, cy: int, fw: int, fh: int, on: bool) -> void:
 	for y in range(cy, cy + fh):
 		for x in range(cx, cx + fw):
+			if not in_bounds(x, y):
+				continue
 			if on:
 				flags[y * w + x] |= TOWER
 			else:
@@ -96,20 +98,40 @@ func set_footprint(cx: int, cy: int, fw: int, fh: int, on: bool) -> void:
 
 ## True when every required cell can still reach the goal with the footprint blocked (anti-block check).
 func stays_connected(cx: int, cy: int, fw: int, fh: int, required: PackedInt32Array) -> bool:
+	var saved := _save_footprint(cx, cy, fw, fh)
 	set_footprint(cx, cy, fw, fh, true)
 	var ok := _reach_all(required)
-	set_footprint(cx, cy, fw, fh, false)
+	_restore_footprint(cx, cy, fw, fh, saved)
 	return ok
 
 
 ## Average path length (in tiles) of the given start cells with the footprint blocked, or -1 when blocked.
 func path_length_with(cx: int, cy: int, fw: int, fh: int, starts: PackedInt32Array) -> float:
+	var saved := _save_footprint(cx, cy, fw, fh)
 	set_footprint(cx, cy, fw, fh, true)
 	var d := PackedFloat32Array()
 	var n := PackedInt32Array()
 	_compute(d, n)
-	set_footprint(cx, cy, fw, fh, false)
+	_restore_footprint(cx, cy, fw, fh, saved)
 	return _avg_length(d, n, starts)
+
+
+## Probing a footprint must leave the grid exactly as it was, also when the spot is already occupied by a tower.
+func _save_footprint(cx: int, cy: int, fw: int, fh: int) -> PackedByteArray:
+	var saved := PackedByteArray()
+	for y in range(cy, cy + fh):
+		for x in range(cx, cx + fw):
+			saved.append(flags[y * w + x] if in_bounds(x, y) else 0)
+	return saved
+
+
+func _restore_footprint(cx: int, cy: int, fw: int, fh: int, saved: PackedByteArray) -> void:
+	var i := 0
+	for y in range(cy, cy + fh):
+		for x in range(cx, cx + fw):
+			if in_bounds(x, y):
+				flags[y * w + x] = saved[i]
+			i += 1
 
 
 func path_length(starts: PackedInt32Array) -> float:

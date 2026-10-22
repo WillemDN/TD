@@ -905,6 +905,8 @@ func _on_key(code: int) -> void:
 			speed = 2
 		KEY_3:
 			speed = 4
+		KEY_F3:
+			overlay.debug = not overlay.debug
 		KEY_HOME, KEY_F:
 			_fit()
 		KEY_ENTER, KEY_KP_ENTER:

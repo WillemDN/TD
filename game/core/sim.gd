@@ -123,6 +123,7 @@ func unlock_element(element_id: String) -> Dictionary:
 
 
 ## Check whether a tower can be placed at cell (cx, cy) without placing it. Result has ok and reason.
+## The spot itself is checked first (so a spot on top of a tower is always "occupied"), the price last.
 func can_place(def_id: String, cx: int, cy: int) -> Dictionary:
 	var def = data.towers.get(def_id)
 	if def == null:
@@ -131,11 +132,14 @@ func can_place(def_id: String, cx: int, cy: int) -> Dictionary:
 		return _err("ended")
 	if def.element != "ultimate" and not (def.element in elements):
 		return _err("locked")
+	var spot := _can_place_here(cx, cy, int(def.footprint[0]), int(def.footprint[1]))
+	if not spot.ok:
+		return spot
 	if gold < int(def.cost.gold):
 		return _err("gold")
 	if lumber < int(def.cost.lumber):
 		return _err("lumber")
-	return _can_place_here(cx, cy, int(def.footprint[0]), int(def.footprint[1]))
+	return {"ok": true}
 
 
 func _can_place_here(cx: int, cy: int, fw: int, fh: int) -> Dictionary:

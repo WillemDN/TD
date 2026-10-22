@@ -18,6 +18,7 @@ func _init() -> void:
 	test_economy(data)
 	test_effects(data)
 	test_waves_scale(data)
+	test_probing_never_damages_the_grid(data)
 	test_creeps_keep_clear(data)
 	test_flyers_follow_corridors(data)
 	test_moving_towers(data)
@@ -296,6 +297,34 @@ func test_flyers_follow_corridors(data) -> void:
 		if sim.grid.flags[sim.grid.cell_of(fly.pos)] & 1:
 			wall_crossed = true
 	check(not wall_crossed, "a flyer never flies over a map wall")
+
+
+func test_probing_never_damages_the_grid(data) -> void:
+	# regression: hovering a ghost over an existing tower without enough gold used to clear that tower's blocking
+	var sim = Sim.new(data, 1)
+	sim.unlock_element("ice")
+	var r = sim.place_tower("frost_shard", 60, 30)
+	check(r.ok, "tower placed")
+	var cells_before := 0
+	for i in sim.grid.flags.size():
+		if sim.grid.flags[i] & 4: cells_before += 1
+	sim.gold = 0
+	check(sim.can_place("frost_shard", 60, 30).reason == "occupied", "a poor player over a tower still gets 'occupied'")
+	check(sim.can_place("frost_shard", 61, 31).reason == "occupied", "an overlapping spot is occupied, not 'gold'")
+	var starts := PackedInt32Array()
+	for s in data.map.spawns:
+		starts.append(sim.grid.idx(int(s.cell[0]), int(s.cell[1])))
+	sim.grid.path_length_with(60, 30, 2, 2, starts)
+	sim.grid.path_length_with(61, 30, 2, 2, starts)
+	sim.grid.stays_connected(60, 30, 2, 2, starts)
+	var cells_after := 0
+	for i in sim.grid.flags.size():
+		if sim.grid.flags[i] & 4: cells_after += 1
+	check(cells_after == cells_before, "probing leaves the tower cells untouched (%d vs %d)" % [cells_after, cells_before])
+	check(sim.grid.footprint_problem(60, 30, 2, 2) == "occupied", "the tower still blocks its tile")
+	sim.gold = 1000
+	check(sim.place_tower("frost_shard", 60, 30).reason == "occupied", "no building over an existing tower")
+	check(sim.towers.size() == 1, "still exactly one tower")
 
 
 func test_moving_towers(data) -> void:

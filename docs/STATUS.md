@@ -86,6 +86,12 @@ Uitgelezen op 2026-10-22.
 - Plan en architectuur → `docs/PLAN.md`, Mac-setup → `docs/SETUP-MAC.md`, context voor Claude Code → `CLAUDE.md`
 - Extractiescripts → `tools/w3x-extract/`
 
+### 2026-10-22: bugfix torens blokkeerden niet meer
+- **Oorzaak:** met te weinig goud controleerde `can_place` de bouwplek niet eerst, waarna de client het pad-voorbeeld uitrekende. Die berekening zette tijdelijk een toren neer en haalde hem daarna weer weg, ook als er al een toren stond. Zweven met een ghost over een bestaande toren wiste zo zijn blokkade: monsters liepen erdoorheen en je kon eroverheen bouwen
+- **Fix:** controleren van de plek gaat vóór de prijs, en proberen laat het grid altijd precies zoals het was (`_save_footprint`/`_restore_footprint`). Regressietest `test_probing_never_damages_the_grid` (faalt op de oude code)
+- Debug-weergave van de echte simulatiegegevens met **F3** (geblokkeerde cellen rood, echte monsterposities)
+- Eerdere stappen in dit traject (clearance-padkosten, vliegers volgen de gangen van de kaart, lagere torens en steilere camera) blijven staan, maar waren niet de hoofdoorzaak
+
 ### 2026-10-22: mobiele UX en visuals (versie 2)
 - Onderzoek naar mobiele TD-bediening → `docs/research/mobile-td-ux.md` (dunne bronnen, eerlijk vermeld). Ontwerp → `docs/design/mobiele-ux-en-visuals.md`
 - Simulatie: `can_move`/`move_tower` (anti-block, 35% heropbouw), `aim` en `impact`-events, 366 checks
