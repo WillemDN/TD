@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+
+# Godot
+.godot/
+*.import.tmp
+export_presets.cfg.bak
+/game/build/
+/builds/
+
+# Android-signing en geheimen
+*.keystore
+*.jks
+.env
+*.env
+/server-mac/secrets/
+
+# Server-runtime
+*.sqlite
+*.sqlite3
+*.db
+/server-mac/backups/
+*.log
+
+# Warcraft III-maps (niet in de repo, zie de downloadlinks in docs/research)
+*.w3m
+*.w3x
+*.mpq
+
+# Python
+__pycache__/
+*.pyc
+.venv/
