@@ -1,8 +1,14 @@
 # Credits
 
-Eerste speelbare versie: er zijn **geen externe assets** (geen modellen, texturen, geluiden of lettertypen) toegevoegd.
+## Externe assets
 
-- Alle 3D-vormen (torens, creeps, schip, muren) worden in code opgebouwd uit Godot-primitieven (kubus, cilinder, bol, capsule).
+| Bestanden | Bron | Licentie |
+|---|---|---|
+| `assets/kenney_td/*.glb` en `Textures/colormap.png`: torenonderdelen (bottom/middle/top/roof/build), wapens, sneeuwbomen, rotsen en kristallen, spawn- en selectiemarkers | **Tower Defense Kit 2.1** van Kenney, <https://kenney.nl/assets/tower-defense-kit> | **CC0** (zie `assets/kenney_td/License.txt`). Vermelding is niet verplicht, maar wel gewaardeerd: "Kenney / www.kenney.nl" |
+
+## Zelf gemaakt
+
+- De monsters (11 archetypes, draken), het schip, de accenten op de torens en alle UI-iconen worden in code opgebouwd uit Godot-primitieven en vectorvormen.
 - Het terrein is een in code gegenereerde texture.
 - Het icoon (`icon.svg`) is zelf getekend.
 - Lettertype: het standaardlettertype dat met de Godot-engine meekomt (zie de licentiegegevens van Godot 4: <https://godotengine.org/license/>).

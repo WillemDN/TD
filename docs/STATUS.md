@@ -4,31 +4,32 @@
 
 ## Huidige fase
 
-**Eerste speelbare versie (browser) staat.** Fase 0 is afgerond (op `sudo pmset -a autorestart 1` na), fase 1 (data en design) is gedaan voor de modus Klassiek en fase 2 (headless simulatie + tests) en een greybox-client (fase 3, browser) zijn er in een eerste vorm.
+**Speelbare browserversie met mobiele UX en 3D-modellen (versie 2).** Fase 0 is afgerond (op `sudo pmset -a autorestart 1` na), fase 1 (data en design) is gedaan voor de modus Klassiek, fase 2 (headless simulatie + tests) staat en de client (fase 3) is een eerste volwaardige versie voor telefoon én desktop.
 
 ### Speel het nu
 
 - **Op de Mac / telefoon (Tailscale):** <https://willems-macbook-pro.tail868144.ts.net:8443/> (alleen binnen je tailnet, vraagt HTTPS: Godot-web start niet via gewone `http://` op een niet-lokaal adres)
 - De server is `python3 server-mac/serve_web.py` op `127.0.0.1:8060`, gepubliceerd met `tailscale serve --bg --https=8443 http://127.0.0.1:8060`. Poort 443 en 10000 worden al door andere services gebruikt, laat die staan. Uitzetten: `tailscale serve --https=8443 off`
 - **Opnieuw bouwen:** `tools/build_web.sh` (draait eerst alle tests, exporteert daarna naar `game/build/web`). Herladen in de browser volstaat (geen cache)
-- **Tests:** `godot --headless --path game --script res://tests/run_tests.gd` (355 checks)
-- **Screenshots van het echte venster:** `godot --path game --rendering-driver opengl3 --script res://tests/screenshot_runner.gd -- <map> [phone]`
+- **Tests:** `godot --headless --path game --script res://tests/run_tests.gd` (366 checks) en `res://tests/client_smoke.gd` (de echte client door 13 levels)
+- **Screenshots van het echte venster:** `godot --path game --rendering-driver opengl3 --script res://tests/screenshot_runner.gd -- <map> [phone]`. **Modelgalerij** van alle torens en monsters: `.../tests/model_gallery.gd -- <map>`
 
 ### Wat erin zit
 
 - Modus **Klassiek**, 1 speler, 35 levels met eindbazen op 10/20/30 en luchtlevels, moeilijkheid Makkelijk/Normaal/Moeilijk/Perfectie
-- 9 elementen (46 torens) + de ultieme toren, eigen NL/EN-namen, effecten: slow, poison, crit, chain, bounce, armor-debuff, %-HP, zet-HP, vasthouden, bonusschade
-- Kaart "Vrieslijn" met 3 lanes en een gedeeld bouwveld, flow-field-pathing, **anti-block** (plaatsingen die het pad sluiten worden geweigerd) en pad-preview met padlengte
-- Bouwen met muis of aanraking (twee stappen: tik om de ghost te zetten, tik nogmaals of "Bouw hier"), pannen, zoomen (wiel of knijpen), sneltoetsen Q-Y, S, spatie, P, 1-3
-- NL/EN, snelheid x1/x2/x4, pauze, "Start nu" met kleine goudbonus, verkopen (100% buiten de wave, 75% tijdens)
-- Alles data-gedreven uit `game/data/*.json`, simulatie in `game/core/` zonder nodes, deterministisch met een seeded RNG
+- 9 elementen (46 torens) + de ultieme toren, NL/EN, effecten: slow, poison, crit, chain, bounce, armor-debuff, %-HP, zet-HP, vasthouden, bonusschade
+- Kaart "Vrieslijn", flow-field-pathing, **anti-block**, pad-preview
+- **Mobiele bediening** (zie `docs/design/mobiele-ux-en-visuals.md`): kaarten uit de lade slepen, tik-ghost-vinkje, **torens verplaatsen** (ingedrukt houden, slepen of de knop), muur slepen, knijpzoom, minimap, inklapbare lade, grote tikdoelen, UI die meeschaalt op touch
+- **De speler ziet nooit de hele kaart:** standaard 17 van de 48 tegels breed, maximaal uitzoomen tot de helft. De minimap toont de rest, met de monsters
+- **Visuals:** torens uit CC0-onderdelen van de Kenney Tower Defense Kit (per element een eigen wapen, kleur en accent, bouwfases), zelfgebouwde monsters met looptekening (11 archetypes + draken), sneeuwbos met bomen en rotsen, schip, sneeuwval, blob-schaduwen, inslag- en kill-effecten, gevlekt sneeuwveld
 
 ### Bekende beperkingen (eerlijk)
 
-- **Balans is voorlopig.** De solo-boost (3x startgoud, 1,5x bonus en bounty) en alle effectwaarden zijn gokken (zie `docs/design/schade-namen-kaart.md`). Een simpele bot zonder maze haalt level 3-11, afhankelijk van het element
-- Geen drag-to-wall, geen upgrade-bomen (modus Modern), geen multiplayer, geen accounts, geen geluid, geen echte art (alleen vormen en kleuren)
-- Het Schaduw-altaar (zware vliegende eenheid) uit het origineel is nog niet gemaakt
-- Alleen getest in Chrome (headless en venster). De telefoon is door de eigenaar zelf te testen
+- **Balans is voorlopig.** De solo-boost (3x startgoud, 1,5x bonus en bounty) en alle effectwaarden zijn gokken (zie `docs/design/schade-namen-kaart.md`)
+- Verplaatsen kost geen goud maar zet de toren 35% van zijn bouwtijd (minimaal 1,5 s) buiten werking: een gok die je moet voelen
+- Geen upgrade-bomen (Modern), geen multiplayer, geen accounts, **geen geluid**, geen echte tutorial. Het Schaduw-altaar uit het origineel ontbreekt
+- De touchgebaren zijn getest met touch-emulatie in Chrome (tikken, slepen uit de lade, vasthouden en verplaatsen, panning, knijpen), **niet op een echte telefoon**. De modellen zijn bekeken in screenshots op 1280x720 en 844x390
+- De webbuild is ongeveer 40 MB (vooral de engine); de eerste keer laden kost op 4G even tijd
 
 ## Beslissingen (22-10-2026)
 
@@ -85,6 +86,13 @@ Uitgelezen op 2026-10-22.
 - Plan en architectuur → `docs/PLAN.md`, Mac-setup → `docs/SETUP-MAC.md`, context voor Claude Code → `CLAUDE.md`
 - Extractiescripts → `tools/w3x-extract/`
 
+### 2026-10-22: mobiele UX en visuals (versie 2)
+- Onderzoek naar mobiele TD-bediening → `docs/research/mobile-td-ux.md` (dunne bronnen, eerlijk vermeld). Ontwerp → `docs/design/mobiele-ux-en-visuals.md`
+- Simulatie: `can_move`/`move_tower` (anti-block, 35% heropbouw), `aim` en `impact`-events, 366 checks
+- Client herschreven: `models.gd` (torens uit Kenney-onderdelen, procedurele monsters), `world_view.gd` (bos, schip, effecten, grid-overlay, routelijnen, camera met zoomlimiet), `ui_kit.gd` (vectoriconen, glazen panelen), `minimap.gd`, `hud.gd` (mobile-first), `main.gd` (pointer-logica voor alle gebaren)
+- Assets: Kenney Tower Defense Kit (CC0) in `game/assets/kenney_td`, vermeld in `game/CREDITS.md`
+- Getest in Chrome met touch-emulatie: slepen uit de lade, vasthouden en verplaatsen, panning, knijpen
+
 ### 2026-10-22: eerste speelbare versie
 - Data-pipeline: `tools/import_wintermaul.py` + `tools/import_overlay.py` (eigen namen NL/EN, effectparameters) → `game/data/{towers,creeps,waves_classic}.json`, matrix, regels en kaart (`tools/gen_map.py`). Ontwerpdocument wordt gegenereerd (`tools/gen_design_doc.py` → `docs/design/schade-namen-kaart.md`)
 - Godot-project `game/`: `core/` (grid met flow field en anti-block, simulatie, data), `client/` (3D-weergave, HUD, overlay, main), `tests/` (355 headless checks, bot, screenshot-runner)
@@ -100,10 +108,10 @@ Uitgelezen op 2026-10-22.
 
 ## Volgende stappen
 
-1. **Jij:** speel het op de telefoon en geef feedback: voelt het bouwen goed, is de balans te zwaar of te makkelijk, wat ontbreekt?
+1. **Jij:** speel het op de telefoon: voelt slepen, verplaatsen en de lade goed? Is de balans te zwaar of te makkelijk? Wat ontbreekt?
 2. **Jij:** `sudo pmset -a autorestart 1` en zet de webserver desgewenst als LaunchAgent aan (Claude Code kan dat op verzoek maken)
-3. **Balans:** abilities uit `war3map.w3a` lezen (echte slow/crit/chain-waarden), een betere bot met maze, balans-sims per element en de solo-boost bijstellen
-4. **Bouw-UX:** drag-to-wall, doelprioriteit per toren, undo, tutorial-tips
-5. **Modern-modus:** upgrade-bomen, collectieve bounty, wisselend armortype (zie `docs/research/wc3-td-genre.md`)
-6. **Multiplayer (fase 4/5):** server-authoritative over WebSocket, accounts en lobby
-7. **Art en audio (fase 6):** CC0-modellen en geluiden, VFX
+3. **Geluid** en haptische feedback, een korte **tutorial** (eerste keer: kies element, sleep een toren, start level)
+4. **Balans:** abilities uit `war3map.w3a` lezen, een betere bot met maze, balans-sims per element, solo-boost bijstellen
+5. **Bouw-UX:** doelprioriteit per toren, undo, tower-upgrade-wiel
+6. **Modern-modus:** upgrade-bomen, collectieve bounty, wisselend armortype (zie `docs/research/wc3-td-genre.md`)
+7. **Multiplayer (fase 4/5):** server-authoritative over WebSocket, accounts en lobby

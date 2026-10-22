@@ -38,7 +38,7 @@ func _draw() -> void:
 	for c in sim.creeps.values():
 		if c.hp >= c.max_hp:
 			continue
-		var base = world.tile_to_screen(c.pos, (1.9 if c.air else 0.8) + (0.5 if c.boss else 0.0))
+		var base = world.tile_to_screen(c.pos, (2.6 if c.air else 1.2) * float(c.def.get("barScale", 1.0)) + (0.8 if c.boss else 0.0))
 		var w := 34.0 if c.boss else 22.0
 		var frac := clampf(c.hp / c.max_hp, 0.0, 1.0)
 		draw_rect(Rect2(base.x - w * 0.5, base.y, w, 4.0), Color(0, 0, 0, 0.7))

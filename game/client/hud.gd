@@ -1,59 +1,79 @@
 extends Control
-## All 2D interface: top bar, build bar, info panel, toasts, menu and end screen. It emits signals; main.gd decides.
+## All 2D interface, designed for a phone held in landscape: a few floating glass pills at the edges, a minimap, a build
+## tray with big cards and an action sheet for the selected tower. It emits signals; main.gd decides what happens.
+
+const Minimap := preload("res://client/minimap.gd")
 
 signal tower_chosen(id)
+signal card_down(id)
 signal element_chosen(id)
 signal unlock_pressed(id)
 signal sell_pressed
+signal move_pressed
 signal skip_pressed
 signal speed_pressed
 signal pause_pressed
 signal menu_pressed
+signal resume_pressed
+signal restart_pressed
 signal lang_pressed
 signal confirm_pressed
 signal cancel_pressed
 signal play_pressed(difficulty)
 signal again_pressed
-signal fit_pressed
+signal center_pressed
+signal wall_toggled(on)
+signal minimap_focus(tile)
+signal tray_toggled(open)
 
 const DIFFS := ["easy", "normal", "hard", "perfection"]
+const ARMOR_COLORS := {"small": Color("8be36a"), "medium": Color("f2d94a"), "large": Color("f08a3a"), "fort": Color("7fa6d6"), "divine": Color("ffffff")}
 
 var data
 var i18n
 var difficulty := "normal"
+var minimap
+var tray_open := true
 
 var _gold: Label
 var _lumber: Label
 var _lives: Label
 var _level: Label
-var _timer: Label
-var _banner: Label
+var _status: Label
+var _creep_name: Label
+var _armor_label: Label
+var _armor_icon
+var _kind_icon
+var _boss_tag: Label
+var _skip_btn
 var _toast: Label
 var _toast_ttl := 0.0
-var _speed_btn: Button
-var _pause_btn: Button
-var _skip_btn: Button
-var _top_buttons: Array = []
+var _speed_btn
+var _pause_btn
+var _center_btn
 var _elem_row: HBoxContainer
 var _tower_row: HBoxContainer
 var _hint: Label
+var _tray: PanelContainer
+var _tray_body: VBoxContainer
+var _tray_toggle
 var _tower_buttons := {}
-var _info_panel: PanelContainer
-var _info_text: RichTextLabel
-var _sell_btn: Button
+var _sheet: PanelContainer
+var _sheet_text: RichTextLabel
+var _sheet_buttons: HBoxContainer
+var _move_btn
+var _sell_btn
+var _wall_btn
 var _confirm_bar: HBoxContainer
-var _confirm_btn: Button
-var _cancel_btn: Button
 var _menu: Control
-var _menu_diff_buttons := {}
+var _menu_diff := {}
 var _menu_texts := {}
+var _pause_sheet: Control
+var _pause_texts := {}
 var _end: Control
 var _end_title: Label
 var _end_stats: Label
 var _bar_sig := ""
-var _tip: Label
-var _top_panel: PanelContainer
-var _bottom_panel: PanelContainer
 
 
 func _init() -> void:
@@ -65,268 +85,353 @@ func setup(p_data, p_i18n) -> void:
 	data = p_data
 	i18n = p_i18n
 	var th := Theme.new()
-	th.default_font_size = 20
+	th.default_font_size = 15
 	theme = th
 	_build_top()
-	_build_bottom()
-	_build_info()
+	_build_minimap_column()
+	_build_sheet()
+	_build_tray()
+	_build_confirm()
 	_build_menu()
+	_build_pause_sheet()
 	_build_end()
 	_toast = Label.new()
-	_toast.add_theme_font_size_override("font_size", 26)
+	_toast.add_theme_font_size_override("font_size", 22)
 	_toast.add_theme_color_override("font_outline_color", Color.BLACK)
 	_toast.add_theme_constant_override("outline_size", 6)
 	_toast.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	_toast.offset_top = 150
+	_toast.offset_top = 92
 	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_toast)
 	refresh_static_texts()
 
 
+func attach_minimap(sim, world) -> void:
+	minimap.setup(sim, world, data)
+
+
 # ------------------------------------------------------------------ construction helpers
 
-func _panel_style(alpha: float = 0.82) -> StyleBoxFlat:
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.07, 0.11, 0.18, alpha)
-	sb.set_corner_radius_all(10)
-	sb.content_margin_left = 10
-	sb.content_margin_right = 10
-	sb.content_margin_top = 6
-	sb.content_margin_bottom = 6
-	return sb
+func _pill() -> PanelContainer:
+	var p := PanelContainer.new()
+	p.add_theme_stylebox_override("panel", UiKit.panel_style(0.82, 18))
+	p.mouse_filter = Control.MOUSE_FILTER_STOP
+	return p
 
 
-func _button(text: String, min_size := Vector2(0, 48), accent := Color("3b6ea5")) -> Button:
-	var b := Button.new()
-	b.text = text
-	b.custom_minimum_size = min_size
-	b.focus_mode = Control.FOCUS_NONE
-	for state in ["normal", "hover", "pressed", "disabled"]:
-		var sb := StyleBoxFlat.new()
-		var base := Color(0.13, 0.2, 0.31)
-		if state == "hover":
-			base = base.lightened(0.12)
-		elif state == "pressed":
-			base = accent
-		sb.bg_color = base
-		sb.set_corner_radius_all(8)
-		sb.border_width_bottom = 5
-		sb.border_color = accent
-		sb.content_margin_left = 10
-		sb.content_margin_right = 10
-		sb.content_margin_top = 4
-		sb.content_margin_bottom = 4
-		b.add_theme_stylebox_override(state, sb)
-	return b
-
-
-func _label(size: int = 22, color := Color.WHITE) -> Label:
+func _label(size: int = 16, color := UiKit.TEXT) -> Label:
 	var l := Label.new()
 	l.add_theme_font_size_override("font_size", size)
 	l.add_theme_color_override("font_color", color)
-	l.add_theme_color_override("font_outline_color", Color.BLACK)
-	l.add_theme_constant_override("outline_size", 4)
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return l
 
 
 func _build_top() -> void:
-	var panel := PanelContainer.new()
-	_top_panel = panel
-	panel.add_theme_stylebox_override("panel", _panel_style())
-	panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	panel.offset_left = 8
-	panel.offset_right = -8
-	panel.offset_top = 6
-	add_child(panel)
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 14)
-	panel.add_child(row)
-	_gold = _label(22, Color("ffd45e"))
-	_lumber = _label(22, Color("b98a55"))
-	_lives = _label(22, Color("ff7a7a"))
-	_level = _label(22, Color("9fd6ff"))
-	_timer = _label(20, Color("dce8f5"))
-	_timer.clip_text = true
-	_timer.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_timer.custom_minimum_size = Vector2(60, 0)
-	for l in [_gold, _lumber, _lives, _level]:
-		row.add_child(l)
-	_timer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(_timer)
-	_skip_btn = _button("", Vector2(0, 40), Color("3fa05a"))
+	# resources, top left
+	var res := _pill()
+	res.position = Vector2(8, 6)
+	add_child(res)
+	var rrow := HBoxContainer.new()
+	rrow.add_theme_constant_override("separation", 6)
+	res.add_child(rrow)
+	rrow.add_child(UiKit.GlyphRect.new("coin", Color.WHITE, 22))
+	_gold = _label(20, UiKit.GOLD)
+	rrow.add_child(_gold)
+	var gap := Control.new()
+	gap.custom_minimum_size = Vector2(6, 0)
+	rrow.add_child(gap)
+	rrow.add_child(UiKit.GlyphRect.new("log", Color.WHITE, 22))
+	_lumber = _label(20, Color("d9a566"))
+	rrow.add_child(_lumber)
+
+	# wave pill, top centre
+	var wave := _pill()
+	wave.anchor_left = 0.5
+	wave.anchor_right = 0.5
+	wave.offset_left = 0
+	wave.offset_right = 0
+	wave.offset_top = 6
+	wave.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	add_child(wave)
+	var wrow := HBoxContainer.new()
+	wrow.add_theme_constant_override("separation", 10)
+	wave.add_child(wrow)
+	var wcol := VBoxContainer.new()
+	wcol.add_theme_constant_override("separation", 0)
+	wrow.add_child(wcol)
+	var line1 := HBoxContainer.new()
+	line1.add_theme_constant_override("separation", 10)
+	wcol.add_child(line1)
+	_level = _label(17, UiKit.ACCENT)
+	line1.add_child(_level)
+	_status = _label(15, UiKit.MUTED)
+	line1.add_child(_status)
+	var line2 := HBoxContainer.new()
+	line2.add_theme_constant_override("separation", 5)
+	wcol.add_child(line2)
+	_kind_icon = UiKit.GlyphRect.new("ground", UiKit.TEXT, 16)
+	line2.add_child(_kind_icon)
+	_creep_name = _label(15)
+	line2.add_child(_creep_name)
+	_armor_icon = UiKit.GlyphRect.new("shield", Color.WHITE, 16)
+	line2.add_child(_armor_icon)
+	_armor_label = _label(14, UiKit.MUTED)
+	line2.add_child(_armor_label)
+	_boss_tag = _label(14, Color("ff8a5c"))
+	line2.add_child(_boss_tag)
+	_skip_btn = UiKit.GlyphButton.new("play", "", UiKit.GOOD, Vector2(50, 40))
+	_skip_btn.glyph_size = 20
 	_skip_btn.pressed.connect(func(): skip_pressed.emit())
-	_speed_btn = _button("", Vector2(0, 40))
-	_speed_btn.pressed.connect(func(): speed_pressed.emit())
-	_pause_btn = _button("", Vector2(0, 40))
-	_pause_btn.pressed.connect(func(): pause_pressed.emit())
-	var lang_btn := _button("NL/EN", Vector2(0, 40))
-	lang_btn.pressed.connect(func(): lang_pressed.emit())
-	var menu_btn := _button("", Vector2(0, 40))
-	menu_btn.pressed.connect(func(): menu_pressed.emit())
-	_top_buttons = [_skip_btn, _speed_btn, _pause_btn, lang_btn, menu_btn]
-	for b in _top_buttons:
-		row.add_child(b)
-	_banner = _label(20, Color("e8f2ff"))
-	_banner.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	_banner.offset_top = 62
-	_banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_banner.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(_banner)
+	wrow.add_child(_skip_btn)
+
+	# lives and menu, top right
+	var right := HBoxContainer.new()
+	right.add_theme_constant_override("separation", 6)
+	right.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	right.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	right.offset_top = 6
+	right.offset_right = -8
+	add_child(right)
+	var lives := _pill()
+	var lrow := HBoxContainer.new()
+	lrow.add_theme_constant_override("separation", 6)
+	lives.add_child(lrow)
+	lrow.add_child(UiKit.GlyphRect.new("heart", Color.WHITE, 20))
+	_lives = _label(20, Color("ff8a8a"))
+	lrow.add_child(_lives)
+	right.add_child(lives)
+	var gear = UiKit.RoundButton.new("menu", UiKit.ACCENT, 44)
+	gear.pressed.connect(func(): menu_pressed.emit())
+	right.add_child(gear)
 
 
-func _build_bottom() -> void:
-	var panel := PanelContainer.new()
-	_bottom_panel = panel
-	panel.add_theme_stylebox_override("panel", _panel_style())
-	panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	panel.offset_left = 8
-	panel.offset_right = -8
-	panel.offset_bottom = -6
-	panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	add_child(panel)
+func _build_minimap_column() -> void:
 	var col := VBoxContainer.new()
 	col.add_theme_constant_override("separation", 6)
-	panel.add_child(col)
-	_hint = _label(16, Color("c9d8ea"))
-	col.add_child(_hint)
+	col.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	col.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	col.offset_top = 58
+	col.offset_right = -8
+	add_child(col)
+	var holder := PanelContainer.new()
+	holder.add_theme_stylebox_override("panel", UiKit.panel_style(0.8, 10))
+	col.add_child(holder)
+	minimap = Minimap.new()
+	minimap.focus_requested.connect(func(t): minimap_focus.emit(t))
+	holder.add_child(minimap)
+	var fabs := HBoxContainer.new()
+	fabs.add_theme_constant_override("separation", 6)
+	fabs.alignment = BoxContainer.ALIGNMENT_END
+	col.add_child(fabs)
+	_center_btn = UiKit.RoundButton.new("target", UiKit.ACCENT, 44)
+	_center_btn.pressed.connect(func(): center_pressed.emit())
+	fabs.add_child(_center_btn)
+	_pause_btn = UiKit.RoundButton.new("pause", UiKit.ACCENT, 44)
+	_pause_btn.pressed.connect(func(): pause_pressed.emit())
+	fabs.add_child(_pause_btn)
+	_speed_btn = UiKit.RoundButton.new("ff", UiKit.GOOD, 44)
+	_speed_btn.pressed.connect(func(): speed_pressed.emit())
+	fabs.add_child(_speed_btn)
+
+
+func _build_sheet() -> void:
+	_sheet = PanelContainer.new()
+	_sheet.add_theme_stylebox_override("panel", UiKit.panel_style(0.9, 14))
+	_sheet.position = Vector2(8, 58)
+	_sheet.custom_minimum_size = Vector2(256, 0)
+	_sheet.visible = false
+	add_child(_sheet)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 6)
+	_sheet.add_child(col)
+	_sheet_text = RichTextLabel.new()
+	_sheet_text.bbcode_enabled = true
+	_sheet_text.fit_content = true
+	_sheet_text.scroll_active = false
+	_sheet_text.custom_minimum_size = Vector2(238, 0)
+	_sheet_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_sheet_text.add_theme_font_size_override("normal_font_size", 13)
+	_sheet_text.add_theme_font_size_override("bold_font_size", 16)
+	col.add_child(_sheet_text)
+	_sheet_buttons = HBoxContainer.new()
+	_sheet_buttons.add_theme_constant_override("separation", 6)
+	col.add_child(_sheet_buttons)
+	_move_btn = UiKit.GlyphButton.new("move", "", UiKit.ACCENT, Vector2(0, 50))
+	_move_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_move_btn.add_theme_font_size_override("font_size", 14)
+	_move_btn.pressed.connect(func(): move_pressed.emit())
+	_sheet_buttons.add_child(_move_btn)
+	_sell_btn = UiKit.GlyphButton.new("sell", "", UiKit.GOLD, Vector2(0, 50))
+	_sell_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_sell_btn.add_theme_font_size_override("font_size", 14)
+	_sell_btn.pressed.connect(func(): sell_pressed.emit())
+	_sheet_buttons.add_child(_sell_btn)
+	_wall_btn = UiKit.GlyphButton.new("wall", "", UiKit.ACCENT, Vector2(0, 46))
+	_wall_btn.toggle_mode = true
+	_wall_btn.toggled.connect(func(on): wall_toggled.emit(on))
+	col.add_child(_wall_btn)
+
+
+func _build_tray() -> void:
+	_tray = PanelContainer.new()
+	_tray.add_theme_stylebox_override("panel", UiKit.panel_style(0.88, 16))
+	_tray.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	_tray.offset_left = 8
+	_tray.offset_right = -8
+	_tray.offset_bottom = -6
+	_tray.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	add_child(_tray)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 4)
+	_tray.add_child(col)
+	var head := HBoxContainer.new()
+	head.add_theme_constant_override("separation", 6)
+	col.add_child(head)
 	_elem_row = HBoxContainer.new()
-	_elem_row.add_theme_constant_override("separation", 6)
-	col.add_child(_elem_row)
+	_elem_row.add_theme_constant_override("separation", 5)
+	_elem_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	head.add_child(_elem_row)
+	_hint = _label(13, UiKit.MUTED)
+	head.add_child(_hint)
+	_tray_toggle = UiKit.RoundButton.new("chevron_down", UiKit.ACCENT, 36)
+	_tray_toggle.pressed.connect(func():
+		tray_open = not tray_open
+		tray_toggled.emit(tray_open))
+	head.add_child(_tray_toggle)
+	_tray_body = VBoxContainer.new()
+	col.add_child(_tray_body)
 	_tower_row = HBoxContainer.new()
 	_tower_row.add_theme_constant_override("separation", 6)
-	col.add_child(_tower_row)
+	_tray_body.add_child(_tower_row)
+
+
+func _build_confirm() -> void:
 	_confirm_bar = HBoxContainer.new()
 	_confirm_bar.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
-	_confirm_bar.offset_left = -176
-	_confirm_bar.offset_right = 176
-	_confirm_bar.offset_top = -210
-	_confirm_bar.offset_bottom = -150
-	_confirm_bar.add_theme_constant_override("separation", 12)
-	_confirm_btn = _button("", Vector2(200, 60), Color("3fa05a"))
-	_confirm_btn.pressed.connect(func(): confirm_pressed.emit())
-	_cancel_btn = _button("", Vector2(140, 60), Color("b04a4a"))
-	_cancel_btn.pressed.connect(func(): cancel_pressed.emit())
-	_confirm_bar.add_child(_confirm_btn)
-	_confirm_bar.add_child(_cancel_btn)
+	_confirm_bar.offset_left = -80
+	_confirm_bar.offset_right = 80
+	_confirm_bar.offset_top = -200
+	_confirm_bar.offset_bottom = -140
+	_confirm_bar.add_theme_constant_override("separation", 14)
+	_confirm_bar.alignment = BoxContainer.ALIGNMENT_CENTER
 	_confirm_bar.visible = false
 	add_child(_confirm_bar)
+	var ok = UiKit.RoundButton.new("check", UiKit.GOOD, 60)
+	ok.pressed.connect(func(): confirm_pressed.emit())
+	_confirm_bar.add_child(ok)
+	var no = UiKit.RoundButton.new("cross", UiKit.BAD, 60)
+	no.pressed.connect(func(): cancel_pressed.emit())
+	_confirm_bar.add_child(no)
 
 
-func _build_info() -> void:
-	_info_panel = PanelContainer.new()
-	_info_panel.add_theme_stylebox_override("panel", _panel_style(0.9))
-	_info_panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
-	_info_panel.offset_left = 8
-	_info_panel.offset_right = 288
-	_info_panel.offset_top = 96
-	_info_panel.offset_bottom = 96
-	_info_panel.custom_minimum_size = Vector2(280, 0)
-	_info_panel.visible = false
-	add_child(_info_panel)
+func _centered_panel(parent: Control, dim: float) -> VBoxContainer:
+	var shade := ColorRect.new()
+	shade.color = Color(0.02, 0.04, 0.08, dim)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	parent.add_child(shade)
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(center)
+	var panel := PanelContainer.new()
+	panel.add_theme_stylebox_override("panel", UiKit.panel_style(0.97, 20))
+	center.add_child(panel)
 	var col := VBoxContainer.new()
-	_info_panel.add_child(col)
-	_info_text = RichTextLabel.new()
-	_info_text.bbcode_enabled = true
-	_info_text.fit_content = true
-	_info_text.scroll_active = false
-	_info_text.custom_minimum_size = Vector2(260, 0)
-	_info_text.add_theme_font_size_override("normal_font_size", 16)
-	_info_text.add_theme_font_size_override("bold_font_size", 18)
-	col.add_child(_info_text)
-	_sell_btn = _button("", Vector2(0, 42), Color("b08a3a"))
-	_sell_btn.pressed.connect(func(): sell_pressed.emit())
-	col.add_child(_sell_btn)
+	col.custom_minimum_size = Vector2(380, 0)
+	col.add_theme_constant_override("separation", 8)
+	panel.add_child(col)
+	return col
 
 
 func _build_menu() -> void:
 	_menu = Control.new()
 	_menu.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var dim := ColorRect.new()
-	dim.color = Color(0.03, 0.06, 0.1, 0.8)
-	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_menu.add_child(dim)
-	var center := CenterContainer.new()
-	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_menu.add_child(center)
-	var panel := PanelContainer.new()
-	panel.add_theme_stylebox_override("panel", _panel_style(0.97))
-	center.add_child(panel)
-	var col := VBoxContainer.new()
-	col.custom_minimum_size = Vector2(520, 0)
-	col.add_theme_constant_override("separation", 10)
-	panel.add_child(col)
-	var title := _label(54, Color("9fd6ff"))
+	var col := _centered_panel(_menu, 0.72)
+	var title := _label(40, UiKit.ACCENT)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	col.add_child(title)
 	_menu_texts["title"] = title
-	var tag := _label(22, Color("dce8f5"))
+	var tag := _label(16, UiKit.TEXT)
 	tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	tag.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(tag)
 	_menu_texts["tagline"] = tag
-	var mode := _label(20, Color("ffd45e"))
-	mode.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	col.add_child(mode)
-	_menu_texts["mode"] = mode
-	var dl := _label(20)
+	var dl := _label(14, UiKit.MUTED)
 	col.add_child(dl)
 	_menu_texts["difficulty"] = dl
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 6)
+	grid.add_theme_constant_override("v_separation", 6)
+	col.add_child(grid)
 	for d in DIFFS:
-		var b := _button("", Vector2(0, 46))
+		var b = UiKit.GlyphButton.new("", "", UiKit.ACCENT, Vector2(0, 46))
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.pressed.connect(func():
 			difficulty = d
 			_refresh_menu())
-		col.add_child(b)
-		_menu_diff_buttons[d] = b
+		grid.add_child(b)
+		_menu_diff[d] = b
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
+	row.add_theme_constant_override("separation", 8)
 	col.add_child(row)
-	var play := _button("", Vector2(0, 64), Color("3fa05a"))
+	var play = UiKit.GlyphButton.new("play", "", UiKit.GOOD, Vector2(0, 58))
 	play.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	play.pressed.connect(func(): play_pressed.emit(difficulty))
 	row.add_child(play)
 	_menu_texts["play"] = play
-	var lang := _button("NL / EN", Vector2(120, 64))
+	var lang = UiKit.GlyphButton.new("", "NL / EN", UiKit.ACCENT, Vector2(92, 58))
 	lang.pressed.connect(func(): lang_pressed.emit())
 	row.add_child(lang)
-	var hint := _label(16, Color("9bb0c8"))
+	var hint := _label(12, UiKit.MUTED)
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(hint)
 	_menu_texts["hint"] = hint
-	var controls := _label(16, Color("9bb0c8"))
+	var controls := _label(12, UiKit.MUTED)
 	controls.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(controls)
 	_menu_texts["controls"] = controls
 	add_child(_menu)
 
 
+func _build_pause_sheet() -> void:
+	_pause_sheet = Control.new()
+	_pause_sheet.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_pause_sheet.visible = false
+	var col := _centered_panel(_pause_sheet, 0.55)
+	var title := _label(26, UiKit.ACCENT)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	col.add_child(title)
+	_pause_texts["title"] = title
+	var resume = UiKit.GlyphButton.new("play", "", UiKit.GOOD, Vector2(0, 54))
+	resume.pressed.connect(func(): resume_pressed.emit())
+	col.add_child(resume)
+	_pause_texts["resume"] = resume
+	var lang = UiKit.GlyphButton.new("", "NL / EN", UiKit.ACCENT, Vector2(0, 46))
+	lang.pressed.connect(func(): lang_pressed.emit())
+	col.add_child(lang)
+	var restart = UiKit.GlyphButton.new("cross", "", UiKit.BAD, Vector2(0, 46))
+	restart.pressed.connect(func(): restart_pressed.emit())
+	col.add_child(restart)
+	_pause_texts["restart"] = restart
+	add_child(_pause_sheet)
+
+
 func _build_end() -> void:
 	_end = Control.new()
 	_end.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_end.visible = false
-	var dim := ColorRect.new()
-	dim.color = Color(0.03, 0.06, 0.1, 0.7)
-	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_end.add_child(dim)
-	var center := CenterContainer.new()
-	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_end.add_child(center)
-	var panel := PanelContainer.new()
-	panel.add_theme_stylebox_override("panel", _panel_style(0.97))
-	center.add_child(panel)
-	var col := VBoxContainer.new()
-	col.custom_minimum_size = Vector2(440, 0)
-	col.add_theme_constant_override("separation", 14)
-	panel.add_child(col)
-	_end_title = _label(50, Color("ffd45e"))
+	var col := _centered_panel(_end, 0.65)
+	_end_title = _label(40, UiKit.GOLD)
 	_end_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	col.add_child(_end_title)
-	_end_stats = _label(22)
+	_end_stats = _label(16)
 	_end_stats.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_end_stats.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(_end_stats)
-	var again := _button("", Vector2(0, 60), Color("3fa05a"))
+	var again = UiKit.GlyphButton.new("play", "", UiKit.GOOD, Vector2(0, 58))
 	again.pressed.connect(func(): again_pressed.emit())
 	col.add_child(again)
 	_menu_texts["again"] = again
@@ -335,42 +440,46 @@ func _build_end() -> void:
 
 # ------------------------------------------------------------------ texts and state
 
-## Space taken by the top and bottom bars in logical pixels (x = top, y = bottom), for framing the camera.
-func get_insets() -> Vector2:
-	return Vector2(_top_panel.size.y + 14.0, _bottom_panel.size.y + 14.0)
-
-
 func refresh_static_texts() -> void:
 	_menu_texts.title.text = i18n.t("app.title")
-	_menu_texts.tagline.text = i18n.t("app.tagline")
-	_menu_texts.mode.text = i18n.t("menu.mode")
+	_menu_texts.tagline.text = i18n.t("app.tagline") + "\n" + i18n.t("menu.mode")
 	_menu_texts.difficulty.text = i18n.t("menu.difficulty")
-	_menu_texts.play.text = i18n.t("menu.play")
+	_menu_texts.play.text = " " + i18n.t("menu.play")
 	_menu_texts.hint.text = i18n.t("menu.hint") + "\n" + i18n.t("help.tip")
 	_menu_texts.controls.text = i18n.t("help.controls")
-	_menu_texts.again.text = i18n.t("end.again")
-	_skip_btn.text = i18n.t("hud.skip")
-	_top_buttons[4].text = i18n.t("hud.menu")
-	_confirm_btn.text = i18n.t("hud.confirm")
-	_cancel_btn.text = i18n.t("hud.cancel")
+	_menu_texts.again.text = " " + i18n.t("end.again")
+	_pause_texts.title.text = i18n.t("hud.pause")
+	_pause_texts.resume.text = " " + i18n.t("hud.resume")
+	_pause_texts.restart.text = " " + i18n.t("hud.restart")
+	_wall_btn.text = " " + i18n.t("hud.wall")
 	_refresh_menu()
 	_bar_sig = ""
 
 
 func _refresh_menu() -> void:
 	for d in DIFFS:
-		var b: Button = _menu_diff_buttons[d]
-		b.text = ("● " if d == difficulty else "○ ") + i18n.t("diff." + d)
+		var b = _menu_diff[d]
+		b.text = i18n.t("diff." + d)
+		b.set_selected(d == difficulty)
 
 
 func set_menu_visible(v: bool) -> void:
 	_menu.visible = v
 	_end.visible = false
+	_pause_sheet.visible = false
+
+
+func set_pause_visible(v: bool) -> void:
+	_pause_sheet.visible = v
+
+
+func is_blocking() -> bool:
+	return _menu.visible or _pause_sheet.visible or _end.visible
 
 
 func show_end(won: bool, reason: String, stats_text: String) -> void:
 	_end_title.text = i18n.t("end.won") if won else i18n.t("end.lost")
-	_end_title.add_theme_color_override("font_color", Color("ffd45e") if won else Color("ff7a7a"))
+	_end_title.add_theme_color_override("font_color", UiKit.GOLD if won else UiKit.BAD)
 	var why = "" if won else i18n.t("end.lost_boss" if reason == "boss" else "end.lost_lives") + "\n"
 	_end_stats.text = why + stats_text
 	_end.visible = true
@@ -391,37 +500,73 @@ func tick(delta: float) -> void:
 		_toast.text = ""
 
 
-## ctx: build_id, active_element, selected_id (tower id or 0), speed, paused, touch_mode, ghost_valid, info_bbcode,
-## sell_text, wave_text, banner, path_text
+## True when a logical-pixel point lies on a floating panel, so a press there must not move the map.
+func covers_point(p: Vector2) -> bool:
+	for c in [_tray, _sheet, _confirm_bar]:
+		if c.visible and Rect2(c.global_position, c.size).has_point(p):
+			return true
+	return false
+
+
+## Space taken by the top and bottom bars in logical pixels (x = top, y = bottom), for framing the camera.
+func get_insets() -> Vector2:
+	return Vector2(54.0, _tray.size.y + 12.0)
+
+
+## ctx keys: build_id, active_element, selected (bool), speed, paused, touch, ghost_valid, wall_mode, sheet_bbcode,
+## sell_text, move_text, level_text, status_text, creep (def or {}), hint
 func update_state(sim, ctx: Dictionary) -> void:
-	_gold.text = "%s %d" % [i18n.t("hud.gold"), sim.gold]
-	_lumber.text = "%s %d" % [i18n.t("hud.lumber"), sim.lumber]
-	_lives.text = "%s %d/%d" % [i18n.t("hud.lives"), sim.lives, sim.max_lives]
-	_level.text = i18n.t("hud.wave", [sim.level, int(sim.data.rules.lastLevel)])
-	_timer.text = ctx.wave_text
-	_banner.text = ctx.banner
-	_speed_btn.text = i18n.t("hud.speed", [ctx.speed])
-	_pause_btn.text = i18n.t("hud.resume") if ctx.paused else i18n.t("hud.pause")
+	_gold.text = str(sim.gold)
+	_lumber.text = str(sim.lumber)
+	_lives.text = "%d/%d" % [sim.lives, sim.max_lives]
+	_level.text = ctx.level_text
+	_status.text = ctx.status_text
+	var creep: Dictionary = ctx.creep
+	var has_creep: bool = not creep.is_empty()
+	_kind_icon.visible = has_creep
+	_creep_name.visible = has_creep
+	_armor_icon.visible = has_creep
+	_armor_label.visible = has_creep
+	_boss_tag.visible = has_creep
+	if has_creep:
+		_kind_icon.set_glyph("air" if creep.air else "ground", UiKit.TEXT)
+		_creep_name.text = i18n.n(creep.name)
+		var ac: Color = ARMOR_COLORS.get(creep.armorType, Color.WHITE)
+		_armor_icon.set_glyph("shield", ac)
+		_armor_label.text = "%s %d" % [i18n.t("armor." + creep.armorType), int(creep.armor)]
+		_boss_tag.text = i18n.t("hud.boss") if creep.boss else ""
 	_skip_btn.visible = sim.state == "countdown"
+	_speed_btn.glyph = "ff" if ctx.speed == 1 else "ff2"
+	_speed_btn.tint = UiKit.GOOD if ctx.speed == 1 else (UiKit.GOLD if ctx.speed == 2 else UiKit.BAD)
+	_speed_btn.queue_redraw()
+	_pause_btn.glyph = "play" if ctx.paused else "pause"
+	_pause_btn.queue_redraw()
 	_rebuild_bars(sim, ctx)
 	for id in _tower_buttons:
 		var def: Dictionary = data.towers[id]
 		var affordable: bool = sim.gold >= int(def.cost.gold) and sim.lumber >= int(def.cost.lumber)
-		var b: Button = _tower_buttons[id]
-		b.modulate = Color(1, 1, 1, 1) if affordable else Color(1, 1, 1, 0.5)
-		b.button_pressed = ctx.build_id == id
-	_info_panel.visible = ctx.info_bbcode != ""
-	if _info_panel.visible:
-		_info_text.text = ctx.info_bbcode
-	_sell_btn.visible = ctx.sell_text != ""
-	_sell_btn.text = ctx.sell_text
-	_confirm_bar.visible = ctx.touch_mode and ctx.build_id != "" and ctx.ghost_valid
+		var b = _tower_buttons[id]
+		b.modulate = Color(1, 1, 1, 1) if affordable else Color(1, 1, 1, 0.55)
+		b.set_selected(ctx.build_id == id)
+	_tray_body.visible = tray_open
+	_tray_toggle.glyph = "chevron_down" if tray_open else "chevron_up"
+	_tray_toggle.queue_redraw()
+	_sheet.visible = ctx.sheet_bbcode != ""
+	if _sheet.visible:
+		_sheet_text.text = ctx.sheet_bbcode
+	_sheet_buttons.visible = ctx.selected
+	_move_btn.text = " " + ctx.move_text
+	_sell_btn.text = " " + ctx.sell_text
+	_wall_btn.visible = ctx.build_id != ""
+	if _wall_btn.button_pressed != ctx.wall_mode:
+		_wall_btn.set_pressed_no_signal(ctx.wall_mode)
+	_confirm_bar.visible = ctx.touch and ctx.build_id != "" and ctx.ghost_valid and not ctx.wall_mode
 	_hint.text = ctx.hint
 	_hint.visible = ctx.hint != ""
 
 
 func _rebuild_bars(sim, ctx: Dictionary) -> void:
-	var sig := "%s|%s|%s|%s|%s" % [sim.elements, ctx.active_element, sim.lumber > 0, i18n.lang, ctx.build_id != ""]
+	var sig := "%s|%s|%s|%s" % [sim.elements, ctx.active_element, sim.lumber > 0, i18n.lang]
 	if sig == _bar_sig:
 		return
 	_bar_sig = sig
@@ -431,56 +576,66 @@ func _rebuild_bars(sim, ctx: Dictionary) -> void:
 		c.queue_free()
 	_tower_buttons.clear()
 	if sim.elements.is_empty():
-		for e in data.elements:
-			var b := _button(i18n.n(e.name), Vector2(96, 46), Color(e.color))
-			b.pressed.connect(func(): unlock_pressed.emit(e.id))
-			_elem_row.add_child(b)
+		_element_picker(sim)
 		return
 	for eid in sim.elements:
 		var e: Dictionary = data.element_of(eid)
-		var b := _button(i18n.n(e.name), Vector2(92, 38), Color(e.color))
-		b.add_theme_font_size_override("font_size", 17)
-		b.toggle_mode = true
-		b.button_pressed = eid == ctx.active_element
+		var b = UiKit.GlyphButton.new(UiKit.element_glyph(eid), "", Color(e.color), Vector2(52, 40))
+		b.glyph_size = 24
+		b.set_selected(eid == ctx.active_element)
 		b.pressed.connect(func(): element_chosen.emit(eid))
 		_elem_row.add_child(b)
+	var ult = UiKit.GlyphButton.new("ultimate", "", Color("bff6ff"), Vector2(52, 40))
+	ult.glyph_size = 24
+	ult.set_selected(ctx.active_element == "__ultimate")
+	ult.pressed.connect(func(): element_chosen.emit("__ultimate"))
+	_elem_row.add_child(ult)
 	if sim.lumber > 0:
-		var more := _button(i18n.t("hud.unlock"), Vector2(0, 38), Color("b98a55"))
-		more.add_theme_font_size_override("font_size", 17)
+		var more = UiKit.GlyphButton.new("log", "+", Color("d9a566"), Vector2(64, 40))
+		more.glyph_size = 20
 		more.pressed.connect(func(): element_chosen.emit("__unlock"))
 		_elem_row.add_child(more)
+	if ctx.active_element == "__unlock":
+		_element_picker(sim)
+		return
 	var ids: Array = []
 	var accent := Color("bff6ff")
-	if ctx.active_element == "__unlock":
-		for e in data.elements:
-			if e.id in sim.elements:
-				continue
-			var b := _button(i18n.n(e.name), Vector2(110, 56), Color(e.color))
-			b.pressed.connect(func(): unlock_pressed.emit(e.id))
-			_tower_row.add_child(b)
-	elif ctx.active_element == "__ultimate":
+	if ctx.active_element == "__ultimate":
 		ids = [data.ultimate]
 	else:
 		var el: Dictionary = data.element_of(ctx.active_element)
 		if not el.is_empty():
 			ids = el.towers
 			accent = Color(el.color)
-	var ult := _button(i18n.t("hud.ultimate"), Vector2(92, 38), Color("bff6ff"))
-	ult.add_theme_font_size_override("font_size", 17)
-	ult.toggle_mode = true
-	ult.button_pressed = ctx.active_element == "__ultimate"
-	ult.pressed.connect(func(): element_chosen.emit("__ultimate"))
-	_elem_row.add_child(ult)
 	var keys := ["Q", "W", "E", "R", "T", "Y"]
 	var i := 0
 	for id in ids:
 		var def: Dictionary = data.towers[id]
-		var cost := "%dg" % int(def.cost.gold) + (" + %dh" % int(def.cost.lumber) if int(def.cost.lumber) > 0 else "")
-		var b := _button("%s\n%s  [%s]" % [i18n.n(def.name), cost, keys[mini(i, 5)]], Vector2(138, 56), accent)
-		b.toggle_mode = true
-		b.add_theme_font_size_override("font_size", 16)
+		var cost = "%dg" % int(def.cost.gold) + (" +%dh" % int(def.cost.lumber) if int(def.cost.lumber) > 0 else "")
+		var b = UiKit.GlyphButton.new(UiKit.element_glyph(def.element), cost, accent, Vector2(84, 70))
+		b.top_icon = true
+		b.glyph_size = 26
+		b.badge = keys[mini(i, 5)]
+		b.tooltip_text = i18n.n(def.name)
+		b.add_theme_font_size_override("font_size", 15)
+		b.set_selected(false)
 		var tid: String = id
 		b.pressed.connect(func(): tower_chosen.emit(tid))
+		b.button_down.connect(func(): card_down.emit(tid))
 		_tower_row.add_child(b)
 		_tower_buttons[id] = b
 		i += 1
+
+
+## Big element buttons: the first pick at the start, or an extra element when lumber is available.
+func _element_picker(sim) -> void:
+	for e in data.elements:
+		if e.id in sim.elements:
+			continue
+		var b = UiKit.GlyphButton.new(UiKit.element_glyph(e.id), i18n.n(e.name), Color(e.color), Vector2(92, 64))
+		b.top_icon = true
+		b.glyph_size = 22
+		b.add_theme_font_size_override("font_size", 13)
+		b.set_selected(false)
+		b.pressed.connect(func(): unlock_pressed.emit(e.id))
+		_tower_row.add_child(b)

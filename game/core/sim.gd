@@ -43,6 +43,8 @@ class Tower extends RefCounted:
 	var spent := 0
 	var kills := 0
 	var damage_dealt := 0.0
+	var aim := Vector2.ZERO          # last target position, for turning the turret in the view
+	var moves := 0
 
 class Proj extends RefCounted:
 	var tower: Tower
@@ -133,8 +135,10 @@ func can_place(def_id: String, cx: int, cy: int) -> Dictionary:
 		return _err("gold")
 	if lumber < int(def.cost.lumber):
 		return _err("lumber")
-	var fw := int(def.footprint[0])
-	var fh := int(def.footprint[1])
+	return _can_place_here(cx, cy, int(def.footprint[0]), int(def.footprint[1]))
+
+
+func _can_place_here(cx: int, cy: int, fw: int, fh: int) -> Dictionary:
 	var problem: String = grid.footprint_problem(cx, cy, fw, fh)
 	if problem != "":
 		return _err(problem)
@@ -180,6 +184,49 @@ func sell_tower(tower_id: int) -> Dictionary:
 	grid_revision += 1
 	towers.erase(tower_id)
 	_event({"type": "sold", "tower": tower_id})
+	return {"ok": true}
+
+
+## Check whether a tower can be moved to cell (cx, cy). The tower's own cells count as free.
+func can_move(tower_id: int, cx: int, cy: int) -> Dictionary:
+	var t: Tower = towers.get(tower_id)
+	if t == null:
+		return _err("unknown")
+	if state == "won" or state == "lost":
+		return _err("ended")
+	var fw := int(t.def.footprint[0])
+	var fh := int(t.def.footprint[1])
+	if cx == t.cx and cy == t.cy:
+		return _err("same")
+	grid.set_footprint(t.cx, t.cy, fw, fh, false)
+	var res := _can_place_here(cx, cy, fw, fh)
+	grid.set_footprint(t.cx, t.cy, fw, fh, true)
+	return res
+
+
+## Move a built tower. It costs no gold, but the tower has to be set up again: it is out of action for a share of
+## its build time (rules.moveBuildShare), so moving in the middle of a wave is a real decision.
+func move_tower(tower_id: int, cx: int, cy: int) -> Dictionary:
+	var res := can_move(tower_id, cx, cy)
+	if not res.ok:
+		return res
+	var t: Tower = towers[tower_id]
+	var fw := int(t.def.footprint[0])
+	var fh := int(t.def.footprint[1])
+	grid.set_footprint(t.cx, t.cy, fw, fh, false)
+	grid.set_footprint(cx, cy, fw, fh, true)
+	grid.recompute()
+	grid_revision += 1
+	t.cx = cx
+	t.cy = cy
+	var cs: float = grid.cell_size
+	t.center = Vector2((float(cx) + float(fw) * 0.5) * cs, (float(cy) + float(fh) * 0.5) * cs)
+	var share: float = float(_rules.get("moveBuildShare", 0.35))
+	t.building = true
+	t.build_total = maxf(1.5, float(t.def.buildTime) * share)
+	t.build_left = t.build_total
+	t.moves += 1
+	_event({"type": "moved", "tower": t.id})
 	return {"ok": true}
 
 
@@ -348,6 +395,7 @@ func _find_target(t: Tower) -> Creep:
 
 
 func _fire(t: Tower, target: Creep) -> void:
+	t.aim = target.pos
 	var a: Dictionary = t.def.attack
 	var dmg := float(rng.randi_range(int(a.damage[0]), int(a.damage[1])))
 	for e in t.def.effects:
@@ -389,6 +437,7 @@ func _update_projectiles() -> void:
 func _impact(t: Tower, target: Creep, dmg: float) -> void:
 	var a: Dictionary = t.def.attack
 	var hit_pos := target.pos
+	_event({"type": "impact", "pos": hit_pos, "element": t.def.element, "air": target.air})
 	_deal(target, dmg, a.type, t, false)
 	for e in t.def.effects:
 		if e.kind == "bonus_damage":

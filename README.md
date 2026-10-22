@@ -23,4 +23,4 @@ python3 server-mac/serve_web.py                 # serveert op 127.0.0.1:8060 (ta
 godot --headless --path game --script res://tests/run_tests.gd   # alleen de tests
 ```
 
-Status: eerste speelbare browserversie van de modus Klassiek (1 speler). Ontwerp: [`docs/design/schade-namen-kaart.md`](docs/design/schade-namen-kaart.md).
+Status: speelbare browserversie van de modus Klassiek (1 speler) met mobiele bediening en 3D-modellen. Ontwerp: [`docs/design/schade-namen-kaart.md`](docs/design/schade-namen-kaart.md) en [`docs/design/mobiele-ux-en-visuals.md`](docs/design/mobiele-ux-en-visuals.md). Onderzoek naar mobiele TD-bediening: [`docs/research/mobile-td-ux.md`](docs/research/mobile-td-ux.md).

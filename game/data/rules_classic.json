@@ -56,5 +56,6 @@
    "levelBonus": 1.0,
    "bounty": 1.0
   }
- }
+ },
+ "moveBuildShare": 0.35
 }

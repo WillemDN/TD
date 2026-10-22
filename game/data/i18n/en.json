@@ -89,6 +89,19 @@
  "end.stats": "Level {0} · {1} kills · {2} towers",
  "end.again": "Play again",
  "help.tip": "Tip: place towers anywhere as long as a path to the ship remains. Make the path as long as you can!",
- "help.controls": "Mouse: left click builds/selects · right click or drag = camera · scroll = zoom · Q-T = towers · S = sell · space = start level",
- "touch.hint": "Tap to place, tap the same spot again (or Build here) to confirm"
+ "help.controls": "Drag = move the map · pinch/scroll = zoom · drag a card out of the tray = build · hold a tower = move it · minimap: tap to jump",
+ "touch.hint": "Drag the ghost or tap elsewhere, confirm with the check mark",
+ "hud.restart": "Restart",
+ "hud.wall": "Drag a wall",
+ "hud.move": "Move",
+ "hud.moving": "Drag the tower to a new spot. It has to be set up again there ({0} s)",
+ "msg.moved": "Tower moved",
+ "msg.same": "Same spot",
+ "hud.wall_cost": "Wall: {0} towers for {1} gold",
+ "msg.wall": "{0} towers placed",
+ "hud.drag_hint": "Drag a card onto the map to build",
+ "hud.selected": "Selected",
+ "msg.nothing_placed": "No spot was valid",
+ "hud.level_short": "Level {0}/{1}",
+ "hud.starts_in": "starts in {0} s"
 }

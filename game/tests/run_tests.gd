@@ -18,6 +18,7 @@ func _init() -> void:
 	test_economy(data)
 	test_effects(data)
 	test_waves_scale(data)
+	test_moving_towers(data)
 	test_game_end_rules(data)
 	test_i18n_complete(data)
 	test_determinism(data)
@@ -237,6 +238,44 @@ func test_waves_scale(data) -> void:
 	var sim9 = Sim.new(data, 1, "normal", 9)
 	check(sim9.wave_total(data.waves[0]) == 120, "nine players get the original 120 creeps")
 	check(sim9.wave_total(data.waves[9]) == 6, "nine players get 6 bosses")
+
+
+func test_moving_towers(data) -> void:
+	var sim = Sim.new(data, 1)
+	sim.unlock_element("ice")
+	var r = sim.place_tower("frost_shard", 60, 30)
+	var t = sim.towers[r.id]
+	t.building = false
+	var gold = sim.gold
+	check(sim.can_move(r.id, 60, 30).reason == "same", "moving to the same cell is refused")
+	check(sim.can_move(r.id, 61, 30).ok, "a tower may move onto its own old cells")
+	check(sim.can_move(r.id, 0, 0).reason == "terrain", "cannot move onto a wall")
+	var rev = sim.grid_revision
+	var m = sim.move_tower(r.id, 70, 24)
+	check(m.ok and t.cx == 70 and t.cy == 24, "the tower moved")
+	check(sim.gold == gold, "moving costs no gold")
+	check(t.building and t.build_left < t.build_total + 0.001 and t.build_left >= 1.5, "a moved tower is set up again")
+	check(sim.grid_revision == rev + 1, "moving updates the path revision")
+	check(sim.grid.footprint_problem(60, 30, 2, 2) == "", "the old spot is free again")
+	check(sim.grid.footprint_problem(70, 24, 2, 2) == "occupied", "the new spot is occupied")
+	check(t.moves == 1, "moves are counted")
+	# a move that would block the path is refused
+	var sim2 = Sim.new(data, 1)
+	sim2.unlock_element("ice")
+	sim2.gold = 100000
+	var y := 4
+	var last = -1
+	while y + 1 <= 17:
+		var rr = sim2.place_tower("frost_shard", 30, y)
+		if rr.ok:
+			last = rr.id
+		y += 2
+	var spare = sim2.place_tower("frost_shard", 40, 6)
+	var blocked := false
+	for yy in range(4, 17):
+		if sim2.can_move(spare.id, 30, yy).reason == "blocks_path":
+			blocked = true
+	check(blocked, "moving a tower into the last gap is refused")
 
 
 func test_game_end_rules(data) -> void:

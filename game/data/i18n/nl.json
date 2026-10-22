@@ -89,6 +89,19 @@
  "end.stats": "Level {0} · {1} kills · {2} torens",
  "end.again": "Opnieuw spelen",
  "help.tip": "Tip: je kunt een toren plaatsen waar je wilt, zolang er een pad naar het schip blijft. Maak het pad zo lang mogelijk!",
- "help.controls": "Muis: linksklik bouwt/selecteert · rechtsklik of slepen = camera · scrollen = zoom · Q-T = torens · S = verkoop · spatie = start level",
- "touch.hint": "Tik om te plaatsen, tik nogmaals op dezelfde plek (of op Bouw hier) om te bevestigen"
+ "help.controls": "Sleep = kaart verschuiven · knijp/scroll = zoom · sleep een kaart uit de lade = bouwen · houd een toren ingedrukt = verplaatsen · minimap: tik om te springen",
+ "touch.hint": "Sleep de ghost of tik elders, bevestig met het vinkje",
+ "hud.restart": "Opnieuw beginnen",
+ "hud.wall": "Muur slepen",
+ "hud.move": "Verplaats",
+ "hud.moving": "Sleep de toren naar een nieuwe plek. Hij moet daar eerst weer opgebouwd worden ({0} s)",
+ "msg.moved": "Toren verplaatst",
+ "msg.same": "Dezelfde plek",
+ "hud.wall_cost": "Muur: {0} torens voor {1} goud",
+ "msg.wall": "{0} torens geplaatst",
+ "hud.drag_hint": "Sleep een kaart naar de kaart om te bouwen",
+ "hud.selected": "Geselecteerd",
+ "msg.nothing_placed": "Geen enkele plek was geldig",
+ "hud.level_short": "Level {0}/{1}",
+ "hud.starts_in": "start over {0} s"
 }
