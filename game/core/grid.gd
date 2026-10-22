@@ -21,6 +21,7 @@ var goal_cells := PackedInt32Array()
 var goal_center := Vector2.ZERO
 var dist := PackedFloat32Array()      # path cost to the goal in cells, INF when unreachable
 var next_cell := PackedInt32Array()   # next cell on the way to the goal, -1 at the goal or when unreachable
+var air_next := PackedInt32Array()    # the same route for flyers: terrain only, towers do not matter
 
 
 func _init(map: Dictionary) -> void:
@@ -39,6 +40,9 @@ func _init(map: Dictionary) -> void:
 			goal_cells.append(y * w + x)
 	goal_center = Vector2((float(g[0]) + float(g[2]) + 1.0) * 0.5 * cell_size, (float(g[1]) + float(g[3]) + 1.0) * 0.5 * cell_size)
 	recompute()
+	# flyers follow the corridors of the map but ignore towers: computed once, before any tower exists
+	var air_dist := PackedFloat32Array()
+	_compute(air_dist, air_next)
 
 
 func idx(x: int, y: int) -> int:

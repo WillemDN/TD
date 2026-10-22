@@ -19,6 +19,7 @@ func _init() -> void:
 	test_effects(data)
 	test_waves_scale(data)
 	test_creeps_keep_clear(data)
+	test_flyers_follow_corridors(data)
 	test_moving_towers(data)
 	test_game_end_rules(data)
 	test_i18n_complete(data)
@@ -266,6 +267,35 @@ func test_creeps_keep_clear(data) -> void:
 	var len_open: float = Sim.new(data, 1).grid.path_length(starts)
 	var len_tower: float = sim.grid.path_length(starts)
 	check(len_tower >= len_open and len_tower < len_open + 2.0, "the reported path length is the walked length (%s vs %s)" % [len_tower, len_open])
+
+
+func test_flyers_follow_corridors(data) -> void:
+	# flyers use the terrain-only route: towers never change it, and it never crosses a wall
+	var sim = Sim.new(data, 1)
+	sim.unlock_element("ice")
+	sim.gold = 100000
+	var before: PackedInt32Array = PackedInt32Array(sim.grid.air_next)
+	for y in range(12, 46, 2):
+		sim.place_tower("frost_shard", 62, y)
+	check(sim.grid.air_next == before, "towers do not change the flyer route")
+	var cur: int = sim.grid.idx(int(data.map.spawns[2].cell[0]), int(data.map.spawns[2].cell[1]))
+	var ok := true
+	var guard := 0
+	while cur >= 0 and guard < 4000:
+		guard += 1
+		if sim.grid.flags[cur] & 1:
+			ok = false
+		cur = sim.grid.air_next[cur]
+	check(ok and guard > 10, "the flyer route stays on open ground")
+	var fly = make_target(sim, "frost_whelp", sim.grid.cell_center(sim.grid.idx(int(data.map.spawns[2].cell[0]), int(data.map.spawns[2].cell[1]))))
+	var wall_crossed := false
+	for i in 1200:
+		sim.tick()
+		if not sim.creeps.has(fly.id):
+			break
+		if sim.grid.flags[sim.grid.cell_of(fly.pos)] & 1:
+			wall_crossed = true
+	check(not wall_crossed, "a flyer never flies over a map wall")
 
 
 func test_moving_towers(data) -> void:

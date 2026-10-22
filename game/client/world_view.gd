@@ -670,6 +670,10 @@ func _make_creep_node(c) -> Node3D:
 	var shadow := Models.add_mesh(n, Models.cylinder(sr, sr, 0.01, 12), Color(0, 0, 0), Vector3(0, ground + 0.01, 0))
 	shadow.name = "shadow"
 	shadow.material_override = Models.mat(Color(0, 0, 0), 0.0, 0.4 if c.air else 0.3)
+	if c.air:
+		# a thin line from the shadow up to the flyer makes it clear that it is in the air
+		var line := Models.add_mesh(n, Models.cylinder(0.012, 0.012, AIR_HEIGHT, 4), Color("ffe45a"), Vector3(0, ground + AIR_HEIGHT * 0.5, 0), Vector3.ZERO, 0.8)
+		line.material_override = Models.mat(Color("ffe45a"), 0.8, 0.5)
 	add_child(n)
 	return n
 

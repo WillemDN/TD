@@ -581,6 +581,15 @@ func _update_creeps() -> void:
 
 
 func _move_ground(c: Creep, step: float) -> bool:
+	return _move_along(c, step, grid.next_cell)
+
+
+## Flyers follow the corridors of the map (terrain only), so they fly over towers instead of cutting across the forest.
+func _move_air(c: Creep, step: float) -> bool:
+	return _move_along(c, step, grid.air_next)
+
+
+func _move_along(c: Creep, step: float, route: PackedInt32Array) -> bool:
 	var remaining := step
 	var guard := 0
 	while remaining > 0.0001 and guard < 8:
@@ -588,7 +597,7 @@ func _move_ground(c: Creep, step: float) -> bool:
 		var cur: int = grid.cell_of(c.pos)
 		if grid.is_goal(cur):
 			return true
-		var nxt: int = grid.next_cell[cur]
+		var nxt: int = route[cur]
 		if nxt < 0:
 			return false
 		var target: Vector2 = grid.cell_center(nxt)
@@ -601,15 +610,6 @@ func _move_ground(c: Creep, step: float) -> bool:
 			c.pos += to / d * remaining
 			remaining = 0.0
 	return grid.is_goal(grid.cell_of(c.pos))
-
-
-func _move_air(c: Creep, step: float) -> bool:
-	var to: Vector2 = grid.goal_center - c.pos
-	var d := to.length()
-	if d <= step + 0.5:
-		return true
-	c.pos += to / d * step
-	return false
 
 
 func _leak(c: Creep) -> void:
