@@ -3,11 +3,12 @@
 > **Guardians**: een moderne tower defense in de geest van *Wintermaul* en andere Warcraft III-TD's,
 > voor **Android en de browser** (Mac/pc). Multiplayer via een eigen server op de MacBook, bereikbaar via **Tailscale**.
 >
-> Versie 0.3, 22 oktober 2026. Dit is een levend document: keuzes die nog open staan, zijn gemarkeerd met **❓** en verzameld in §11.
+> Versie 0.4, 22 oktober 2026. Dit is een levend document: keuzes die nog open staan, zijn gemarkeerd met **❓** en verzameld in §11.
 >
 > **Beslist (22-10-2026):** naam **Guardians** · **Android (APK via link) + browserversie** · **1–4 spelers co-op** · modi **Klassiek + Modern** ·
 > stijl **3D low-poly isometrisch** · **accounts met voortgang** · **niet commercieel** · Mac **altijd aan** op netstroom ·
-> varianten: eerst **Wintermaul Wars**, daarna andere WC3-TD's zoals **NOOB Killer TD**.
+> varianten: eerst **Wintermaul Wars**, daarna andere WC3-TD's zoals **NOOB Killer TD** · engine **Godot 4 + GDScript** ·
+> taal **NL + EN** · thema **winter/ijs** (eigen thema per latere variant).
 
 Bijhorende documenten:
 
@@ -548,13 +549,13 @@ Bij elke vraag staat mijn aanbeveling vetgedrukt.
 | 1 | ~~Welke platformen?~~ | | ✅ **Alleen Android** |
 | 2 | ~~Android-distributie~~ | | ✅ **APK via link** + **browserversie** voor Mac/pc |
 | 3 | ~~2D of 3D?~~ | | ✅ **3D low-poly isometrisch** |
-| 4 | Engine | Godot / Unity / web | **Godot 4 + GDScript**. Ik ga hiervan uit, tenzij je bezwaar hebt |
+| 4 | ~~Engine~~ | | ✅ **Godot 4 + GDScript** |
 | 5 | ~~Max. aantal spelers per match~~ | | ✅ **1–4 co-op** |
 | 6 | ~~Hoe trouw?~~ | | ✅ **Klassiek + Modern** als twee modi |
 | 7 | Wie speelt mee en hoe? | Alleen jijzelf + gezin (users) / vrienden via node sharing / publiek | **Node sharing** voor vrienden |
-| 8 | Taal van het spel | NL / EN / beide | **NL + EN** (i18n vanaf het begin) |
+| 8 | ~~Taal van het spel~~ | | ✅ **NL + EN** (i18n vanaf het begin) |
 | 9 | ~~Naam~~ | | ✅ **Guardians** |
-| 9b | Thema bij "Guardians" | Winter/ijs zoals Wintermaul (de Guardians verdedigen het schip tegen de noordelijke horden) / fantasy-rijk met een wisselend thema per modus | **Winter voor Klassiek**, met een eigen thema per variant ❓ |
+| 9b | ~~Thema~~ | | ✅ **Winter/ijs**: de Guardians verdedigen het schip tegen de noordelijke horden. Latere varianten krijgen een eigen thema |
 | 10 | ~~Commercieel ooit?~~ | | ✅ **Nee**. Het Tailscale Personal-plan en CC-BY-assets volstaan |
 | 11 | ~~MacBook-gebruik~~ | | ✅ **Altijd aan** op netstroom |
 | 12 | ~~Mac-model en macOS~~ | | ✅ Controleer ik zelf in fase 0 |
