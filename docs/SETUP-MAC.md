@@ -74,7 +74,7 @@ noteert het resultaat in `docs/STATUS.md`. Op Apple Silicon staat Homebrew in `/
 2. **Tailscale voor macOS**, de *standalone* versie omdat die de `tailscale`-CLI meelevert: <https://tailscale.com/download/mac>. Inloggen.
 3. Admin-console <https://login.tailscale.com/admin>:
    - *DNS* → **MagicDNS** aan en **HTTPS Certificates** aan
-   - *Machines* → de Mac hernoemen naar **`guardians`**. Het adres wordt dan `guardians.<jouw-tailnet>.ts.net`
+   - *Machines* → de Mac **houdt zijn naam** `willems-macbook-pro` (beslissing 2026-10-22). Het adres is dus `willems-macbook-pro.tail868144.ts.net`
 4. **Tailscale-app** op je Android-telefoon installeren en met hetzelfde account inloggen.
 5. Controle op de Mac: `tailscale status` toont de Mac en je telefoon.
 6. *Later, in fase 5:* de toegangsregels (PLAN §5.3), `tailscale serve`, en de deel-link (node sharing) voor vrienden.

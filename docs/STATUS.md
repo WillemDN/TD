@@ -41,15 +41,15 @@ Uitgelezen op 2026-10-22.
 | Godot | 4.7.2.stable (`/opt/homebrew/bin/godot`), export templates 4.7.2.stable aanwezig |
 | JDK | Temurin 17.0.20.1 (`~/Library/Java/JavaVirtualMachines/temurin-17.jdk`, `JAVA_HOME` staat goed) |
 | Android SDK / build-tools | `~/Library/Android/sdk`: build-tools 35.0.1 en 36.1.0, platforms android-35 en android-36, cmdline-tools, platform-tools (adb), NDK |
-| Tailscale | Mac `willems-macbook-pro` (100.66.207.18), tailnet `tail868144.ts.net`, HTTPS-certificaten beschikbaar. Telefoon `pixel-9-pro` staat in het tailnet |
+| Tailscale | Mac `willems-macbook-pro` (100.66.207.18), tailnet `tail868144.ts.net`, volledige naam **`willems-macbook-pro.tail868144.ts.net`**, HTTPS-certificaten beschikbaar. Telefoon `pixel-9-pro` staat in het tailnet |
 | Python | 3.9.12, zonder Pillow en mpyq (alleen nodig voor `tools/w3x-extract`) |
 
 ### Nog open in fase 0
 
-- [ ] `gh` (GitHub CLI) is niet geïnstalleerd: `brew install gh` en `gh auth login`
-- [ ] Mac hernoemen in Tailscale naar `guardians` (nu `willems-macbook-pro`). Past dan de URLs in PLAN/CLAUDE.md aan
-- [ ] `sudo pmset -a autorestart 1` (staat nu niet aan). Slapen staat al op 0 voor netstroom
-- [ ] Telefoon was offline (6 u geleden gezien) en `adb devices` toont geen toestel: USB-foutopsporing aanzetten en koppelen
+- [ ] `gh` 2.103.0 is geïnstalleerd (Homebrew). Inloggen met `gh auth login` moet nog: de device-code invoeren op <https://github.com/login/device>
+- [x] Tailscale-naam blijft `willems-macbook-pro` (beslist 2026-10-22), docs zijn aangepast
+- [ ] `sudo pmset -a autorestart 1` (staat nu niet aan). Claude Code kan dit niet zelf, want `sudo` vraagt een wachtwoord. Slapen staat al op 0 voor netstroom
+- [x] Telefoon wordt niet gekoppeld (beslist 2026-10-22): Claude Code test alles lokaal, jij test zelf op de telefoon
 - [ ] Een lege test-export naar APK om Godot ↔ Android te bevestigen (komt in fase 2/3 vanzelf mee)
 - [ ] Optioneel: `pip install pillow` en `mpyq` als we de extractiescripts opnieuw willen draaien
 
@@ -60,6 +60,11 @@ Uitgelezen op 2026-10-22.
 - NOOB Killer TD v1.8c verkend → `docs/research/noob-killer-td.md`
 - Plan en architectuur → `docs/PLAN.md`, Mac-setup → `docs/SETUP-MAC.md`, context voor Claude Code → `CLAUDE.md`
 - Extractiescripts → `tools/w3x-extract/`
+
+### 2026-10-22: sessie op de Mac
+- Fase 0 gecontroleerd en Mac-gegevens vastgelegd, `gh` geïnstalleerd
+- Beslissingen: Tailscale-naam blijft `willems-macbook-pro`, telefoon niet koppelen (lokaal testen, de eigenaar test zelf op de telefoon)
+- Genre-onderzoek naar WC3-TD's → `docs/research/wc3-td-genre.md` (met lijst van wat niet te vinden was)
 
 ## Volgende stappen
 

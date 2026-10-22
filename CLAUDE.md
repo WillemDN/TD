@@ -17,6 +17,7 @@ van de eigenaar (altijd aan) en spelers verbinden via **Tailscale**. Het project
 | `docs/SETUP-MAC.md` | Installatie en configuratie van de Mac (fase 0) |
 | `docs/research/wintermaul-v13-data.md` | Waves, torens, elementen en regels uit de originele map (de bron voor de modus Klassiek) |
 | `docs/research/noob-killer-td.md` | Verkenning van varianten |
+| `docs/research/wc3-td-genre.md` | Overzicht van WC3-TD-varianten, mechanieken en ontwerp-inzichten |
 | `docs/research/data/*.json` | Ruwe unit-objectdata uit de WC3-maps |
 | `tools/w3x-extract/` | Python-scripts om WC3-maps uit te lezen |
 
@@ -25,6 +26,7 @@ van de eigenaar (altijd aan) en spelers verbinden via **Tailscale**. Het project
 - **Godot 4** (laatste stabiele versie), **GDScript**, **Compatibility-renderer** (nodig voor de web-export)
 - **3D low-poly**, isometrische camera, **winterthema**
 - **Server-authoritative** simulatie op een vaste tick (20 Hz). Clients sturen alleen commando's
+- Tailscale-naam van de server: **`willems-macbook-pro.tail868144.ts.net`** (niet hernoemen)
 - Transport **WebSocket** (`WebSocketMultiplayerPeer`). Server op `127.0.0.1:7777`, en `tailscale serve` levert HTTPS/`wss://` op `/ws`
 - **Accounts** met voortgang in **SQLite** (godot-sqlite), wachtwoorden met PBKDF2-HMAC-SHA256
 - **1–4 spelers** co-op, modi **Klassiek** en **Modern**, talen **NL + EN**

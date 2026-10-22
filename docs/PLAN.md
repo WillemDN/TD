@@ -69,8 +69,8 @@ flowchart LR
     D[(SQLite<br/>accounts, voortgang, stats)]
     L[launchd-service<br/>autostart + logs + back-up]
   end
-  A -- "wss://guardians.…ts.net/ws" --> T
-  B -- "https://guardians.…ts.net" --> T
+  A -- "wss://willems-macbook-pro.tail868144.ts.net/ws" --> T
+  B -- "https://willems-macbook-pro.tail868144.ts.net" --> T
   T -- "/" --> W
   T -- "/ws" --> S
   S --- D
@@ -495,7 +495,7 @@ Inschatting: "sessies" van ±2–4 uur samenwerken met Claude op de Mac. De door
 - **Klaar als:** elk element solo Normal kan uitspelen met een goede maze en Perfection zeldzaam haalbaar is
 
 ### Fase 8: Distributie naar vrienden (1–2 sessies)
-- [ ] Landingspagina op `https://<mac>.<tailnet>.ts.net/`: **Speel in de browser**, **Download Android-app (APK)** en uitleg om Tailscale te installeren en de share te accepteren
+- [ ] Landingspagina op `https://willems-macbook-pro.tail868144.ts.net/`: **Speel in de browser**, **Download Android-app (APK)** en uitleg om Tailscale te installeren en de share te accepteren
 - [ ] Getekende release-APK (eigen keystore, veilig bewaard en geback-upt), installeren via "onbekende bronnen toestaan"
 - [ ] In-app update-check: de server meldt de nieuwste APK-versie en de download-link
 - [ ] In-app "server-adres" + QR-code om snel te verbinden

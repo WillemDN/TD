@@ -8,6 +8,7 @@ Warcraft III-tower defenses. De server draait op een MacBook en spelers verbinde
 - 💻 **Mac-setup (fase 0):** [`docs/SETUP-MAC.md`](docs/SETUP-MAC.md)
 - 🤖 **Context voor Claude Code:** [`CLAUDE.md`](CLAUDE.md)
 - 📊 **Originele Wintermaul-data** (waves, torens, regels): [`docs/research/wintermaul-v13-data.md`](docs/research/wintermaul-v13-data.md)
+- 🎮 **WC3-TD-genre en varianten:** [`docs/research/wc3-td-genre.md`](docs/research/wc3-td-genre.md)
 - 🧭 **Varianten voor later** (NOOB Killer TD en andere): [`docs/research/noob-killer-td.md`](docs/research/noob-killer-td.md)
 - 🛠️ **Data-extractie uit WC3-maps:** [`tools/w3x-extract/`](tools/w3x-extract/)
 
