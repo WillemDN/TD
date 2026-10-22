@@ -86,6 +86,11 @@ Uitgelezen op 2026-10-22.
 - Plan en architectuur → `docs/PLAN.md`, Mac-setup → `docs/SETUP-MAC.md`, context voor Claude Code → `CLAUDE.md`
 - Extractiescripts → `tools/w3x-extract/`
 
+### 2026-10-22: speelbaarheid solo gemeten met bots
+- Nieuwe bot `game/tests/bot_maze.gd` (slingermaze of dichte kill zone, verkoopt zwakke torens en koopt sterkere tussen de levels). Voorbeeld: `godot --headless --path game --script <script> -- fire normal zone`
+- **Uitkomst (Normaal, 20 levens, 2 seeds):** Vuur verliest op level 4 (maze) en level 4 (zone), Ijs op 4, Steen op 3-4, Kristal op 5 en **Bliksem haalt level 11**. Niemand komt in de buurt van level 35
+- **Conclusie:** met deze bots is solo uitspelen nu niet haalbaar. De bots spelen niet zo slim als een mens, maar de marge is te groot om dat de enige verklaring te noemen. Oorzaken: monsters zijn maar ca. 8 s binnen bereik (het pad is 45 tegels, een deels gebouwde maze verlengt dat nauwelijks) en de vroege torens zijn zwak. Balans-pass nodig (solo-boost, aantallen, tower-power, padlengte)
+
 ### 2026-10-22: nieuwe visuele stijl (versie 3, naar het echte Wintermaul)
 - Referentie bekeken (minimaps en schermafbeeldingen van Wintermaul-varianten, `docs/research/wc3-visual-reference.md`): donkere void, geglazuurd turkoois ijs, donkere bouwplaten met tegelraster, ijskliffen, gedetailleerde modellen
 - **Omgeving:** terrein-shader (ijs met barsten, leisteenplaten met raster, houten dok), gekantelde ijsblokken, donkere bomen, koude belichting met tonemapping, gloed en schaduwen (schaduwen uit op touch)
