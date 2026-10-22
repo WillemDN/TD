@@ -103,5 +103,6 @@
  "hud.selected": "Geselecteerd",
  "msg.nothing_placed": "Geen enkele plek was geldig",
  "hud.level_short": "Level {0}/{1}",
- "hud.starts_in": "start over {0} s"
+ "hud.starts_in": "start over {0} s",
+ "msg.air_wave": "Vliegers! Ze negeren je maze en vliegen over torens heen. Alleen torens die lucht raken kunnen ze neerhalen"
 }

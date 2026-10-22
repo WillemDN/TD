@@ -534,7 +534,12 @@ func update_state(sim, ctx: Dictionary) -> void:
 		var ac: Color = ARMOR_COLORS.get(creep.armorType, Color.WHITE)
 		_armor_icon.set_glyph("shield", ac)
 		_armor_label.text = "%s %d" % [i18n.t("armor." + creep.armorType), int(creep.armor)]
-		_boss_tag.text = i18n.t("hud.boss") if creep.boss else ""
+		var tags: Array = []
+		if creep.air:
+			tags.append(i18n.t("hud.air"))
+		if creep.boss:
+			tags.append(i18n.t("hud.boss"))
+		_boss_tag.text = " · ".join(tags)
 	_skip_btn.visible = sim.state == "countdown"
 	_speed_btn.glyph = "ff" if ctx.speed == 1 else "ff2"
 	_speed_btn.tint = UiKit.GOOD if ctx.speed == 1 else (UiKit.GOLD if ctx.speed == 2 else UiKit.BAD)

@@ -6,6 +6,7 @@ const WALL := 1
 const NOBUILD := 2
 const TOWER := 4
 const SQRT2 := 1.4142135
+const CLEARANCE_PENALTY := 1.2   # extra cost of a step onto a cell next to a wall or tower: creeps keep to the middle of gaps
 
 const DIRS := [
 	Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1),
@@ -104,21 +105,30 @@ func path_length_with(cx: int, cy: int, fw: int, fh: int, starts: PackedInt32Arr
 	var n := PackedInt32Array()
 	_compute(d, n)
 	set_footprint(cx, cy, fw, fh, false)
-	return _avg_length(d, starts)
+	return _avg_length(d, n, starts)
 
 
 func path_length(starts: PackedInt32Array) -> float:
-	return _avg_length(dist, starts)
+	return _avg_length(dist, next_cell, starts)
 
 
-func _avg_length(d: PackedFloat32Array, starts: PackedInt32Array) -> float:
+## Average walked length in tiles, following the flow field (the weighted costs are only for steering).
+func _avg_length(d: PackedFloat32Array, n: PackedInt32Array, starts: PackedInt32Array) -> float:
 	if starts.is_empty():
 		return 0.0
 	var total := 0.0
 	for s in starts:
 		if is_inf(d[s]):
 			return -1.0
-		total += d[s]
+		var cur: int = s
+		var guard := 0
+		while n[cur] >= 0 and guard < 4000:
+			guard += 1
+			var nxt: int = n[cur]
+			var dx: int = absi(nxt % w - cur % w)
+			var dy: int = absi(nxt / w - cur / w)
+			total += SQRT2 if (dx != 0 and dy != 0) else 1.0
+			cur = nxt
 	return total / float(starts.size()) * cell_size
 
 
@@ -135,6 +145,17 @@ func _step_ok(x: int, y: int, d: Vector2i) -> bool:
 		# no corner cutting: both orthogonal neighbours must be free as well
 		return walkable(y * w + nx) and walkable(ny * w + x)
 	return true
+
+
+func _near_blocked(i: int) -> bool:
+	var x := i % w
+	var y := i / w
+	for d in DIRS:
+		var nx: int = x + d.x
+		var ny: int = y + d.y
+		if not in_bounds(nx, ny) or (flags[ny * w + nx] & (WALL | TOWER)) != 0:
+			return true
+	return false
 
 
 func _reach_all(required: PackedInt32Array) -> bool:
@@ -191,6 +212,8 @@ func _compute(out_dist: PackedFloat32Array, out_next: PackedInt32Array) -> void:
 				continue
 			var v: int = (uy + d.y) * w + ux + d.x
 			var c := du + (SQRT2 if (d.x != 0 and d.y != 0) else 1.0)
+			if _near_blocked(v):
+				c += CLEARANCE_PENALTY
 			if c < out_dist[v]:
 				out_dist[v] = c
 				out_next[v] = u

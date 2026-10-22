@@ -248,6 +248,8 @@ func _handle_events() -> void:
 				hud.toast(i18n.t("msg.wave_start", [e.level, i18n.n(creep.name)]), UiKit.ACCENT, 2.6)
 				if creep.boss:
 					hud.toast(i18n.t("msg.boss_warning"), Color("ff8a5c"), 3.0)
+				elif creep.air:
+					hud.toast(i18n.t("msg.air_wave"), Color("ffe45a"), 3.6)
 			"kill":
 				overlay.add_text(e.pos, "+%d" % int(e.gold), UiKit.GOLD, 22 if e.boss else 18)
 				world.add_kill_burst(e.pos, e.boss)

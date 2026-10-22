@@ -19,7 +19,7 @@ const RECIPES := {
 	"ultimate": {"style": "round", "weapon": "weapon-turret", "v": "a"},
 }
 
-const TOWER_SCALE := 0.84
+const TOWER_SCALE := 0.78
 const STACK_Y := 0.72     # vertical squash of the tower stack so rows of towers do not hide each other
 
 # creep id -> [archetype, main colour, accent colour, scale, option]
@@ -320,7 +320,10 @@ static func make_creep(creep_id: String, def: Dictionary) -> Node3D:
 			_brute(model, c1, c2, "yeti", legs)
 		"dragon":
 			_dragon(model, c1, c2, wings)
-	model.scale = Vector3.ONE * s
+	# big monsters are slimmed down so they fit the gaps the pathing allows
+	var width_cap := 1.5 if def.boss else 1.3
+	model.scale = Vector3.ONE * minf(s, width_cap)
+	s = minf(s, width_cap)
 	root.set_meta("legs", legs)
 	root.set_meta("wings", wings)
 	root.set_meta("scale", s)

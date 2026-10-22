@@ -6,7 +6,7 @@ const Models := preload("res://client/models.gd")
 
 const PITCH := 0.96            # camera pitch in radians (55 degrees)
 const CELL_PX := 8             # terrain texture pixels per grid cell
-const AIR_HEIGHT := 1.5
+const AIR_HEIGHT := 2.1
 const MIN_VIEW_W := 9.0        # closest zoom: tiles visible across the screen
 const MAX_VIEW_FRACTION := 0.5 # farthest zoom: at most this share of the map width is visible
 const DEFAULT_VIEW_W := 17.0
@@ -666,9 +666,10 @@ func _make_creep_node(c) -> Node3D:
 	var ground := -(AIR_HEIGHT if c.air else 0.0)
 	var marker := Models.add_mesh(n, Models.cylinder(r, r, 0.03, 14), ARMOR_COLORS.get(c.armor_type, Color.WHITE), Vector3(0, ground + 0.03, 0), Vector3.ZERO, 1.0)
 	marker.name = "marker"
-	var shadow := Models.add_mesh(n, Models.cylinder(r * 0.9, r * 0.9, 0.01, 12), Color(0, 0, 0), Vector3(0, ground + 0.01, 0))
+	var sr := r * (1.5 if c.air else 0.9)
+	var shadow := Models.add_mesh(n, Models.cylinder(sr, sr, 0.01, 12), Color(0, 0, 0), Vector3(0, ground + 0.01, 0))
 	shadow.name = "shadow"
-	shadow.material_override = Models.mat(Color(0, 0, 0), 0.0, 0.3)
+	shadow.material_override = Models.mat(Color(0, 0, 0), 0.0, 0.4 if c.air else 0.3)
 	add_child(n)
 	return n
 

@@ -18,6 +18,7 @@ func _init() -> void:
 	test_economy(data)
 	test_effects(data)
 	test_waves_scale(data)
+	test_creeps_keep_clear(data)
 	test_moving_towers(data)
 	test_game_end_rules(data)
 	test_i18n_complete(data)
@@ -238,6 +239,33 @@ func test_waves_scale(data) -> void:
 	var sim9 = Sim.new(data, 1, "normal", 9)
 	check(sim9.wave_total(data.waves[0]) == 120, "nine players get the original 120 creeps")
 	check(sim9.wave_total(data.waves[9]) == 6, "nine players get 6 bosses")
+
+
+func test_creeps_keep_clear(data) -> void:
+	# a tower on the straight route: the path around it must keep at least two cells away from it
+	var sim = Sim.new(data, 1)
+	sim.unlock_element("ice")
+	var r = sim.place_tower("frost_shard", 30, 6)
+	check(r.ok, "tower placed on the lane route")
+	var cur: int = sim.grid.idx(int(data.map.spawns[0].cell[0]), int(data.map.spawns[0].cell[1]))
+	var closest := 99
+	var guard := 0
+	while cur >= 0 and guard < 4000:
+		guard += 1
+		var x: int = cur % sim.grid.w
+		var y: int = cur / sim.grid.w
+		if x >= 24 and x <= 38:
+			var dx: int = maxi(maxi(30 - x, x - 31), 0)
+			var dy: int = maxi(maxi(6 - y, y - 7), 0)
+			closest = mini(closest, maxi(dx, dy))
+		cur = sim.grid.next_cell[cur]
+	check(closest >= 2, "creeps keep two cells from a tower when there is room (closest %d)" % closest)
+	var starts := PackedInt32Array()
+	for s in data.map.spawns:
+		starts.append(sim.grid.idx(int(s.cell[0]), int(s.cell[1])))
+	var len_open: float = Sim.new(data, 1).grid.path_length(starts)
+	var len_tower: float = sim.grid.path_length(starts)
+	check(len_tower >= len_open and len_tower < len_open + 2.0, "the reported path length is the walked length (%s vs %s)" % [len_tower, len_open])
 
 
 func test_moving_towers(data) -> void:
