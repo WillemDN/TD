@@ -1,16 +1,19 @@
-# Wintermaul Mobile: analyse en stappenplan
+# Guardians: analyse en stappenplan
 
-> Werktitel: **Frostgate TD**, een moderne mobiele tower defense in de geest van *Wintermaul* (Warcraft III).
-> Multiplayer via een eigen server op de MacBook, bereikbaar via **Tailscale**.
+> **Guardians**: een moderne tower defense in de geest van *Wintermaul* en andere Warcraft III-TD's,
+> voor **Android en de browser** (Mac/pc). Multiplayer via een eigen server op de MacBook, bereikbaar via **Tailscale**.
 >
-> Versie 0.2, 22 oktober 2026. Dit is een levend document: keuzes die nog open staan, zijn gemarkeerd met **❓** en verzameld in §11.
+> Versie 0.3, 22 oktober 2026. Dit is een levend document: keuzes die nog open staan, zijn gemarkeerd met **❓** en verzameld in §11.
 >
-> **Beslist (22-10-2026):** platform **alleen Android** · **1–4 spelers co-op** · modi **Klassiek + Modern** · stijl **3D low-poly isometrisch**.
+> **Beslist (22-10-2026):** naam **Guardians** · **Android (APK via link) + browserversie** · **1–4 spelers co-op** · modi **Klassiek + Modern** ·
+> stijl **3D low-poly isometrisch** · **accounts met voortgang** · **niet commercieel** · Mac **altijd aan** op netstroom ·
+> varianten: eerst **Wintermaul Wars**, daarna andere WC3-TD's zoals **NOOB Killer TD**.
 
 Bijhorende documenten:
 
 - [`docs/research/wintermaul-v13-data.md`](research/wintermaul-v13-data.md): alle waves, torens, elementen en regels die rechtstreeks uit de originele map zijn gehaald
 - [`docs/research/wintermaul-layout.png`](research/wintermaul-layout.png): de originele kaart, gerenderd uit de pathing-data
+- [`docs/research/noob-killer-td.md`](research/noob-killer-td.md): analyse van NOOB Killer TD en andere WC3-TD's voor latere varianten
 - [`tools/w3x-extract/`](../tools/w3x-extract/): scripts om dezelfde data uit andere (Wintermaul-)maps te halen
 
 ---
@@ -39,27 +42,33 @@ Bijhorende documenten:
 |---|---|---|
 | Engine | **Godot 4.x** (GDScript) | Gratis en open source (MIT). Exporteert naar iOS, Android, macOS en web. Dezelfde code draait als *headless* server op de Mac, dus de spellogica bestaat maar één keer |
 | Netwerkmodel | **Server-authoritative**: de Mac simuleert, telefoons sturen alleen commando's | Geen valsspelen of desyncs. Telefoons die even wegvallen kunnen opnieuw verbinden |
-| Transport | ENet (UDP) via Godot, met WebSocket als fallback | Lage latency over Tailscale (WireGuard/UDP). WebSocket is nodig als we ooit Tailscale Funnel of een web-client willen |
+| Transport | **WebSocket over TLS (`wss://`)** voor alle clients | Browsers kunnen geen UDP. Eén transport voor Android en web houdt het simpel. TLS-certificaat en proxy komen gratis van `tailscale serve`. Voor een tower defense is TCP-latency ruim voldoende |
 | Netwerk | **Tailscale**: server op de MacBook, spelers in je tailnet of via *node sharing* | Geen port forwarding, end-to-end versleuteld en gratis voor persoonlijk gebruik |
 | Stijl | **3D low-poly, isometrische camera** ✅ beslist | Gratis CC0-assets van Kenney, Quaternius en KayKit passen perfect en draaien licht op gsm's |
 | Inhoud v1 | Modi **Klassiek** (exact v13) + **Modern** (upgrade-bomen, QoL) ✅ beslist. Wintermaul v13-ruleset: 9 elementen, ±46 torens + ultieme toren, 30 waves + 5 bonus, 4 moeilijkheden | Volledig gedocumenteerd vanuit de originele map |
-| Platform | **Android** ✅ beslist | Geen Apple-kosten of provisioning. APK delen of Play "internal testing". iOS kan later met dezelfde Godot-code |
+| Platform | **Android + browser** ✅ beslist | APK via een downloadlink en een web-build (Godot web-export) die de Mac zelf host, voor Mac en pc. iOS kan later met dezelfde code |
+| Accounts | **Accounts met voortgang** ✅ beslist | Login op Android en web, profiel, XP/levels, records, achievements, matchgeschiedenis en hervatbare matches (§4.7) |
+| Server | **MacBook altijd aan** ✅ beslist | launchd-service, slaapstand uit op netstroom, nachtelijke databaseback-up (§5.4) |
 | Spelers | **1–4 co-op** ✅ beslist (origineel 9) | Leesbaar op een klein scherm, eigen lane per speler |
-| Later | Varianten als *data packs*: Wintermaul Wars (PvP/sends), endless, eigen maps | De architectuur is data-gedreven vanaf dag 1 |
+| Later | Varianten als *data packs*: **Wintermaul Wars** (PvP/sends), daarna **NOOB Killer TD** en andere WC3-TD's | De architectuur is data-gedreven vanaf dag 1 |
 
 ```mermaid
 flowchart LR
-  subgraph Telefoons
-    A[Android-telefoon<br/>Godot-client + Tailscale-app]
-    B[Android-telefoon vriend<br/>Godot-client + Tailscale-app]
+  subgraph Clients["Clients (allemaal met Tailscale)"]
+    A[Android-app<br/>Godot-client]
+    B[Browser op Mac/pc<br/>Godot web-build]
   end
-  subgraph Mac["MacBook (macOS)"]
-    S[Headless Godot gameserver<br/>lobby + rooms + simulatie]
-    D[(SQLite<br/>profielen, stats)]
-    L[launchd-service<br/>autostart + logs]
+  subgraph Mac["MacBook (altijd aan)"]
+    T[tailscale serve<br/>HTTPS :443 + certificaat]
+    W[/web-build + APK-downloads/]
+    S[Headless Godot gameserver<br/>accounts + lobby + rooms + simulatie<br/>WebSocket :7777 lokaal]
+    D[(SQLite<br/>accounts, voortgang, stats)]
+    L[launchd-service<br/>autostart + logs + back-up]
   end
-  A -- "Tailscale (WireGuard)<br/>ENet/UDP :7777" --> S
-  B -- "Tailscale (WireGuard)<br/>ENet/UDP :7777" --> S
+  A -- "wss://guardians.…ts.net/ws" --> T
+  B -- "https://guardians.…ts.net" --> T
+  T -- "/" --> W
+  T -- "/ws" --> S
   S --- D
   L -.beheert.- S
 ```
@@ -151,7 +160,11 @@ release laten we het nakijken.
 | 3D op gsm | Goed (Mobile/Compatibility-renderer) | Zeer goed | Matig tot goed |
 
 **Aanbeveling: Godot 4** (de laatste stabiele versie op het moment van installeren, in 2026 de 4.6/4.7-reeks).
-Programmeertaal **GDScript**: de C#-export naar mobiel is minder volwassen en GDScript is in Godot het best ondersteund. ❓
+Programmeertaal **GDScript**: de C#-export naar mobiel en web is minder volwassen en GDScript is in Godot het best ondersteund.
+
+**Gevolg van de browserversie:** de Godot web-export draait op WebGL 2 en ondersteunt alleen de **Compatibility-renderer**.
+We gebruiken die renderer daarom op alle platformen. Zo ziet het spel er overal hetzelfde uit, en voor low-poly-stijl is
+die renderer ruim voldoende. We exporteren *single-threaded* voor het web, dan zijn er geen speciale COOP/COEP-headers nodig.
 
 ### 4.2 Netwerkmodel
 
@@ -164,6 +177,10 @@ Programmeertaal **GDScript**: de C#-export naar mobiel is minder volwassen en GD
 4. Projectielen zijn alleen cosmetisch op de client (start en einde via events) en sparen bandbreedte
 
 Bandbreedte: 120 creeps × ~8 bytes × 20 Hz ≈ 19 KB/s per speler. Dat is ruim haalbaar over 4G en Tailscale.
+
+**Transport:** `WebSocketMultiplayerPeer` (Godot) werkt op Android, in de browser en op de server. De server luistert
+lokaal op `127.0.0.1:7777`. `tailscale serve` zet daar HTTPS/TLS voor op poort 443 van de Mac. Browsers eisen
+`wss://` als de pagina via `https://` geladen wordt, en dat lost `tailscale serve` meteen op.
 
 Waarom geen **lockstep** (zoals WC3 zelf)? Lockstep vraagt bit-exacte determinisme over
 Android-toestellen met diverse CPU's en een vastloper bij één trage speler. Dat is te fragiel voor mobiel.
@@ -189,7 +206,8 @@ TD/
 ├─ tools/
 │  ├─ w3x-extract/       # data uit WC3-maps halen (al aanwezig)
 │  └─ balance/           # headless simulaties → CSV/grafiek
-├─ server-mac/           # launchd-plist, start/stop-scripts, Tailscale-policy
+├─ server-mac/           # launchd-plist, deploy/back-up-scripts, tailscale serve-config, Tailscale-policy
+├─ web/                  # landingspagina: speel in de browser + APK-download + Tailscale-uitleg
 └─ .github/workflows/    # CI: headless tests + export-builds
 ```
 
@@ -241,11 +259,24 @@ latere TD-varianten "gewoon nieuwe data" plus een paar regelmodules.
 
 ### 4.6 Multiplayer-flow
 
-1. Je opent de app → de server-URL (MagicDNS-naam van de Mac) staat al ingevuld → je kiest een spelersnaam
+1. Je opent de app of de webpagina. De server-URL (MagicDNS-naam van de Mac) staat al ingevuld. Je **logt in** of maakt een account aan
 2. **Lobby**: room aanmaken of joinen met een code van 4 letters, element kiezen, de host kiest moeilijkheid en modus
 3. **Match**: elke speler krijgt een eigen **bouwzone** (lane), het goud is persoonlijk, de levens zijn gedeeld
 4. **Disconnect**: de toren-AI speelt gewoon door. Rejoin binnen 5 min met hetzelfde token
-5. **Einde**: stats (kills, lekken, goud, MVP) worden in SQLite opgeslagen. Later komen er leaderboard en profiel
+5. **Einde**: stats (kills, lekken, goud, MVP), XP en records worden aan de accounts toegevoegd
+
+### 4.7 Accounts en voortgang
+
+| Onderdeel | Aanpak |
+|---|---|
+| Registratie en login | Gebruikersnaam + wachtwoord. Wachtwoorden worden gehasht met PBKDF2-HMAC-SHA256 (Godot `Crypto`/`HMACContext`) met salt en ≥ 100k iteraties. De client bewaart alleen een **sessietoken** (Android: `user://`, browser: IndexedDB via `user://`) |
+| Eén account, meerdere toestellen | Inloggen op telefoon en browser tegelijk mag. Een match volgt het account, niet het toestel |
+| Wachtwoord vergeten | Geen e-mail nodig: jij reset het als admin met `server-mac/admin.sh reset-password <naam>` |
+| Database | **SQLite** op de Mac via de GDExtension [godot-sqlite](https://github.com/2shady4u/godot-sqlite), met schema-migraties in `game/server/migrations/` |
+| Voortgang | Account-level en XP, records per modus en moeilijkheid (hoogste wave, perfecte runs), **achievements**, matchgeschiedenis, leaderboards per modus |
+| Unlocks | Vooral **cosmetisch** (torenskins, kleuren, emotes, titels) en nieuwe modi. Geen sterkere torens, zodat co-op eerlijk blijft voor nieuwe spelers |
+| Hervatten | Tussen twee waves kan de host een match **pauzeren en opslaan**. De volledige simulatiestatus gaat als snapshot naar SQLite en dezelfde groep kan later verder spelen |
+| Back-up | Elke nacht een kopie van de database (`sqlite3 .backup`) naar een map die Time Machine of iCloud meeneemt, 14 dagen bewaard |
 
 ---
 
@@ -278,7 +309,7 @@ Elke speler moet de Tailscale-app voor Android installeren en aanzetten. Let op:
     // eigen toestellen: alles naar de Mac
     { "src": ["autogroup:member"], "dst": ["tag:gameserver"], "ip": ["*"] },
     // gedeelde gebruikers: enkel de gamepoorten
-    { "src": ["autogroup:shared"], "dst": ["tag:gameserver"], "ip": ["udp:7777", "tcp:7778"] }
+    { "src": ["autogroup:shared"], "dst": ["tag:gameserver"], "ip": ["tcp:443"] }
   ]
 }
 ```
@@ -290,18 +321,23 @@ Elke speler moet de Tailscale-app voor Android installeren en aanzetten. Let op:
 | Onderwerp | Aanpak |
 |---|---|
 | Installatie | Tailscale (standalone of App Store), ingelogd, MagicDNS aan, toestel getagd met `tag:gameserver` |
-| Server draaien | `godot --headless --main-pack server.pck -- --port 7777`, of een geëxporteerde *Dedicated Server*-build |
-| Autostart | `~/Library/LaunchAgents/be.frostgate.server.plist` (launchd) met `KeepAlive`, logs naar `~/Library/Logs/frostgate/` |
-| Slaapstand | Instellingen → Batterij → Opties: "Voorkom automatisch slapen op netstroom", of `caffeinate -s` tijdens de sessie. **Klep dicht = slapen**, behalve met een externe monitor ❓ |
+| Mac-model en macOS | Controleer ik zelf in fase 0: `sw_vers`, `uname -m` en `system_profiler SPHardwareDataType`. Daarvan hangen de juiste Godot-, JDK- en Android SDK-builds af (Apple Silicon of Intel) |
+| Server draaien | `godot --headless --main-pack server.pck -- --port 7777`, of een geëxporteerde *Dedicated Server*-build. Luistert alleen op `127.0.0.1` |
+| HTTPS, web en downloads | `tailscale serve` (HTTPS-certificaten aanzetten in de Tailscale-admin): `/` → map met web-build + landingspagina + `guardians.apk`, `/ws` → `http://127.0.0.1:7777` |
+| Autostart | `~/Library/LaunchAgents/be.guardians.server.plist` (launchd) met `KeepAlive` en `RunAtLoad`, logs naar `~/Library/Logs/guardians/`. Automatisch inloggen voor jouw gebruiker, zodat de agent na een herstart opnieuw opstart |
+| Altijd aan ✅ | `sudo pmset -c sleep 0 disksleep 0` (nooit slapen op netstroom, het scherm mag wel uit), `sudo pmset -a autorestart 1` (herstarten na stroomuitval, als het model dat ondersteunt). **Klep open laten** of een externe monitor aansluiten, want met de klep dicht slaapt een MacBook zonder scherm |
+| Batterij | Altijd aan de lader: "Geoptimaliseerd opladen" aanzetten (of een laadlimiet als jouw macOS-versie die heeft), zodat de batterij niet de hele tijd op 100% staat |
+| macOS-updates | Automatisch installeren uitzetten of plannen. Na een update start launchd de server vanzelf opnieuw |
 | Firewall | macOS-firewall: Godot-server toelaten. De poort is enkel via Tailscale bereikbaar, want de router forwardt niets |
-| Updates | `server-mac/deploy.sh`: `git pull` → export → launchd herstarten. Clients checken het protocolversie-nummer bij het verbinden |
-| Monitoring | Een klein `/health`-endpoint (TCP 7778) en een admin-pagina met actieve rooms |
+| Updates | `server-mac/deploy.sh`: `git pull` → export (server, web, APK) → bestanden naar de web-map → launchd herstarten. Clients checken het protocolversie-nummer bij het verbinden. De Android-app biedt dan de nieuwe APK aan, de browser herlaadt gewoon |
+| Monitoring | Een `/health`-endpoint en een admin-pagina (alleen voor jouw account) met actieve rooms, spelers en fouten |
+| Back-up | Nachtelijke SQLite-back-up (§4.7) via een tweede launchd-job |
 
 ### 5.5 Later: zonder Tailscale op elke telefoon?
 
-- **Tailscale Funnel** zet een dienst publiek open, maar alleen over **HTTPS/TCP (443, 8443, 10000)**. Dan moet het spel
-  via **WebSocket over TLS** lopen in plaats van UDP. Dat is haalbaar, want Godot ondersteunt `WebSocketMultiplayerPeer`.
-  We bouwen de netwerklaag daarom transport-onafhankelijk
+- **Tailscale Funnel** zet een dienst publiek open over HTTPS (443, 8443, 10000). Omdat we al WebSocket over TLS gebruiken,
+  is dat later een kwestie van configuratie: `tailscale funnel` in plaats van `tailscale serve`. Let op: dan is de server
+  publiek bereikbaar, dus accounts, rate limiting en logs moeten op orde zijn
 - Een **goedkope VPS** (bv. Hetzner) met dezelfde headless server is nodig voor een publieke store-release
 
 ---
@@ -357,6 +393,7 @@ Kenney-onderdelen + kleur per element, of later laten maken of kopen. ❓
 | Mazen vraagt veel torens | **Drag-to-wall**: veeg een lijn en er komen n goedkope torens in een wachtrij (totale prijs zichtbaar) |
 | Info opvragen | Tik op een toren: compact paneel (DPS, kills, doelmodus) met de knoppen **Upgrade / Verkoop** |
 | WC3-hotkeys | Onderaan een element-balk met 5 torens en grote knoppen (≥ 44 pt) |
+| Browser (Mac/pc) | Muis: links = selecteren/bouwen, rechts of middenknop slepen = camera, scrollwiel = zoom. **Sneltoetsen zoals in WC3** (Q/W/E/R/T voor torens, S = verkopen, U = upgrade, spatie = naar je lane). Dezelfde UI schaalt mee met het venster |
 | Chat | Snelle pings ("Lek hier!", "Help lucht", "Ik bouw hier") en emotes |
 | Batterij en warmte | 30/60 fps-keuze, *low power*-modus, geen schaduwen op oudere toestellen |
 | Toegankelijkheid | Kleurenblind-veilige kleuren voor elementen (icoon + kleur), schaalbare UI, haptische feedback |
@@ -400,6 +437,8 @@ Inschatting: "sessies" van ±2–4 uur samenwerken met Claude op de Mac. De door
 - [ ] Software op de Mac installeren (§10). Claude Code met toegang tot deze repo
 - [ ] Tailscale-account, Mac in het tailnet, MagicDNS aan
 - [ ] Android-toestel in ontwikkelaarsmodus (USB-debugging, of draadloos debuggen via `adb pair`)
+- [ ] Mac-model en macOS-versie uitlezen (`sw_vers`, `uname -m`) en de juiste builds installeren
+- [ ] Mac "altijd aan" instellen (§5.4)
 - **Klaar als:** `godot --version`, `adb devices` (telefoon zichtbaar) en `tailscale status` werken op de Mac en de repo is gecloned
 
 ### Fase 1: Data en design (1–2 sessies)
@@ -419,18 +458,22 @@ Inschatting: "sessies" van ±2–4 uur samenwerken met Claude op de Mac. De door
 - [ ] Greybox-visuals (blokken en kleuren), camera, touch-input, bouw-UX met pad-preview en drag-to-wall
 - [ ] HUD: goud, hout, levens, wave-timer, element-balk, torenpaneel
 - [ ] Export naar je Android-telefoon (debug-APK via `adb install`, later een eigen release-keystore)
-- **Klaar als:** jij een volledige solo-game speelt op je telefoon en de bouw-UX "goed voelt"
+- [ ] **Web-export** testen in Safari en Chrome op de Mac, met muis en sneltoetsen
+- **Klaar als:** jij een volledige solo-game speelt op je telefoon en in de browser, en de bouw-UX "goed voelt"
 
 ### Fase 4: Multiplayer (3–4 sessies)
 - [ ] Protocol (commando's, events, snapshots) + versie-handshake
-- [ ] Headless dedicated server: lobby, rooms, room-codes, reconnect
+- [ ] Headless dedicated server: **accounts (registratie, login, sessietokens)**, lobby, rooms, room-codes, reconnect
+- [ ] SQLite-schema + migraties: accounts, profielen, matchgeschiedenis, records
+- [ ] Pauzeren en hervatten van een match tussen waves (snapshot naar de database)
 - [ ] Clients: interpolatie, latency-indicator, pings/emotes
-- [ ] Twee telefoons lokaal tegen de Mac op hetzelfde wifi
-- **Klaar als:** 2–4 toestellen een volledige co-op-game spelen zonder desync, en een telefoon die 30 s wegvalt opnieuw kan aansluiten
+- [ ] Twee telefoons en één browser lokaal tegen de Mac op hetzelfde wifi
+- **Klaar als:** 2–4 spelers (telefoon en browser door elkaar) een volledige co-op-game spelen. Een telefoon die 30 s wegvalt kan opnieuw aansluiten, en een gepauzeerde match gaat de volgende dag verder
 
 ### Fase 5: Tailscale en server-operations (1–2 sessies)
 - [ ] Mac getagd, ACL/grants (§5.3), node sharing-link voor vrienden
-- [ ] launchd-service, logs, `deploy.sh`, `/health`, slaapstand-instellingen
+- [ ] `tailscale serve`: HTTPS-certificaat, `/` (web-build + downloads) en `/ws` (gameserver)
+- [ ] launchd-service, logs, `deploy.sh`, `/health`, altijd-aan-instellingen, nachtelijke back-up + een test-restore
 - [ ] Test via **4G** (wifi uit) en met een vriend op een ander netwerk
 - **Klaar als:** een vriend buiten je netwerk via Tailscale een game speelt en de server een herstart van de Mac overleeft
 
@@ -444,22 +487,32 @@ Inschatting: "sessies" van ±2–4 uur samenwerken met Claude op de Mac. De door
 ### Fase 7: Content-compleet en balans (2–4 sessies)
 - [ ] Alle 9 elementen, ultieme toren, bosses, 4 moeilijkheden en bonuslevels
 - [ ] Balance-sims per element + playtests. Stats-dashboard uit SQLite
+- [ ] Achievements, account-levels en cosmetische unlocks
 - **Klaar als:** elk element solo Normal kan uitspelen met een goede maze en Perfection zeldzaam haalbaar is
 
 ### Fase 8: Distributie naar vrienden (1–2 sessies)
-- [ ] Android: een getekende release-APK delen (link of QR, "installeren uit onbekende bronnen" toestaan), **of** Play Console "internal testing" (eenmalig $25) voor automatische updates ❓
+- [ ] Landingspagina op `https://<mac>.<tailnet>.ts.net/`: **Speel in de browser**, **Download Android-app (APK)** en uitleg om Tailscale te installeren en de share te accepteren
+- [ ] Getekende release-APK (eigen keystore, veilig bewaard en geback-upt), installeren via "onbekende bronnen toestaan"
 - [ ] In-app update-check: de server meldt de nieuwste APK-versie en de download-link
 - [ ] In-app "server-adres" + QR-code om snel te verbinden
-- **Klaar als:** een vriend de app installeert, Tailscale-share accepteert en joint, zonder jouw hulp
+- **Klaar als:** een vriend Tailscale installeert, de share accepteert, een account maakt en meespeelt via de app **of** de browser, zonder jouw hulp
 
 ### Fase 9: Varianten (doorlopend)
-| Variant | Wat nieuw is |
-|---|---|
-| **Wintermaul Wars** (PvP 1v1/2v2) | Creeps naar de tegenstander **sturen** voor income. Twee spiegelmaps |
-| Endless / Challenge | Oneindige waves met scaling, wekelijkse seed + leaderboard |
-| Element TD-stijl | Elementen combineren tot duo- en trio-torens |
-| Legion/Line TD-stijl | Eigen lane per speler, units in plaats van torens |
-| Eigen maps | Kaarteditor in de app (grid + waypoints), te delen als JSON |
+Volgorde zoals afgesproken: eerst Wintermaul Wars, daarna andere Warcraft III-TD's. Details en bronnen staan in
+[`research/noob-killer-td.md`](research/noob-killer-td.md).
+
+| # | Variant | Wat nieuw is t.o.v. Klassiek | Hergebruik |
+|---|---|---|---|
+| 1 | **Wintermaul Wars** (1v1, 2v2) | Creeps naar de tegenstander **sturen**, income per tick, gespiegelde kaarten | Torens, simulatie, lobby |
+| 2 | **NOOB Killer TD** (Tower_Mazer, 2006) | **Eigen lane per speler** (tot 8), "runners" lopen rondjes, een **killquota per wave** (te weinig kills = eliminatie), builders die je opwaardeert (tech tree), 69 torens, units kopen om andere spelers aan te vallen, laatste overlevende wint | Lane-systeem uit Wars, torenmodule |
+| 3 | Element TD-stijl | Elementen combineren tot duo- en trio-torens, vaste paden | Elementen uit Klassiek |
+| 4 | Gem TD-stijl | Willekeurige edelstenen per ronde, de rest wordt muur. Mazing + geluk | Mazing, anti-block |
+| 5 | Legion TD / Line Tower Wars | Units in plaats van torens (Legion) of lanes met sends (Line TD) | Lanes + sends uit Wars |
+| 6 | Endless / wekelijkse challenge | Oneindige waves met scaling, vaste seed + leaderboard | Accounts, leaderboards |
+| 7 | Eigen maps | Kaarteditor in de app (grid + waypoints), te delen als JSON | Kaartformaat |
+
+Elke variant krijgt eerst een korte analyse zoals [`research/wintermaul-v13-data.md`](research/wintermaul-v13-data.md),
+met de scripts in `tools/w3x-extract/`.
 
 ---
 
@@ -493,19 +546,22 @@ Bij elke vraag staat mijn aanbeveling vetgedrukt.
 | # | Vraag | Opties | Aanbeveling |
 |---|---|---|---|
 | 1 | ~~Welke platformen?~~ | | ✅ **Alleen Android** |
-| 2 | Android-distributie naar vrienden | APK-link/QR / Play internal testing ($25 eenmalig) | **APK-link** in het begin, Play later als updates lastig worden |
+| 2 | ~~Android-distributie~~ | | ✅ **APK via link** + **browserversie** voor Mac/pc |
 | 3 | ~~2D of 3D?~~ | | ✅ **3D low-poly isometrisch** |
-| 4 | Engine | Godot / Unity / web | **Godot 4 + GDScript** |
+| 4 | Engine | Godot / Unity / web | **Godot 4 + GDScript**. Ik ga hiervan uit, tenzij je bezwaar hebt |
 | 5 | ~~Max. aantal spelers per match~~ | | ✅ **1–4 co-op** |
 | 6 | ~~Hoe trouw?~~ | | ✅ **Klassiek + Modern** als twee modi |
 | 7 | Wie speelt mee en hoe? | Alleen jijzelf + gezin (users) / vrienden via node sharing / publiek | **Node sharing** voor vrienden |
 | 8 | Taal van het spel | NL / EN / beide | **NL + EN** (i18n vanaf het begin) |
-| 9 | Werktitel en thema | "Frostgate TD" / ander voorstel | Jij kiest |
-| 10 | Commercieel ooit? | Nee (privé) / misschien later | Beïnvloedt Tailscale-plan, hosting en licenties |
-| 11 | MacBook-gebruik | Altijd aan op netstroom / alleen als je speelt | Bepaalt launchd- en slaapstand-setup |
-| 12 | Welk Mac-model en welke macOS-versie? | Apple Silicon / Intel | Nodig voor de Godot- en Android SDK-installatie |
-| 13 | Accounts en profielen | Alleen naam / account + stats + leaderboards | **Naam + toestel-token** in v1, stats in SQLite |
-| 14 | Volgende variant na Klassiek | Wintermaul Wars / Endless / Element TD | **Wintermaul Wars** |
+| 9 | ~~Naam~~ | | ✅ **Guardians** |
+| 9b | Thema bij "Guardians" | Winter/ijs zoals Wintermaul (de Guardians verdedigen het schip tegen de noordelijke horden) / fantasy-rijk met een wisselend thema per modus | **Winter voor Klassiek**, met een eigen thema per variant ❓ |
+| 10 | ~~Commercieel ooit?~~ | | ✅ **Nee**. Het Tailscale Personal-plan en CC-BY-assets volstaan |
+| 11 | ~~MacBook-gebruik~~ | | ✅ **Altijd aan** op netstroom |
+| 12 | ~~Mac-model en macOS~~ | | ✅ Controleer ik zelf in fase 0 |
+| 13 | ~~Accounts~~ | | ✅ **Accounts met voortgang** (§4.7) |
+| 14 | ~~Volgende variant~~ | | ✅ **Wintermaul Wars**, daarna **NOOB Killer TD** en andere WC3-TD's |
+| 15 | Welke NOOB Killer-versie ken je? | v1.8 (Tower_Mazer, 2006) / v1.8c / v1.8d (2024) / een andere | Laat weten welke je speelde, dan analyseer ik die ❓ |
+| 16 | Andere WC3-TD's die je graag terugziet? | Element TD, Gem TD, Legion TD, Green TD, Line Tower Wars, ... | Jouw favorieten bepalen de volgorde na NOOB Killer ❓ |
 
 ---
 
@@ -516,7 +572,10 @@ Bij elke vraag staat mijn aanbeveling vetgedrukt.
 | Bouw-UX voelt slecht op touch | Hoog | Fase 3 vroeg op een echt toestel. Pad-preview + drag-to-wall |
 | Mac slaapt, valt weg of updatet | Middel | launchd KeepAlive, slaap-instellingen, `/health`, reconnect in de client |
 | Tailscale-drempel voor vrienden | Middel | Node sharing-link + korte handleiding in de app. Later Funnel + WebSocket of een VPS |
-| Android-fragmentatie (oude/trage toestellen) | Middel | Mobile/Compatibility-renderer, kwaliteitsinstellingen, testen op het traagste toestel van de groep |
+| Android-fragmentatie (oude/trage toestellen) | Middel | Compatibility-renderer, kwaliteitsinstellingen, testen op het traagste toestel van de groep |
+| Browser-performance (WebGL 2, single-threaded) | Middel | Low-poly, instancing, aparte kwaliteitsinstelling voor web, vroeg testen in fase 3 |
+| Beveiliging van accounts | Middel | Gehashte wachtwoorden, rate limiting op login, alleen bereikbaar via Tailscale, back-ups |
+| Mac-hardware altijd aan (batterij, warmte) | Laag–middel | Geoptimaliseerd opladen, goede ventilatie, server-CPU begrenzen als er niemand speelt |
 | Performance bij 120+ creeps + projectielen | Middel | Flow fields, MultiMesh/instancing, pooled projectielen, LOD |
 | IP-problemen | Laag als we het plan volgen | Geen WC3-assets of -namen. Credits-bestand |
 | Scope creep (9 spelers, 49 races, ...) | Hoog | Fases strikt afwerken. Varianten pas na Klassiek |
@@ -532,6 +591,8 @@ Bij elke vraag staat mijn aanbeveling vetgedrukt.
 - Wintermaul Wars, practice map: <https://www.epicwar.com/maps/253710/>
 - WmW-gids: <http://wmwl.weebly.com/wmw-guide.html>
 - Wintermaul One Revolution: <https://wintermaul.one/>
+- NOOB Killer TD v1.8 (Tower_Mazer): <https://www.epicwar.com/maps/1550/>
+- Overzicht van WC3-TD's: <https://rankedboost.com/warcraft-3/custom-maps/>, <https://www.giga.de/tipp/die-beliebtesten-tower-defense-maps-im-ueberblick-warcraft-3-reforged/>
 - Wintermaul: The Remake (Hive Workshop): <https://www.hiveworkshop.com/threads/wintermaul-the-remake.180412/>
 - Algemene uitleg en download: <https://gaming-tools.com/warcraft-3/wintermaul/>
 
@@ -545,9 +606,13 @@ Bij elke vraag staat mijn aanbeveling vetgedrukt.
 - Node sharing: <https://tailscale.com/docs/features/sharing>
 - Prijzen (Personal: 6 users, onbeperkt toestellen, niet-commercieel): <https://tailscale.com/pricing>
 - Wat is een tailnet: <https://tailscale.com/docs/concepts/tailnet>
+- `tailscale serve` (HTTPS-proxy en bestanden in je tailnet): <https://tailscale.com/kb/1312/serve>
+- HTTPS-certificaten in je tailnet: <https://tailscale.com/kb/1153/enabling-https>
 
 **Tech**
 - Godot: <https://godotengine.org/>, mobiele update (april 2026): <https://gamedev.net/news/2713-godot-mobile-update-april-2026/>
+- Godot web-export (Compatibility-renderer, single-threaded): <https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html>
+- godot-sqlite (GDExtension): <https://github.com/2shady4u/godot-sqlite>
 - Colyseus (alternatieve server, Godot-SDK): <https://docs.colyseus.io/>
 - Nakama vs Colyseus vs SpacetimeDB (2026): <https://www.pistack.xyz/posts/2026-09-24-nakama-vs-colyseus-vs-spacetimedb-self-hosted-game-backend/>
 
