@@ -18,6 +18,8 @@ func _init() -> void:
 	test_economy(data)
 	test_effects(data)
 	test_waves_scale(data)
+	test_game_end_rules(data)
+	test_i18n_complete(data)
 	test_determinism(data)
 	test_bot_plays(data)
 	print("\n%d checks, %d failures" % [checks, failures])
@@ -235,6 +237,85 @@ func test_waves_scale(data) -> void:
 	var sim9 = Sim.new(data, 1, "normal", 9)
 	check(sim9.wave_total(data.waves[0]) == 120, "nine players get the original 120 creeps")
 	check(sim9.wave_total(data.waves[9]) == 6, "nine players get 6 bosses")
+
+
+func test_game_end_rules(data) -> void:
+	# a leak costs a life and lives at zero lose the game
+	var sim = Sim.new(data, 1, "hard", 1)
+	sim.level = 1
+	sim.state = "active"
+	var c = make_target(sim, "snow_scout", Vector2(1, 1))
+	sim._leak(c)
+	check(sim.lives == 9 and sim.stats.leaks == 1, "a leak costs one life")
+	for i in 9:
+		sim._leak(make_target(sim, "snow_scout", Vector2(1, 1)))
+	check(sim.state == "lost" and sim.lost_reason == "lives", "no lives left means defeat")
+	# one life on perfection
+	var perf = Sim.new(data, 1, "perfection", 1)
+	check(perf.lives == 1, "perfection has one life")
+	# bonus levels do not cost lives
+	var bonus = Sim.new(data, 1)
+	bonus.level = 31
+	bonus.state = "active"
+	var b = make_target(bonus, "yeti_scout", Vector2(1, 1))
+	b.level = 31
+	bonus._leak(b)
+	check(bonus.lives == 20, "bonus levels cost no lives")
+	# the level 30 boss reaching the ship is an instant defeat
+	var boss = Sim.new(data, 1)
+	boss.level = 30
+	boss.state = "active"
+	var k = make_target(boss, "ice_king", Vector2(1, 1))
+	k.level = 30
+	boss._leak(k)
+	check(boss.state == "lost" and boss.lost_reason == "boss", "the final boss at the ship loses at once")
+	# clearing a wave pays the level bonus and starts the countdown
+	var clear = Sim.new(data, 1, "normal", 9)
+	clear.level = 4
+	clear.state = "active"
+	var before = clear.gold
+	clear._check_wave_end()
+	check(clear.gold == before + 20 and clear.state == "countdown" and clear.countdown == 30.0, "level 4 pays 12+2*4 gold and waits 30 s")
+	# lumber after level 15
+	var lum = Sim.new(data, 1, "normal", 9)
+	lum.level = 15
+	lum.state = "active"
+	var l0 = lum.lumber
+	lum._check_wave_end()
+	check(lum.lumber == l0 + 1, "level 15 grants one lumber")
+	# the last level ends in victory
+	var win = Sim.new(data, 1)
+	win.level = 35
+	win.state = "active"
+	win._check_wave_end()
+	check(win.state == "won", "clearing level 35 wins")
+	# bounty is paid per kill
+	var pay = Sim.new(data, 1, "normal", 9)
+	pay.unlock_element("fire")
+	var g0 = pay.gold
+	var victim = make_target(pay, "frost_tinker", Vector2(1, 1))
+	pay._deal(victim, 1000.0, "chaos", null, true)
+	check(pay.gold == g0 + 1 and pay.stats.kills == 1, "a kill pays its bounty")
+
+
+func test_i18n_complete(data) -> void:
+	var I18n = preload("res://client/i18n.gd")
+	var tr = I18n.new()
+	for key in ["hud.gold", "msg.blocks_path", "end.won", "fx.slow", "attack.chaos", "armor.divine"]:
+		tr.lang = "nl"
+		var nl = tr.t(key)
+		tr.lang = "en"
+		var en = tr.t(key)
+		check(nl != key and en != key, "key %s exists in nl and en" % key)
+	for e in data.towers.values():
+		for k in e.effects:
+			tr.lang = "en"
+			check(tr.t("fx." + k.kind) != "fx." + k.kind, "effect %s has a text" % k.kind)
+	tr.lang = "en"
+	for at in data.matrix:
+		check(tr.t("attack." + at) != "attack." + at, "attack type %s has a name" % at)
+	for ar in data.matrix["normal"]:
+		check(tr.t("armor." + ar) != "armor." + ar, "armor type %s has a name" % ar)
 
 
 func run_bot(data, seed_value: int, element: String, max_ticks: int):

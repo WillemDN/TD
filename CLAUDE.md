@@ -47,7 +47,7 @@ van de eigenaar (altijd aan) en spelers verbinden via **Tailscale**. Het project
 - **Git:** werk op een feature-branch en push regelmatig. Commit-berichten in het Engels, kort en beschrijvend
 - **Status:** werk `docs/STATUS.md` bij aan het einde van een sessie (wat gedaan, wat volgt)
 
-## Geplande structuur (wordt in fase 2 aangemaakt)
+## Structuur (grotendeels aangemaakt)
 
 ```
 game/            Godot-project (client + server in één codebase)
@@ -62,13 +62,20 @@ web/             landingspagina (speel in de browser + APK-download)
 tools/           w3x-extract, import- en balance-tools
 ```
 
+## Commando's
+
+```sh
+godot --headless --path game --script res://tests/run_tests.gd    # alle headless tests, vóór elke commit
+tools/build_web.sh                                                # tests + webexport (game/build/web)
+python3 server-mac/serve_web.py                                   # serveert de webbuild op 127.0.0.1:8060
+python3 -I tools/import_wintermaul.py                             # JSON-data opnieuw genereren uit het dataverslag
+python3 -I tools/gen_map.py && python3 -I tools/gen_design_doc.py # kaart en ontwerpdocument
+```
+
+- Godot-web start alleen in een **secure context**: via `tailscale serve --https=8443 http://127.0.0.1:8060` (poort 443 en 10000 zijn door andere services bezet, niet overschrijven)
+- Gebruik in GDScript `preload("res://...")` in plaats van `class_name`, zodat headless en geëxporteerde builds hetzelfde werken
+- Een UI-wijziging controleer je met `tests/screenshot_runner.gd` (echt venster, optioneel `phone` voor 844x390 met touch-UI)
+
 ## Volgende stap
 
-Zie `docs/STATUS.md` → "Volgende stappen". Op het moment van schrijven is dat **fase 0** (`docs/SETUP-MAC.md`):
-- lees het Mac-model uit
-- controleer en installeer de software
-- stel de Mac in om altijd aan te blijven
-- koppel de Android-telefoon
-- controleer Tailscale
-
-Werk daarna `docs/STATUS.md` bij en ga verder met fase 1.
+Zie `docs/STATUS.md` → "Volgende stappen": speltests van de eigenaar op de telefoon, balans, bouw-UX en de modus Modern.

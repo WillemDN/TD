@@ -4,7 +4,31 @@
 
 ## Huidige fase
 
-**Fase 0: setup van de Mac** is grotendeels klaar (zie "Mac-gegevens" en "Nog open in fase 0"). **Fase 1 (data en design)** is gestart.
+**Eerste speelbare versie (browser) staat.** Fase 0 is afgerond (op `sudo pmset -a autorestart 1` na), fase 1 (data en design) is gedaan voor de modus Klassiek en fase 2 (headless simulatie + tests) en een greybox-client (fase 3, browser) zijn er in een eerste vorm.
+
+### Speel het nu
+
+- **Op de Mac / telefoon (Tailscale):** <https://willems-macbook-pro.tail868144.ts.net:8443/> (alleen binnen je tailnet, vraagt HTTPS: Godot-web start niet via gewone `http://` op een niet-lokaal adres)
+- De server is `python3 server-mac/serve_web.py` op `127.0.0.1:8060`, gepubliceerd met `tailscale serve --bg --https=8443 http://127.0.0.1:8060`. Poort 443 en 10000 worden al door andere services gebruikt, laat die staan. Uitzetten: `tailscale serve --https=8443 off`
+- **Opnieuw bouwen:** `tools/build_web.sh` (draait eerst alle tests, exporteert daarna naar `game/build/web`). Herladen in de browser volstaat (geen cache)
+- **Tests:** `godot --headless --path game --script res://tests/run_tests.gd` (355 checks)
+- **Screenshots van het echte venster:** `godot --path game --rendering-driver opengl3 --script res://tests/screenshot_runner.gd -- <map> [phone]`
+
+### Wat erin zit
+
+- Modus **Klassiek**, 1 speler, 35 levels met eindbazen op 10/20/30 en luchtlevels, moeilijkheid Makkelijk/Normaal/Moeilijk/Perfectie
+- 9 elementen (46 torens) + de ultieme toren, eigen NL/EN-namen, effecten: slow, poison, crit, chain, bounce, armor-debuff, %-HP, zet-HP, vasthouden, bonusschade
+- Kaart "Vrieslijn" met 3 lanes en een gedeeld bouwveld, flow-field-pathing, **anti-block** (plaatsingen die het pad sluiten worden geweigerd) en pad-preview met padlengte
+- Bouwen met muis of aanraking (twee stappen: tik om de ghost te zetten, tik nogmaals of "Bouw hier"), pannen, zoomen (wiel of knijpen), sneltoetsen Q-Y, S, spatie, P, 1-3
+- NL/EN, snelheid x1/x2/x4, pauze, "Start nu" met kleine goudbonus, verkopen (100% buiten de wave, 75% tijdens)
+- Alles data-gedreven uit `game/data/*.json`, simulatie in `game/core/` zonder nodes, deterministisch met een seeded RNG
+
+### Bekende beperkingen (eerlijk)
+
+- **Balans is voorlopig.** De solo-boost (3x startgoud, 1,5x bonus en bounty) en alle effectwaarden zijn gokken (zie `docs/design/schade-namen-kaart.md`). Een simpele bot zonder maze haalt level 3-11, afhankelijk van het element
+- Geen drag-to-wall, geen upgrade-bomen (modus Modern), geen multiplayer, geen accounts, geen geluid, geen echte art (alleen vormen en kleuren)
+- Het Schaduw-altaar (zware vliegende eenheid) uit het origineel is nog niet gemaakt
+- Alleen getest in Chrome (headless en venster). De telefoon is door de eigenaar zelf te testen
 
 ## Beslissingen (22-10-2026)
 
@@ -61,6 +85,12 @@ Uitgelezen op 2026-10-22.
 - Plan en architectuur → `docs/PLAN.md`, Mac-setup → `docs/SETUP-MAC.md`, context voor Claude Code → `CLAUDE.md`
 - Extractiescripts → `tools/w3x-extract/`
 
+### 2026-10-22: eerste speelbare versie
+- Data-pipeline: `tools/import_wintermaul.py` + `tools/import_overlay.py` (eigen namen NL/EN, effectparameters) → `game/data/{towers,creeps,waves_classic}.json`, matrix, regels en kaart (`tools/gen_map.py`). Ontwerpdocument wordt gegenereerd (`tools/gen_design_doc.py` → `docs/design/schade-namen-kaart.md`)
+- Godot-project `game/`: `core/` (grid met flow field en anti-block, simulatie, data), `client/` (3D-weergave, HUD, overlay, main), `tests/` (355 headless checks, bot, screenshot-runner)
+- Kaartontwerp aangepast tijdens het testen: een bot liet zien dat drie losse lanes voor een solospeler te veel werk zijn, daarom komen alle lanes samen in een gedeeld bouwveld
+- Webexport (`game/export_presets.cfg`, single-threaded) en `tailscale serve` op poort 8443. Getest in Chrome via het DevTools-protocol: laden, spelen, bouwen en een wave
+
 ### 2026-10-22: sessie op de Mac
 - Fase 0 gecontroleerd en Mac-gegevens vastgelegd, `gh` geïnstalleerd
 - Beslissingen: Tailscale-naam blijft `willems-macbook-pro`, telefoon niet koppelen (lokaal testen, de eigenaar test zelf op de telefoon)
@@ -70,6 +100,10 @@ Uitgelezen op 2026-10-22.
 
 ## Volgende stappen
 
-1. Fase 0 volgens `SETUP-MAC.md`, daarna deze status bijwerken met de Mac-gegevens
-2. Fase 1: `tools/import_wintermaul.py` (v13-data → `game/data/*.json`), eigen namen, element-vs-armor-matrix en kaartontwerp
-3. Fase 2: het Godot-project `game/` met een headless kernsimulatie en tests
+1. **Jij:** speel het op de telefoon en geef feedback: voelt het bouwen goed, is de balans te zwaar of te makkelijk, wat ontbreekt?
+2. **Jij:** `sudo pmset -a autorestart 1` en zet de webserver desgewenst als LaunchAgent aan (Claude Code kan dat op verzoek maken)
+3. **Balans:** abilities uit `war3map.w3a` lezen (echte slow/crit/chain-waarden), een betere bot met maze, balans-sims per element en de solo-boost bijstellen
+4. **Bouw-UX:** drag-to-wall, doelprioriteit per toren, undo, tutorial-tips
+5. **Modern-modus:** upgrade-bomen, collectieve bounty, wisselend armortype (zie `docs/research/wc3-td-genre.md`)
+6. **Multiplayer (fase 4/5):** server-authoritative over WebSocket, accounts en lobby
+7. **Art en audio (fase 6):** CC0-modellen en geluiden, VFX

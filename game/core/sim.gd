@@ -75,6 +75,7 @@ var projectiles: Array = []
 var record_events := false
 var events: Array = []
 var stats := {"kills": 0, "leaks": 0, "gold_earned": 0}
+var grid_revision := 0           # bumps whenever towers change the walkable grid
 
 var _next_id := 1
 var _spawn_queue: Array = []
@@ -164,6 +165,7 @@ func place_tower(def_id: String, cx: int, cy: int) -> Dictionary:
 	towers[t.id] = t
 	grid.set_footprint(cx, cy, int(def.footprint[0]), int(def.footprint[1]), true)
 	grid.recompute()
+	grid_revision += 1
 	_event({"type": "placed", "tower": t.id})
 	return {"ok": true, "id": t.id}
 
@@ -175,6 +177,7 @@ func sell_tower(tower_id: int) -> Dictionary:
 	gold += sell_value(t)
 	grid.set_footprint(t.cx, t.cy, int(t.def.footprint[0]), int(t.def.footprint[1]), false)
 	grid.recompute()
+	grid_revision += 1
 	towers.erase(tower_id)
 	_event({"type": "sold", "tower": tower_id})
 	return {"ok": true}
@@ -202,6 +205,11 @@ func is_idle() -> bool:
 
 func alive_count() -> int:
 	return creeps.size()
+
+
+## Creeps still on the field plus those waiting to spawn.
+func creeps_remaining() -> int:
+	return creeps.size() + _spawn_queue.size()
 
 
 func armor_reduction(armor: float) -> float:
@@ -479,8 +487,6 @@ func _deal(c: Creep, raw: float, attack_type: String, t: Tower, pure: bool) -> v
 	c.hp -= dmg
 	if t != null:
 		t.damage_dealt += dmg
-	if record_events:
-		_event({"type": "hit", "pos": c.pos, "damage": dmg})
 	if c.hp <= 0.0:
 		_kill(c, t)
 

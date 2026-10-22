@@ -12,4 +12,15 @@ Warcraft III-tower defenses. De server draait op een MacBook en spelers verbinde
 - 🧭 **Varianten voor later** (NOOB Killer TD en andere): [`docs/research/noob-killer-td.md`](docs/research/noob-killer-td.md)
 - 🛠️ **Data-extractie uit WC3-maps:** [`tools/w3x-extract/`](tools/w3x-extract/)
 
-Status: fase 0, setup van de Mac (zie [`docs/SETUP-MAC.md`](docs/SETUP-MAC.md)).
+## Speel de eerste versie
+
+Binnen je tailnet (HTTPS vereist): <https://willems-macbook-pro.tail868144.ts.net:8443/>. Zie [`docs/STATUS.md`](docs/STATUS.md)
+voor hoe je het bouwt en serveert, en voor de bekende beperkingen.
+
+```sh
+tools/build_web.sh                              # tests + webexport naar game/build/web
+python3 server-mac/serve_web.py                 # serveert op 127.0.0.1:8060 (tailscale serve doet de HTTPS)
+godot --headless --path game --script res://tests/run_tests.gd   # alleen de tests
+```
+
+Status: eerste speelbare browserversie van de modus Klassiek (1 speler). Ontwerp: [`docs/design/schade-namen-kaart.md`](docs/design/schade-namen-kaart.md).

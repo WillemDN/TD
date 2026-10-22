@@ -77,7 +77,8 @@ noteert het resultaat in `docs/STATUS.md`. Op Apple Silicon staat Homebrew in `/
    - *Machines* → de Mac **houdt zijn naam** `willems-macbook-pro` (beslissing 2026-10-22). Het adres is dus `willems-macbook-pro.tail868144.ts.net`
 4. **Tailscale-app** op je Android-telefoon installeren en met hetzelfde account inloggen.
 5. Controle op de Mac: `tailscale status` toont de Mac en je telefoon.
-6. *Later, in fase 5:* de toegangsregels (PLAN §5.3), `tailscale serve`, en de deel-link (node sharing) voor vrienden.
+6. `tailscale serve` voor de webversie staat al op poort **8443** (443 en 10000 zijn bezet door andere services): `tailscale serve --bg --https=8443 http://127.0.0.1:8060`. Godot-web vraagt HTTPS.
+7. *Later, in fase 5:* de toegangsregels (PLAN §5.3) en de deel-link (node sharing) voor vrienden.
 
 ## Stap 6: Mac "altijd aan" (🤖 met `sudo`, jij typt het wachtwoord)
 
