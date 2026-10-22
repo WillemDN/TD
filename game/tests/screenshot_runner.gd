@@ -26,7 +26,7 @@ func _init() -> void:
 		main._apply_ui_scale()
 	await _frames(8)
 	await _shot("1_menu")
-	main._play("normal")
+	main._play("classic", "normal")
 	await _frames(4)
 	main._fit()
 	# pick an element and build with the bot so there is something to see

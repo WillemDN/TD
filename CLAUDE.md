@@ -18,6 +18,8 @@ van de eigenaar (altijd aan) en spelers verbinden via **Tailscale**. Het project
 | `docs/research/wintermaul-v13-data.md` | Waves, torens, elementen en regels uit de originele map (de bron voor de modus Klassiek) |
 | `docs/research/noob-killer-td.md` | Verkenning van varianten |
 | `docs/research/wc3-td-genre.md` | Overzicht van WC3-TD-varianten, mechanieken en ontwerp-inzichten |
+| `docs/research/element-td.md` | Onderzoek naar Element TD (bron voor de modus Elementen) |
+| `docs/design/elementen-modus.md` | Ontwerp, getallen en balans van de modus Elementen |
 | `docs/research/data/*.json` | Ruwe unit-objectdata uit de WC3-maps |
 | `tools/w3x-extract/` | Python-scripts om WC3-maps uit te lezen |
 
@@ -70,12 +72,14 @@ tools/build_web.sh                                                # tests + webe
 python3 server-mac/serve_web.py                                   # serveert de webbuild op 127.0.0.1:8060
 python3 -I tools/import_wintermaul.py                             # JSON-data opnieuw genereren uit het dataverslag
 python3 -I tools/gen_map.py && python3 -I tools/gen_design_doc.py # kaart en ontwerpdocument
+python3 -I tools/gen_elements.py                                  # alle data van de modus Elementen (torens, creeps, waves, kaart, teksten)
 ```
 
 - Godot-web start alleen in een **secure context**: via `tailscale serve --https=8443 http://127.0.0.1:8060` (poort 443 en 10000 zijn door andere services bezet, niet overschrijven)
 - Gebruik in GDScript `preload("res://...")` in plaats van `class_name`. Enige uitzondering is `UiKit` (`client/ui_kit.gd`), omdat de inner classes het nodig hebben. Draai na het toevoegen van een `class_name` eenmalig `godot --headless --path game --import`
 - **Assets:** alleen CC0/CC-BY, elk bestand in `game/CREDITS.md`. De modelbibliotheek van het zusterproject `WDungeoN` (`../WDungeoN/assets/models`) mag hergebruikt worden (alleen lezen, niet wijzigen: daar werken andere chats), maar let op de licenties in `WDungeoN/assets/models/LICENSES` (wolf/beer/everzwijn, weerwolf/weerbeer en de Diablo-bazen zijn uitgesloten). KayKit-figuren verklein je met `tools/kaykit/slim.gd`. De torenonderdelen komen uit `game/assets/kenney_td` (Kenney, CC0). Monsters en UI-iconen zijn in code getekend (`client/models.gd`, `client/ui_kit.gd`). Bekijk modellen met `tests/model_gallery.gd`
-- Een UI-wijziging controleer je met `tests/screenshot_runner.gd` (echt venster, optioneel `phone` voor 844x390 met touch-UI)
+- **Spelmodi** staan in `game/data/modes.json`; elke modus heeft een `rules_<id>.json` met eigen tabellen (`files`). Klassiek komt uit de importer, **Elementen** uit `tools/gen_elements.py` (balansknoppen als omgevingsvariabelen `GEN_HP_GROWTH=1.2` enz., zie het ontwerpdocument). Balans meten: `tests/bot_elements.gd` en `tests/bot_maze.gd`
+- Een UI-wijziging controleer je met `tests/screenshot_runner.gd` (echt venster, optioneel `phone` voor 844x390 met touch-UI; `tests/screenshot_elements.gd` voor de modus Elementen)
 
 ## Volgende stap
 

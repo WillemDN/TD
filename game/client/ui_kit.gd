@@ -48,6 +48,7 @@ class GlyphButton extends Button:
 	var glyph_size := 22.0
 	var top_icon := false      # icon above the text instead of left of it
 	var badge := ""            # small text at the top right (hotkey or tier)
+	var glyphs: Array = []     # mixed towers: several element icons side by side instead of the single glyph
 
 	func _init(p_glyph := "", p_text := "", p_accent := Color("5cc8ff"), min_size := Vector2(44, 44)) -> void:
 		glyph = p_glyph
@@ -97,7 +98,13 @@ class GlyphButton extends Button:
 			c = Vector2(size.x * 0.5, glyph_size * 0.5 + 8.0)
 		elif text != "":
 			c = Vector2(glyph_size * 0.5 + 10.0, size.y * 0.5)
-		UiKit.draw_glyph(self, glyph, c, glyph_size, glyph_color)
+		if glyphs.size() > 1:
+			var n := glyphs.size()
+			var gs: float = glyph_size * (0.8 if n == 2 else 0.64)
+			for i in n:
+				UiKit.draw_glyph(self, glyphs[i], Vector2(c.x + (float(i) - float(n - 1) * 0.5) * gs * 1.05, c.y), gs, glyph_color)
+		else:
+			UiKit.draw_glyph(self, glyph, c, glyph_size, glyph_color)
 		if badge != "":
 			var font := get_theme_default_font()
 			draw_string(font, Vector2(size.x - 14.0, 13.0), badge, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1, 1, 1, 0.55))
@@ -209,6 +216,28 @@ static func draw_glyph(ci: CanvasItem, kind: String, c: Vector2, size: float, co
 		"crystal":
 			_poly(ci, [c + Vector2(0, -r), c + Vector2(r * 0.75, -r * 0.1), c + Vector2(0, r), c + Vector2(-r * 0.75, -r * 0.1)], Color("ff9be0"))
 			_poly(ci, [c + Vector2(0, -r), c + Vector2(r * 0.25, -r * 0.1), c + Vector2(0, r), c + Vector2(-r * 0.25, -r * 0.1)], Color("ffd0f2"))
+		"light":
+			ci.draw_circle(c, r * 0.45, Color("fff0a0"))
+			for i in 8:
+				var a := TAU * float(i) / 8.0
+				ci.draw_line(c + Vector2(cos(a), sin(a)) * r * 0.62, c + Vector2(cos(a), sin(a)) * r, Color("ffe27a"), maxf(2.0, size * 0.1))
+		"dark":
+			ci.draw_circle(c, r * 0.85, Color("a56be8"))
+			ci.draw_circle(c + Vector2(r * 0.38, -r * 0.1), r * 0.7, Color(0.1, 0.07, 0.18))
+		"water":
+			_poly(ci, [c + Vector2(0, -r), c + Vector2(r * 0.62, r * 0.2), c + Vector2(r * 0.35, r * 0.75), c + Vector2(-r * 0.35, r * 0.75), c + Vector2(-r * 0.62, r * 0.2)], Color("4da3ff"))
+			ci.draw_circle(c + Vector2(0, r * 0.28), r * 0.62, Color("4da3ff"))
+			ci.draw_circle(c + Vector2(-r * 0.22, r * 0.18), r * 0.14, Color("bfe2ff"))
+		"earth":
+			_poly(ci, [c + Vector2(-r, r * 0.75), c + Vector2(-r * 0.35, -r * 0.35), c + Vector2(0, r * 0.1), c + Vector2(r * 0.35, -r * 0.8), c + Vector2(r, r * 0.75)], Color("b88a5a"))
+			_poly(ci, [c + Vector2(r * 0.35, -r * 0.8), c + Vector2(r * 0.62, -r * 0.2), c + Vector2(r * 0.2, -r * 0.2)], Color("f4f0e6"))
+		"dual":
+			ci.draw_circle(c + Vector2(-r * 0.32, 0), r * 0.62, Color("ffd98a"))
+			ci.draw_circle(c + Vector2(r * 0.32, 0), r * 0.62, Color(0.6, 0.85, 1.0, 0.85))
+		"triple":
+			ci.draw_circle(c + Vector2(0, -r * 0.34), r * 0.5, Color("ff9bd8"))
+			ci.draw_circle(c + Vector2(-r * 0.36, r * 0.28), r * 0.5, Color(0.6, 0.85, 1.0, 0.85))
+			ci.draw_circle(c + Vector2(r * 0.36, r * 0.28), r * 0.5, Color(1.0, 0.9, 0.5, 0.85))
 		"ultimate":
 			var pts2: Array = []
 			for i in 10:

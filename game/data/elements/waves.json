@@ -1,0 +1,284 @@
+{
+ "waves": [
+  {
+   "level": 1,
+   "creep": "e01",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 2,
+   "creep": "e02",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 3,
+   "creep": "e03",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 4,
+   "creep": "e04",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 5,
+   "creep": "e05",
+   "countPerSpawn": 1,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 6,
+   "creep": "e06",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 7,
+   "creep": "e07",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 8,
+   "creep": "e08",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 9,
+   "creep": "e09",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 10,
+   "creep": "e10",
+   "countPerSpawn": 1,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 11,
+   "creep": "e11",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 12,
+   "creep": "e12",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 13,
+   "creep": "e13",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 14,
+   "creep": "e14",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 15,
+   "creep": "e15",
+   "countPerSpawn": 1,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 16,
+   "creep": "e16",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 17,
+   "creep": "e17",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 18,
+   "creep": "e18",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 19,
+   "creep": "e19",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 20,
+   "creep": "e20",
+   "countPerSpawn": 1,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 21,
+   "creep": "e21",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 22,
+   "creep": "e22",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 23,
+   "creep": "e23",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 24,
+   "creep": "e24",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 25,
+   "creep": "e25",
+   "countPerSpawn": 1,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 26,
+   "creep": "e26",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 27,
+   "creep": "e27",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 28,
+   "creep": "e28",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 29,
+   "creep": "e29",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 30,
+   "creep": "e30",
+   "countPerSpawn": 1,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 31,
+   "creep": "e31",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 32,
+   "creep": "e32",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 33,
+   "creep": "e33",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 34,
+   "creep": "e34",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 35,
+   "creep": "e35",
+   "countPerSpawn": 1,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 36,
+   "creep": "e36",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 37,
+   "creep": "e37",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 38,
+   "creep": "e38",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 39,
+   "creep": "e39",
+   "countPerSpawn": 30,
+   "noLifeLoss": false,
+   "finalBoss": false
+  },
+  {
+   "level": 40,
+   "creep": "e40",
+   "countPerSpawn": 1,
+   "noLifeLoss": false,
+   "finalBoss": false
+  }
+ ]
+}

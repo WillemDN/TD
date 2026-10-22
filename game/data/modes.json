@@ -1,0 +1,6 @@
+{
+ "modes": [
+  {"id": "classic", "players": "1-9", "name": {"nl": "Klassiek", "en": "Classic"}},
+  {"id": "elements", "players": "1-4", "name": {"nl": "Elementen", "en": "Elements"}}
+ ]
+}

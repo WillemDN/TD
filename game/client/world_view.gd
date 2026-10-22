@@ -88,6 +88,7 @@ var _path_mat: StandardMaterial3D
 var _path_rev := -1
 var _snow: CPUParticles3D
 var _element_colors := {}
+var _armor_colors := {}
 var _lifted_id := 0
 var _tower_height := {}
 var _terrain_mat: ShaderMaterial
@@ -103,6 +104,9 @@ func setup(p_sim, p_data) -> void:
 	for e in data.elements:
 		_element_colors[e.id] = Color(e.color)
 	_element_colors["ultimate"] = Color("bff6ff")
+	_armor_colors = ARMOR_COLORS.duplicate()
+	for e in data.elements:
+		_armor_colors[e.id] = Color(e.color)      # mode elements: the creep's armor type is its element
 	_build_environment()
 	_build_terrain()
 	_build_forest()
@@ -658,8 +662,7 @@ func _sync_towers() -> void:
 	for t in sim.towers.values():
 		var n: Node3D = tower_nodes.get(t.id)
 		if n == null:
-			var color: Color = _element_colors.get(t.def.element, Color.WHITE)
-			n = Models.make_tower(t.def, color)
+			n = Models.make_tower(t.def, tower_color(t.def))
 			_tower_height[t.id] = float(n.get_meta("height"))
 			var shadow := Models.add_mesh(n, Models.cylinder(0.55, 0.55, 0.01, 14), Color(0, 0, 0), Vector3(0, 0.005, 0))
 			shadow.material_override = Models.mat(Color(0, 0, 0), 0.0, 0.28)
@@ -695,25 +698,41 @@ func _sync_creeps(alpha: float) -> void:
 		var moving: bool = c.root_t <= 0.0
 		Models.animate_creep(model, clock if moving else 0.0, c.speed * (1.0 - c.slow_amt), float(c.id) * 0.7)
 		var marker: MeshInstance3D = n.get_node("marker")
-		var tint: Color = ARMOR_COLORS.get(c.armor_type, Color.WHITE)
-		if c.root_t > 0.0:
+		var tint: Color = _armor_colors.get(c.armor_type, Color.WHITE)
+		if data.mode == "elements":
+			# the marker is the element of the creep, so it is not painted over by status colours
+			if sim.is_invulnerable(c):
+				tint = Color("ffffff")
+		elif c.root_t > 0.0:
 			tint = Color("ffffff")
 		elif c.poison_t > 0.0:
 			tint = Color("3fd04a")
 		elif c.slow_t > 0.0:
 			tint = Color("4aa8ff")
 		marker.material_override = Models.mat(tint, 1.0, 0.9)
+		model.scale.y = 0.2 if c.revive_t > 0.0 else 1.0      # an undead creep that went down lies flat
+
+
+## Colour of a tower: its element, or the mean of the elements of a mixed tower.
+func tower_color(def: Dictionary) -> Color:
+	var els: Array = def.get("elements", [def.element])
+	var sum := Color(0, 0, 0)
+	for e in els:
+		var col: Color = _element_colors.get(e, Color.WHITE)
+		sum = Color(sum.r + col.r, sum.g + col.g, sum.b + col.b)
+	var k := 1.0 / float(els.size())
+	return Color(sum.r * k, sum.g * k, sum.b * k)
 
 
 func _make_creep_node(c) -> Node3D:
 	var n := Node3D.new()
-	var model := Models.make_creep(c.def.id, c.def)
+	var model := Models.make_creep(c.def.get("model", c.def.id), c.def)
 	model.name = "creep"
 	n.add_child(model)
 	var s: float = float(model.get_meta("scale"))
 	var r := 0.3 * s if not c.boss else 0.5 * s
 	var ground := -(AIR_HEIGHT if c.air else 0.0)
-	var marker := Models.add_mesh(n, Models.cylinder(r, r, 0.03, 14), ARMOR_COLORS.get(c.armor_type, Color.WHITE), Vector3(0, ground + 0.03, 0), Vector3.ZERO, 1.0)
+	var marker := Models.add_mesh(n, Models.cylinder(r, r, 0.03, 14), _armor_colors.get(c.armor_type, Color.WHITE), Vector3(0, ground + 0.03, 0), Vector3.ZERO, 1.0)
 	marker.name = "marker"
 	var sr := r * (1.5 if c.air else 0.9)
 	var shadow := Models.add_mesh(n, Models.cylinder(sr, sr, 0.01, 12), Color(0, 0, 0), Vector3(0, ground + 0.01, 0))

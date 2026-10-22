@@ -68,13 +68,15 @@ var _card_dragging := false
 var _card_drop_guard := 0.0
 
 var _last_leak_toast := 0
-var settings := {"lang": "", "difficulty": "normal"}
+var settings := {"lang": "", "difficulty": "normal", "mode": "classic"}
 
 
 func _ready() -> void:
-	data = GameData.load_all()
 	i18n = I18n.new()
 	_load_settings()
+	if not (settings.mode in Hud.MODES):
+		settings.mode = "classic"
+	data = GameData.load_all("res://data", settings.mode)
 	if settings.lang == "":
 		settings.lang = "nl" if OS.get_locale_language() == "nl" else "en"
 	i18n.lang = settings.lang
@@ -88,6 +90,7 @@ func _ready() -> void:
 	layer.add_child(hud)
 	hud.setup(data, i18n)
 	hud.difficulty = settings.difficulty
+	hud.mode = settings.mode
 	hud.refresh_static_texts()
 	hud.tower_chosen.connect(_on_tower_chosen)
 	hud.card_down.connect(_on_card_down)
@@ -105,19 +108,23 @@ func _ready() -> void:
 	hud.confirm_pressed.connect(_confirm)
 	hud.cancel_pressed.connect(_cancel)
 	hud.play_pressed.connect(_play)
-	hud.again_pressed.connect(func(): _play(settings.difficulty))
+	hud.again_pressed.connect(func(): _play(settings.mode, settings.difficulty))
 	hud.center_pressed.connect(_fit)
 	hud.wall_toggled.connect(func(on): _set_wall_mode(on))
 	hud.minimap_focus.connect(func(t): world.focus_on(t))
 	hud.tray_toggled.connect(func(_open): call_deferred("_fit_keep"))
-	_new_game(settings.difficulty)
+	_new_game(settings.mode, settings.difficulty)
 	hud.set_menu_visible(true)
 	get_viewport().size_changed.connect(_fit)
+	get_viewport().size_changed.connect(hud.fit_menu)
 
 
-func _new_game(difficulty: String) -> void:
+func _new_game(mode: String, difficulty: String) -> void:
 	if world != null:
 		world.queue_free()
+	if mode != data.mode:
+		data = GameData.load_all("res://data", mode)
+		hud.data = data
 	sim = Sim.new(data, int(Time.get_ticks_usec() % 1000000007), difficulty, 1)
 	sim.record_events = true
 	world = WorldView.new()
@@ -169,10 +176,11 @@ func _apply_ui_scale() -> void:
 	get_tree().root.content_scale_factor = 1.64 if touch_mode else 1.2
 
 
-func _play(difficulty: String) -> void:
+func _play(mode: String, difficulty: String) -> void:
+	settings.mode = mode
 	settings.difficulty = difficulty
 	_save_settings()
-	_new_game(difficulty)
+	_new_game(mode, difficulty)
 	menu_open = false
 	hud.set_menu_visible(false)
 
@@ -180,6 +188,7 @@ func _play(difficulty: String) -> void:
 func _open_menu() -> void:
 	menu_open = true
 	hud.difficulty = settings.difficulty
+	hud.mode = settings.mode
 	hud.refresh_static_texts()
 	hud.set_menu_visible(true)
 
@@ -250,7 +259,7 @@ func _handle_events() -> void:
 				var creep: Dictionary = data.creeps[wave.creep]
 				hud.toast(i18n.t("msg.wave_start", [e.level, i18n.n(creep.name)]), UiKit.ACCENT, 2.6)
 				if creep.boss:
-					hud.toast(i18n.t("msg.boss_warning"), Color("ff8a5c"), 3.0)
+					hud.toast(i18n.t("msg.boss_element" if data.mode == "elements" else "msg.boss_warning"), Color("ff8a5c"), 3.0)
 				elif creep.air:
 					hud.toast(i18n.t("msg.air_wave"), Color("ffe45a"), 3.6)
 			"kill":
@@ -270,6 +279,13 @@ func _handle_events() -> void:
 				world.add_impact(e.pos, e.element, e.air)
 			"crit":
 				overlay.add_text(e.pos, "!", Color("ff9a3c"), 28)
+			"interest":
+				hud.flash_interest(int(e.gold))
+			"cleared":
+				if data.rules.lumberAtLevel.has(str(int(e.level))) and data.mode == "elements":
+					hud.toast(i18n.t("msg.new_element"), Color("d9a566"), 3.2)
+			"revived":
+				overlay.add_text(e.pos, "+", Color("b8ffb0"), 24)
 	if kills > 0:
 		overlay.add_text(kill_pos / float(kills), "+%d" % kill_gold, UiKit.GOLD, 18)
 	sim.events.clear()
@@ -310,7 +326,9 @@ func _context() -> Dictionary:
 		sell_text = i18n.t("hud.sell", [sim.sell_value(t)])
 	var hint := ""
 	if sim.elements.is_empty():
-		hint = i18n.t("hud.choose_element")
+		hint = i18n.t("hud.choose_element" if data.mode == "classic" else "hud.choose_element_n", [sim.lumber])
+	elif data.mode == "elements" and sim.lumber > 0 and sim.elements.size() == 1:
+		hint = i18n.t("hud.choose_element_n", [sim.lumber])
 	elif build_id == "" and moving_id == 0 and selected_id == 0 and sim.towers.is_empty():
 		hint = i18n.t("hud.drag_hint")
 	if active_element == "" and not sim.elements.is_empty():
@@ -341,9 +359,18 @@ func _def_info(def: Dictionary) -> String:
 	for t in a.targets:
 		targets.append(i18n.t("targets." + t))
 	var s := "[b][color=%s]%s[/color][/b]\n" % [color, i18n.n(def.name)]
+	var els: Array = def.get("elements", [])
+	if els.size() > 0:
+		var parts: Array = []
+		for e in els:
+			parts.append("[color=%s]%s[/color]" % [data.element_of(e).color, i18n.n(data.element_of(e).name)])
+		s += " + ".join(parts) + "\n"
 	s += "%s %s · %s/s\n" % [i18n.t("stat.damage"), dmg, _fmt(avg / cd)]
 	s += "%s %s s · %s %s\n" % [i18n.t("stat.cooldown"), _fmt(cd), i18n.t("stat.range"), _fmt(float(a.range))]
-	s += "%s · %s\n" % [i18n.t("attack." + a.type), ", ".join(targets)]
+	if els.is_empty():
+		s += "%s · %s\n" % [i18n.t("attack." + a.type), ", ".join(targets)]
+	else:
+		s += ", ".join(targets) + "\n"
 	if a.splash != null:
 		s += "%s %s\n" % [i18n.t("stat.splash"), _fmt(float(a.splash[2]))]
 	for e in def.effects:
@@ -370,6 +397,8 @@ func _effect_text(e: Dictionary, def: Dictionary) -> String:
 			return i18n.t("fx.slow", [int(round(float(e.amount) * 100.0)), _fmt(float(e.duration))])
 		"poison":
 			var avg: float = (float(def.attack.damage[0]) + float(def.attack.damage[1])) * 0.5
+			if float(e.slow) <= 0.0:
+				return i18n.t("fx.poison_plain", [_fmt(avg * float(e.dpsFactor)), _fmt(float(e.duration))])
 			return i18n.t("fx.poison", [int(round(float(e.slow) * 100.0)), _fmt(avg * float(e.dpsFactor)), _fmt(float(e.duration))])
 		"crit":
 			return i18n.t("fx.crit", [int(round(float(e.chance) * 100.0)), _fmt(float(e.multiplier))])
@@ -555,7 +584,7 @@ func _refresh_ghost() -> void:
 	var soft_ok: bool = ghost_ok or ghost_reason == "gold" or ghost_reason == "lumber"
 	world.show_ghost(def, ghost_cell.x, ghost_cell.y, soft_ok, 0.0)
 	path_text = ""
-	if soft_ok and moving_id == 0:
+	if soft_ok and moving_id == 0 and data.mode == "classic":      # a fixed path never changes
 		var starts := PackedInt32Array()
 		for s in data.map.spawns:
 			starts.append(sim.grid.idx(int(s.cell[0]), int(s.cell[1])))

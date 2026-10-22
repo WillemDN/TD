@@ -5,6 +5,7 @@ extends RefCounted
 const WALL := 1
 const NOBUILD := 2
 const TOWER := 4
+const PLATE := 8   # a build plate: towers can stand here, creeps never walk over it (fixed-path maps)
 const SQRT2 := 1.4142135
 const CLEARANCE_PENALTY := 1.2   # extra cost of a step onto a cell next to a wall or tower: creeps keep to the middle of gaps
 
@@ -33,7 +34,7 @@ func _init(map: Dictionary) -> void:
 		var row: String = map.rows[y]
 		for x in w:
 			var c := row[x]
-			flags[y * w + x] = WALL if c == "#" else (NOBUILD if c == "," else 0)
+			flags[y * w + x] = WALL if c == "#" else (NOBUILD if c == "," else (PLATE if c == "o" else 0))
 	var g: Array = map.goal.rect
 	for y in range(int(g[1]), int(g[3]) + 1):
 		for x in range(int(g[0]), int(g[2]) + 1):
@@ -54,7 +55,7 @@ func in_bounds(x: int, y: int) -> bool:
 
 
 func walkable(i: int) -> bool:
-	return (flags[i] & (WALL | TOWER)) == 0
+	return (flags[i] & (WALL | TOWER | PLATE)) == 0
 
 
 func is_goal(i: int) -> bool:
@@ -179,7 +180,7 @@ func _near_blocked(i: int) -> bool:
 	for d in DIRS:
 		var nx: int = x + d.x
 		var ny: int = y + d.y
-		if not in_bounds(nx, ny) or (flags[ny * w + nx] & (WALL | TOWER)) != 0:
+		if not in_bounds(nx, ny) or (flags[ny * w + nx] & (WALL | TOWER | PLATE)) != 0:
 			return true
 	return false
 

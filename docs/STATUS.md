@@ -4,18 +4,20 @@
 
 ## Huidige fase
 
-**Speelbare browserversie met mobiele UX en 3D-modellen (versie 2).** Fase 0 is afgerond (op `sudo pmset -a autorestart 1` na), fase 1 (data en design) is gedaan voor de modus Klassiek, fase 2 (headless simulatie + tests) staat en de client (fase 3) is een eerste volwaardige versie voor telefoon én desktop.
+**Speelbare browserversie met twee spelmodi (Klassiek en Elementen), mobiele UX en 3D-modellen.** Fase 0 is afgerond (op `sudo pmset -a autorestart 1` na), fase 1 (data en design) is gedaan voor de modus Klassiek, fase 2 (headless simulatie + tests) staat en de client (fase 3) is een eerste volwaardige versie voor telefoon én desktop.
 
 ### Speel het nu
 
 - **Op de Mac / telefoon (Tailscale):** <https://willems-macbook-pro.tail868144.ts.net:8443/> (alleen binnen je tailnet, vraagt HTTPS: Godot-web start niet via gewone `http://` op een niet-lokaal adres)
 - De server is `python3 server-mac/serve_web.py` op `127.0.0.1:8060`, gepubliceerd met `tailscale serve --bg --https=8443 http://127.0.0.1:8060`. Poort 443 en 10000 worden al door andere services gebruikt, laat die staan. Uitzetten: `tailscale serve --https=8443 off`
 - **Opnieuw bouwen:** `tools/build_web.sh` (draait eerst alle tests, exporteert daarna naar `game/build/web`). Herladen in de browser volstaat (geen cache)
-- **Tests:** `godot --headless --path game --script res://tests/run_tests.gd` (366 checks) en `res://tests/client_smoke.gd` (de echte client door 13 levels)
+- **Tests:** `godot --headless --path game --script res://tests/run_tests.gd` (ruim 1270 checks) en `res://tests/client_smoke.gd` (de echte client door 13 levels Klassiek en 11 levels Elementen)
 - **Screenshots van het echte venster:** `godot --path game --rendering-driver opengl3 --script res://tests/screenshot_runner.gd -- <map> [phone]`. **Modelgalerij** van alle torens en monsters: `.../tests/model_gallery.gd -- <map>`
 
 ### Wat erin zit
 
+- **Spelkeuze in het titelmenu:** Klassiek (Wintermaul-stijl, blijft zoals het was maar is solo erg zwaar) of **Elementen** (vast pad, voor alleen), met eigen moeilijkheidsniveaus. De keuze wordt onthouden
+- Modus **Elementen** (zie `docs/design/elementen-modus.md`): 40 levels, vast slingerpad met bouwplaten, 6 elementen in een cirkel (x2 / x0,5), 18 enkele + 15 duo- + 20 trio-torens, Guardians elke 5 levels geven een nieuw element, rente, creepeigenschappen (snel, helend, onsterfelijk, gepantserd)
 - Modus **Klassiek**, 1 speler, 35 levels met eindbazen op 10/20/30 en luchtlevels, moeilijkheid Makkelijk/Normaal/Moeilijk/Perfectie
 - 9 elementen (46 torens) + de ultieme toren, NL/EN, effecten: slow, poison, crit, chain, bounce, armor-debuff, %-HP, zet-HP, vasthouden, bonusschade
 - Kaart "Vrieslijn", flow-field-pathing, **anti-block**, pad-preview
@@ -41,7 +43,7 @@
 | Engine | **Godot 4** (laatste stabiele versie) + **GDScript**, Compatibility-renderer op alle platformen |
 | Stijl | **3D low-poly**, isometrische camera, CC0-assets (Kenney, Quaternius, KayKit) |
 | Spelers | **1–4 co-op** per match |
-| Modi | **Klassiek** (exact Wintermaul v13) + **Modern** (upgrade-bomen, gebruiksgemak) |
+| Modi | **Klassiek** (Wintermaul v13, blijft in het spel), **Elementen** (vast pad, solo-vriendelijk, 2026-10-22) + later **Modern** (upgrade-bomen, gebruiksgemak) |
 | Taal | **NL + EN** (i18n vanaf het begin) |
 | Netwerk | Server-authoritative, **WebSocket over TLS** via `tailscale serve`, server op de MacBook |
 | Accounts | **Accounts met voortgang** (SQLite op de Mac), hervatbare matches |
@@ -79,6 +81,16 @@ Uitgelezen op 2026-10-22.
 - [ ] Optioneel: `pip install pillow` en `mpyq` als we de extractiescripts opnieuw willen draaien
 
 ## Logboek
+
+### 2026-10-22: spelkeuze en de modus Elementen
+- **Aanleiding:** Klassiek (Wintermaul) is leuk maar solo onmogelijk (bots haalden level 4 tot 11 van 35). De eigenaar wil het in het spel houden en er een tweede spel bij: Element TD-stijl. De pagina op wc3maps.com gaf HTTP 403, dus er is alleen publieke community-documentatie gebruikt (`docs/research/element-td.md`), geen mapdata
+- **Titelmenu met spelkeuze** (Klassiek / Elementen), moeilijkheid met per modus de echte levens, het menu scrolt op een kleine telefoon en Start blijft in beeld. `game/data/modes.json` + `rules_<id>.json` (met `files` naar eigen tabellen); `GameData.load_all(dir, mode)`
+- **Simulatie** (alles met headless tests, `tests/elements_checks.gd`): bouwplaten (`PLATE` in het grid: bouwbaar, nooit loopbaar), torens met meerdere elementen en `unlockAfter` (levels afgerond), rente, `leakRespawn`, `hpMultiplier` per moeilijkheid, creepeigenschappen (onsterfelijk, helend, gepantserd, snel)
+- **Data:** `tools/gen_elements.py` genereert 53 torens, 40 creeps/waves, de matrix (schade per toren tegen elk element), regels, kaart "Elementenpad" en alle teksten (NL/EN). Balansknoppen via `GEN_*`
+- **Client:** tabbladen Dubbel/Drievoudig in de lade (alleen torens waarvan je alle elementen kent, horizontaal scrollbaar), meerdere icoontjes per mengtoren, tier-badge, slot met "Vanaf level N", monsters en schijven in de kleur van hun element, eigenschappen in de golfbalk, rente-flits, nieuwe iconen (licht, duisternis, water, aarde, dubbel, drievoudig), muurmodus en padtekst alleen in Klassiek
+- **Balans met de bot** (`tests/bot_elements.gd`): zie `docs/design/elementen-modus.md`
+- Let op: `game/export_presets.cfg` moest `data/elements/*.json` erbij krijgen, anders ontbreekt de data in de webbuild
+
 
 ### 2026-10-22: analyse en plan (cloud-sessie)
 - Wintermaul TD v13.0 Final gedownload en uitgepakt: waves, torens, elementen, regels en kaartlayout → `docs/research/wintermaul-v13-data.md`
@@ -127,7 +139,7 @@ Uitgelezen op 2026-10-22.
 
 ## Volgende stappen
 
-1. **Jij:** speel het op de telefoon: voelt slepen, verplaatsen en de lade goed? Is de balans te zwaar of te makkelijk? Wat ontbreekt?
+1. **Jij:** speel beide modi op de telefoon: voelt slepen, verplaatsen en de lade goed? Is Elementen te zwaar of te makkelijk (knop: `HP_GROWTH` in `tools/gen_elements.py`)? Wat ontbreekt?
 2. **Jij:** `sudo pmset -a autorestart 1` en zet de webserver desgewenst als LaunchAgent aan (Claude Code kan dat op verzoek maken)
 3. **Geluid** en haptische feedback, een korte **tutorial** (eerste keer: kies element, sleep een toren, start level)
 4. **Balans:** abilities uit `war3map.w3a` lezen, een betere bot met maze, balans-sims per element, solo-boost bijstellen

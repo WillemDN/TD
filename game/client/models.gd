@@ -22,6 +22,8 @@ const TOWER_STYLE := {
 	"electric": ["yellow", Color("fff0a0")], "stone": ["yellow", Color("c9a77a")], "poison": ["green", Color("b6ff7a")],
 	"nature": ["green", Color("8fe08a")], "shadow": ["red", Color("b79aff")], "crystal": ["blue", Color("ffb0ec")],
 	"ultimate": ["blue", Color("e8fbff")],
+	"light": ["yellow", Color("fff0a0")], "dark": ["red", Color("b79aff")], "water": ["blue", Color("8fd0ff")],
+	"earth": ["yellow", Color("c9a77a")],
 }
 # tier -> [model, scale]
 const TOWER_TIER := {1: ["base", 0.72], 2: ["A", 0.72], 3: ["B", 0.66], 4: ["B", 0.74], 5: ["catapult", 0.8], 6: ["catapult", 0.9]}
@@ -248,6 +250,14 @@ static func make_tower(def: Dictionary, color: Color) -> Node3D:
 	turret.position.y = top_y
 	stack.add_child(turret)
 	_accent(turret, def.element, color, 0.05, tier)
+	# a mixed tower carries a small accent of every further element beside the main one
+	var els: Array = def.get("elements", [])
+	for i in range(1, els.size()):
+		var sub := Node3D.new()
+		sub.scale = Vector3.ONE * 0.62
+		sub.position = Vector3(0.27 if i == 1 else -0.27, 0.0, 0.0 if i == 1 else 0.05)
+		turret.add_child(sub)
+		_accent(sub, els[i], color, 0.05, tier)
 	# colour pad on the foot: exactly the one-tile build footprint
 	var pad := add_mesh(root, box(Vector3(0.98, 0.04, 0.98)), color.lerp(Color('1b2a3c'), 0.72), Vector3(0, 0.02, 0), Vector3.ZERO, 0.0)
 	pad.name = "ring"
@@ -382,6 +392,21 @@ static func _accent(parent: Node3D, element: String, color: Color, y: float, tie
 				add_mesh(parent, cylinder(0.0, 0.1 * k, 0.5 * k, 4), Color("ff9be0"), Vector3(0.16 * (1 - 2 * i), y + 0.25, 0.1), Vector3(0, 0.4 * i, 0.25 * (1 - 2 * i)), 1.4)
 		"ultimate":
 			add_mesh(parent, sphere(0.2), Color("bff6ff"), Vector3(0, y + 0.5, 0), Vector3.ZERO, 2.4)
+		"light":
+			add_mesh(parent, sphere(0.15 * k), Color("fff0a0"), Vector3(0, y + 0.32, 0), Vector3.ZERO, 2.6)
+			var halo := TorusMesh.new()
+			halo.inner_radius = 0.2 * k
+			halo.outer_radius = 0.24 * k
+			add_mesh(parent, halo, Color("ffe27a"), Vector3(0, y + 0.32, 0), Vector3(PI * 0.5, 0, 0), 2.0)
+		"dark":
+			add_mesh(parent, sphere(0.14 * k), Color("a56be8"), Vector3(0, y + 0.34, 0), Vector3.ZERO, 2.0)
+			add_mesh(parent, cylinder(0.0, 0.1, 0.34, 4), Color("3b2060"), Vector3(0, y + 0.12, 0), Vector3.ZERO, 0.6)
+		"water":
+			add_mesh(parent, sphere(0.15 * k, 1.2), Color("4da3ff"), Vector3(0, y + 0.22, 0), Vector3.ZERO, 1.6)
+			add_mesh(parent, sphere(0.07), Color("bfe2ff"), Vector3(0.14, y + 0.4, 0.06), Vector3.ZERO, 2.0)
+		"earth":
+			add_mesh(parent, box(Vector3(0.24 * k, 0.2 * k, 0.24 * k)), Color("b88a5a"), Vector3(0.1, y + 0.1, 0.0), Vector3(0, 0.5, 0))
+			add_mesh(parent, box(Vector3(0.16 * k, 0.14 * k, 0.16 * k)), Color("8c6a46"), Vector3(-0.16, y + 0.07, 0.12), Vector3(0, 0.9, 0))
 
 
 # ------------------------------------------------------------------ monsters
@@ -411,7 +436,11 @@ static func _make_asset_creep(creep_id: String, def: Dictionary) -> Node3D:
 	inst.scale = Vector3.ONE * k
 	# stand on the ground: the lowest point of the model at y = 0 (flyers are lifted by the view)
 	inst.position = Vector3(0.0, -box.position.y * k, 0.0)
-	tint_model(inst, Color(spec[2]), float(spec[3]), 1.0 if spec[0] == "kk" else 1.7)   # the animals are painted dark
+	# the animals are painted dark; creeps of the mode elements carry the colour of their element ("tint" in the data)
+	if def.has("tint"):
+		tint_model(inst, Color(def.tint), 0.8, 1.0 if spec[0] == "kk" else 1.7)
+	else:
+		tint_model(inst, Color(spec[2]), float(spec[3]), 1.0 if spec[0] == "kk" else 1.7)
 	var ap: AnimationPlayer = inst.find_child("AnimationPlayer", true, false)
 	if ap != null:
 		for a in ["Walking_A", "Running_A", "Idle"]:

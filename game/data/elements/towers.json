@@ -1,0 +1,2821 @@
+{
+ "elements": [
+  {
+   "id": "light",
+   "color": "#ffe27a",
+   "name": {
+    "nl": "Licht",
+    "en": "Light"
+   },
+   "towers": [
+    "light_1",
+    "light_2",
+    "light_3"
+   ]
+  },
+  {
+   "id": "dark",
+   "color": "#a56be8",
+   "name": {
+    "nl": "Duisternis",
+    "en": "Darkness"
+   },
+   "towers": [
+    "dark_1",
+    "dark_2",
+    "dark_3"
+   ]
+  },
+  {
+   "id": "water",
+   "color": "#4da3ff",
+   "name": {
+    "nl": "Water",
+    "en": "Water"
+   },
+   "towers": [
+    "water_1",
+    "water_2",
+    "water_3"
+   ]
+  },
+  {
+   "id": "fire",
+   "color": "#ff6a3c",
+   "name": {
+    "nl": "Vuur",
+    "en": "Fire"
+   },
+   "towers": [
+    "fire_1",
+    "fire_2",
+    "fire_3"
+   ]
+  },
+  {
+   "id": "nature",
+   "color": "#6bd45f",
+   "name": {
+    "nl": "Natuur",
+    "en": "Nature"
+   },
+   "towers": [
+    "nature_1",
+    "nature_2",
+    "nature_3"
+   ]
+  },
+  {
+   "id": "earth",
+   "color": "#b88a5a",
+   "name": {
+    "nl": "Aarde",
+    "en": "Earth"
+   },
+   "towers": [
+    "earth_1",
+    "earth_2",
+    "earth_3"
+   ]
+  }
+ ],
+ "ultimate": "",
+ "groups": {
+  "dual": [
+   "d_light_dark",
+   "d_light_water",
+   "d_light_fire",
+   "d_light_nature",
+   "d_light_earth",
+   "d_dark_water",
+   "d_dark_fire",
+   "d_dark_nature",
+   "d_dark_earth",
+   "d_water_fire",
+   "d_water_nature",
+   "d_water_earth",
+   "d_fire_nature",
+   "d_fire_earth",
+   "d_nature_earth"
+  ],
+  "triple": [
+   "t_light_dark_water",
+   "t_light_dark_fire",
+   "t_light_dark_nature",
+   "t_light_dark_earth",
+   "t_light_water_fire",
+   "t_light_water_nature",
+   "t_light_water_earth",
+   "t_light_fire_nature",
+   "t_light_fire_earth",
+   "t_light_nature_earth",
+   "t_dark_water_fire",
+   "t_dark_water_nature",
+   "t_dark_water_earth",
+   "t_dark_fire_nature",
+   "t_dark_fire_earth",
+   "t_dark_nature_earth",
+   "t_water_fire_nature",
+   "t_water_fire_earth",
+   "t_water_nature_earth",
+   "t_fire_nature_earth"
+  ]
+ },
+ "towers": {
+  "light_1": {
+   "id": "light_1",
+   "element": "light",
+   "elements": [
+    "light"
+   ],
+   "tier": 1,
+   "name": {
+    "nl": "Lichtpunt",
+    "en": "Light Spark"
+   },
+   "cost": {
+    "gold": 10,
+    "lumber": 0
+   },
+   "buildTime": 4,
+   "unlockAfter": 0,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     4,
+     8
+    ],
+    "cooldown": 0.6,
+    "range": 6.8,
+    "type": "light_1",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 14.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.14,
+     "multiplier": 2.5
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "light_2": {
+   "id": "light_2",
+   "element": "light",
+   "elements": [
+    "light"
+   ],
+   "tier": 2,
+   "name": {
+    "nl": "Lichtstraal",
+    "en": "Light Beam"
+   },
+   "cost": {
+    "gold": 55,
+    "lumber": 0
+   },
+   "buildTime": 8,
+   "unlockAfter": 8,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     25,
+     51
+    ],
+    "cooldown": 0.6,
+    "range": 6.8,
+    "type": "light_2",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 14.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.18,
+     "multiplier": 2.5
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "light_3": {
+   "id": "light_3",
+   "element": "light",
+   "elements": [
+    "light"
+   ],
+   "tier": 3,
+   "name": {
+    "nl": "Zonnetoren",
+    "en": "Sun Spire"
+   },
+   "cost": {
+    "gold": 240,
+    "lumber": 0
+   },
+   "buildTime": 14,
+   "unlockAfter": 18,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     117,
+     242
+    ],
+    "cooldown": 0.6,
+    "range": 6.8,
+    "type": "light_3",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 14.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.22,
+     "multiplier": 2.5
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "dark_1": {
+   "id": "dark_1",
+   "element": "dark",
+   "elements": [
+    "dark"
+   ],
+   "tier": 1,
+   "name": {
+    "nl": "Schaduwpunt",
+    "en": "Shade Point"
+   },
+   "cost": {
+    "gold": 10,
+    "lumber": 0
+   },
+   "buildTime": 4,
+   "unlockAfter": 0,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     7,
+     14
+    ],
+    "cooldown": 1.0,
+    "range": 5.8,
+    "type": "dark_1",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 10.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 2,
+     "duration": 3.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "dark_2": {
+   "id": "dark_2",
+   "element": "dark",
+   "elements": [
+    "dark"
+   ],
+   "tier": 2,
+   "name": {
+    "nl": "Duisterspits",
+    "en": "Dark Spike"
+   },
+   "cost": {
+    "gold": 55,
+    "lumber": 0
+   },
+   "buildTime": 8,
+   "unlockAfter": 8,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     41,
+     85
+    ],
+    "cooldown": 1.0,
+    "range": 5.8,
+    "type": "dark_2",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 10.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "dark_3": {
+   "id": "dark_3",
+   "element": "dark",
+   "elements": [
+    "dark"
+   ],
+   "tier": 3,
+   "name": {
+    "nl": "Leegtetoren",
+    "en": "Void Spire"
+   },
+   "cost": {
+    "gold": 240,
+    "lumber": 0
+   },
+   "buildTime": 14,
+   "unlockAfter": 18,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     194,
+     404
+    ],
+    "cooldown": 1.0,
+    "range": 5.8,
+    "type": "dark_3",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 10.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 4,
+     "duration": 3.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "water_1": {
+   "id": "water_1",
+   "element": "water",
+   "elements": [
+    "water"
+   ],
+   "tier": 1,
+   "name": {
+    "nl": "Waterpunt",
+    "en": "Water Point"
+   },
+   "cost": {
+    "gold": 10,
+    "lumber": 0
+   },
+   "buildTime": 4,
+   "unlockAfter": 0,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     5,
+     10
+    ],
+    "cooldown": 0.9,
+    "range": 5.2,
+    "type": "water_1",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.24,
+     "duration": 2.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "water_2": {
+   "id": "water_2",
+   "element": "water",
+   "elements": [
+    "water"
+   ],
+   "tier": 2,
+   "name": {
+    "nl": "Stroomtoren",
+    "en": "Current Tower"
+   },
+   "cost": {
+    "gold": 55,
+    "lumber": 0
+   },
+   "buildTime": 8,
+   "unlockAfter": 8,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     31,
+     63
+    ],
+    "cooldown": 0.9,
+    "range": 5.2,
+    "type": "water_2",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.3,
+     "duration": 2.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "water_3": {
+   "id": "water_3",
+   "element": "water",
+   "elements": [
+    "water"
+   ],
+   "tier": 3,
+   "name": {
+    "nl": "Getijdetoren",
+    "en": "Tide Tower"
+   },
+   "cost": {
+    "gold": 240,
+    "lumber": 0
+   },
+   "buildTime": 14,
+   "unlockAfter": 18,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     144,
+     300
+    ],
+    "cooldown": 0.9,
+    "range": 5.2,
+    "type": "water_3",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.36,
+     "duration": 2.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "fire_1": {
+   "id": "fire_1",
+   "element": "fire",
+   "elements": [
+    "fire"
+   ],
+   "tier": 1,
+   "name": {
+    "nl": "Vlampunt",
+    "en": "Flame Point"
+   },
+   "cost": {
+    "gold": 10,
+    "lumber": 0
+   },
+   "buildTime": 4,
+   "unlockAfter": 0,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     5,
+     10
+    ],
+    "cooldown": 1.0,
+    "range": 5.2,
+    "type": "fire_1",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.0,
+    "splash": [
+     0.43,
+     0.69,
+     1.03
+    ]
+   },
+   "effects": [],
+   "source": "gen:elements"
+  },
+  "fire_2": {
+   "id": "fire_2",
+   "element": "fire",
+   "elements": [
+    "fire"
+   ],
+   "tier": 2,
+   "name": {
+    "nl": "Vuurtoren",
+    "en": "Fire Tower"
+   },
+   "cost": {
+    "gold": 55,
+    "lumber": 0
+   },
+   "buildTime": 8,
+   "unlockAfter": 8,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     29,
+     59
+    ],
+    "cooldown": 1.0,
+    "range": 5.2,
+    "type": "fire_2",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.0,
+    "splash": [
+     0.52,
+     0.83,
+     1.25
+    ]
+   },
+   "effects": [],
+   "source": "gen:elements"
+  },
+  "fire_3": {
+   "id": "fire_3",
+   "element": "fire",
+   "elements": [
+    "fire"
+   ],
+   "tier": 3,
+   "name": {
+    "nl": "Vulkaantoren",
+    "en": "Volcano Tower"
+   },
+   "cost": {
+    "gold": 240,
+    "lumber": 0
+   },
+   "buildTime": 14,
+   "unlockAfter": 18,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     135,
+     281
+    ],
+    "cooldown": 1.0,
+    "range": 5.2,
+    "type": "fire_3",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.0,
+    "splash": [
+     0.61,
+     0.98,
+     1.46
+    ]
+   },
+   "effects": [],
+   "source": "gen:elements"
+  },
+  "nature_1": {
+   "id": "nature_1",
+   "element": "nature",
+   "elements": [
+    "nature"
+   ],
+   "tier": 1,
+   "name": {
+    "nl": "Wortelpunt",
+    "en": "Root Point"
+   },
+   "cost": {
+    "gold": 10,
+    "lumber": 0
+   },
+   "buildTime": 4,
+   "unlockAfter": 0,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     6,
+     12
+    ],
+    "cooldown": 1.0,
+    "range": 5.6,
+    "type": "nature_1",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.45,
+     "duration": 4.0,
+     "bossImmune": false
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "nature_2": {
+   "id": "nature_2",
+   "element": "nature",
+   "elements": [
+    "nature"
+   ],
+   "tier": 2,
+   "name": {
+    "nl": "Bladtoren",
+    "en": "Leaf Tower"
+   },
+   "cost": {
+    "gold": 55,
+    "lumber": 0
+   },
+   "buildTime": 8,
+   "unlockAfter": 8,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     36,
+     74
+    ],
+    "cooldown": 1.0,
+    "range": 5.6,
+    "type": "nature_2",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.55,
+     "duration": 4.0,
+     "bossImmune": false
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "nature_3": {
+   "id": "nature_3",
+   "element": "nature",
+   "elements": [
+    "nature"
+   ],
+   "tier": 3,
+   "name": {
+    "nl": "Levenstoren",
+    "en": "Life Tower"
+   },
+   "cost": {
+    "gold": 240,
+    "lumber": 0
+   },
+   "buildTime": 14,
+   "unlockAfter": 18,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     169,
+     351
+    ],
+    "cooldown": 1.0,
+    "range": 5.6,
+    "type": "nature_3",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.65,
+     "duration": 4.0,
+     "bossImmune": false
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "earth_1": {
+   "id": "earth_1",
+   "element": "earth",
+   "elements": [
+    "earth"
+   ],
+   "tier": 1,
+   "name": {
+    "nl": "Steenpunt",
+    "en": "Stone Point"
+   },
+   "cost": {
+    "gold": 10,
+    "lumber": 0
+   },
+   "buildTime": 4,
+   "unlockAfter": 0,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     10,
+     21
+    ],
+    "cooldown": 1.6,
+    "range": 5.0,
+    "type": "earth_1",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 7.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "root",
+     "chance": 0.08,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "earth_2": {
+   "id": "earth_2",
+   "element": "earth",
+   "elements": [
+    "earth"
+   ],
+   "tier": 2,
+   "name": {
+    "nl": "Rotstoren",
+    "en": "Rock Tower"
+   },
+   "cost": {
+    "gold": 55,
+    "lumber": 0
+   },
+   "buildTime": 8,
+   "unlockAfter": 8,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     63,
+     131
+    ],
+    "cooldown": 1.6,
+    "range": 5.0,
+    "type": "earth_2",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 7.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "root",
+     "chance": 0.1,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "earth_3": {
+   "id": "earth_3",
+   "element": "earth",
+   "elements": [
+    "earth"
+   ],
+   "tier": 3,
+   "name": {
+    "nl": "Bergtoren",
+    "en": "Mountain Tower"
+   },
+   "cost": {
+    "gold": 240,
+    "lumber": 0
+   },
+   "buildTime": 14,
+   "unlockAfter": 18,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     297,
+     618
+    ],
+    "cooldown": 1.6,
+    "range": 5.0,
+    "type": "earth_3",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 7.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "root",
+     "chance": 0.12,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_light_dark": {
+   "id": "d_light_dark",
+   "element": "light",
+   "elements": [
+    "light",
+    "dark"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Schemering",
+    "en": "Dusk"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     60,
+     124
+    ],
+    "cooldown": 0.8,
+    "range": 6.8,
+    "type": "d_light_dark",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 12.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.15,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_light_water": {
+   "id": "d_light_water",
+   "element": "light",
+   "elements": [
+    "light",
+    "water"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Regenboog",
+    "en": "Rainbow"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     51,
+     106
+    ],
+    "cooldown": 0.75,
+    "range": 6.8,
+    "type": "d_light_water",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 11.5,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.15,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "slow",
+     "amount": 0.26,
+     "duration": 2.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_light_fire": {
+   "id": "d_light_fire",
+   "element": "light",
+   "elements": [
+    "light",
+    "fire"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Zonnevlam",
+    "en": "Sunflare"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     51,
+     105
+    ],
+    "cooldown": 0.8,
+    "range": 6.8,
+    "type": "d_light_fire",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 11.0,
+    "splash": [
+     0.52,
+     0.83,
+     1.25
+    ]
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.15,
+     "multiplier": 2.5
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_light_nature": {
+   "id": "d_light_nature",
+   "element": "light",
+   "elements": [
+    "light",
+    "nature"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Bloesem",
+    "en": "Bloom"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     56,
+     116
+    ],
+    "cooldown": 0.8,
+    "range": 6.8,
+    "type": "d_light_nature",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 11.5,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.15,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.47,
+     "duration": 4.0,
+     "bossImmune": false
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_light_earth": {
+   "id": "d_light_earth",
+   "element": "light",
+   "elements": [
+    "light",
+    "earth"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Kristalspits",
+    "en": "Crystal Spike"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     80,
+     167
+    ],
+    "cooldown": 1.1,
+    "range": 6.8,
+    "type": "d_light_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 10.5,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.15,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_dark_water": {
+   "id": "d_dark_water",
+   "element": "dark",
+   "elements": [
+    "dark",
+    "water"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Moeras",
+    "en": "Mire"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     65,
+     135
+    ],
+    "cooldown": 0.95,
+    "range": 5.8,
+    "type": "d_dark_water",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.5,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    },
+    {
+     "kind": "slow",
+     "amount": 0.26,
+     "duration": 2.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_dark_fire": {
+   "id": "d_dark_fire",
+   "element": "dark",
+   "elements": [
+    "dark",
+    "fire"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Zwarte Vlam",
+    "en": "Black Flame"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     63,
+     132
+    ],
+    "cooldown": 1.0,
+    "range": 5.8,
+    "type": "d_dark_fire",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.0,
+    "splash": [
+     0.52,
+     0.83,
+     1.25
+    ]
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_dark_nature": {
+   "id": "d_dark_nature",
+   "element": "dark",
+   "elements": [
+    "dark",
+    "nature"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Verval",
+    "en": "Decay"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     70,
+     145
+    ],
+    "cooldown": 1.0,
+    "range": 5.8,
+    "type": "d_dark_nature",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.5,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    },
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.47,
+     "duration": 4.0,
+     "bossImmune": false
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_dark_earth": {
+   "id": "d_dark_earth",
+   "element": "dark",
+   "elements": [
+    "dark",
+    "earth"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Grafheuvel",
+    "en": "Barrow"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     95,
+     197
+    ],
+    "cooldown": 1.3,
+    "range": 5.8,
+    "type": "d_dark_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.5,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_water_fire": {
+   "id": "d_water_fire",
+   "element": "water",
+   "elements": [
+    "water",
+    "fire"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Stoomketel",
+    "en": "Steam Boiler"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     54,
+     112
+    ],
+    "cooldown": 0.95,
+    "range": 5.2,
+    "type": "d_water_fire",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.5,
+    "splash": [
+     0.52,
+     0.83,
+     1.25
+    ]
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.26,
+     "duration": 2.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_water_nature": {
+   "id": "d_water_nature",
+   "element": "water",
+   "elements": [
+    "water",
+    "nature"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Regenwoud",
+    "en": "Rainforest"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     60,
+     125
+    ],
+    "cooldown": 0.95,
+    "range": 5.6,
+    "type": "d_water_nature",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.26,
+     "duration": 2.0
+    },
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.47,
+     "duration": 4.0,
+     "bossImmune": false
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_water_earth": {
+   "id": "d_water_earth",
+   "element": "water",
+   "elements": [
+    "water",
+    "earth"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Modderpoel",
+    "en": "Mudpool"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     83,
+     173
+    ],
+    "cooldown": 1.25,
+    "range": 5.2,
+    "type": "d_water_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.26,
+     "duration": 2.0
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_fire_nature": {
+   "id": "d_fire_nature",
+   "element": "fire",
+   "elements": [
+    "fire",
+    "nature"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Bosbrand",
+    "en": "Wildfire"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     58,
+     122
+    ],
+    "cooldown": 1.0,
+    "range": 5.6,
+    "type": "d_fire_nature",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.5,
+    "splash": [
+     0.52,
+     0.83,
+     1.25
+    ]
+   },
+   "effects": [
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.47,
+     "duration": 4.0,
+     "bossImmune": false
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_fire_earth": {
+   "id": "d_fire_earth",
+   "element": "fire",
+   "elements": [
+    "fire",
+    "earth"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Lavavloed",
+    "en": "Lava Flow"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     80,
+     167
+    ],
+    "cooldown": 1.3,
+    "range": 5.2,
+    "type": "d_fire_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 7.5,
+    "splash": [
+     0.52,
+     0.83,
+     1.25
+    ]
+   },
+   "effects": [
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "d_nature_earth": {
+   "id": "d_nature_earth",
+   "element": "nature",
+   "elements": [
+    "nature",
+    "earth"
+   ],
+   "tier": 4,
+   "name": {
+    "nl": "Oerwoud",
+    "en": "Elder Grove"
+   },
+   "cost": {
+    "gold": 110,
+    "lumber": 0
+   },
+   "buildTime": 9,
+   "unlockAfter": 4,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     89,
+     184
+    ],
+    "cooldown": 1.3,
+    "range": 5.6,
+    "type": "d_nature_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.47,
+     "duration": 4.0,
+     "bossImmune": false
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_light_dark_water": {
+   "id": "t_light_dark_water",
+   "element": "light",
+   "elements": [
+    "light",
+    "dark",
+    "water"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Maanvloed",
+    "en": "Moontide"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     245,
+     510
+    ],
+    "cooldown": 0.83,
+    "range": 6.8,
+    "type": "t_light_dark_water",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 11.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.17,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    },
+    {
+     "kind": "slow",
+     "amount": 0.27,
+     "duration": 2.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_light_dark_fire": {
+   "id": "t_light_dark_fire",
+   "element": "light",
+   "elements": [
+    "light",
+    "dark",
+    "fire"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Zonsverduistering",
+    "en": "Eclipse"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     245,
+     510
+    ],
+    "cooldown": 0.87,
+    "range": 6.8,
+    "type": "t_light_dark_fire",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 10.7,
+    "splash": [
+     0.61,
+     0.98,
+     1.46
+    ]
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.17,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_light_dark_nature": {
+   "id": "t_light_dark_nature",
+   "element": "light",
+   "elements": [
+    "light",
+    "dark",
+    "nature"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Levensboom",
+    "en": "Tree of Life"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     261,
+     543
+    ],
+    "cooldown": 0.87,
+    "range": 6.8,
+    "type": "t_light_dark_nature",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 11.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.17,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    },
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.49,
+     "duration": 4.0,
+     "bossImmune": false
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_light_dark_earth": {
+   "id": "t_light_dark_earth",
+   "element": "light",
+   "elements": [
+    "light",
+    "dark",
+    "earth"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Obelisk",
+    "en": "Obelisk"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     331,
+     688
+    ],
+    "cooldown": 1.07,
+    "range": 6.8,
+    "type": "t_light_dark_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 10.3,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.17,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_light_water_fire": {
+   "id": "t_light_water_fire",
+   "element": "light",
+   "elements": [
+    "light",
+    "water",
+    "fire"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Gloeiende Mist",
+    "en": "Glowing Mist"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     219,
+     455
+    ],
+    "cooldown": 0.83,
+    "range": 6.8,
+    "type": "t_light_water_fire",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 10.3,
+    "splash": [
+     0.61,
+     0.98,
+     1.46
+    ]
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.17,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "slow",
+     "amount": 0.27,
+     "duration": 2.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_light_water_nature": {
+   "id": "t_light_water_nature",
+   "element": "light",
+   "elements": [
+    "light",
+    "water",
+    "nature"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Dauwtoren",
+    "en": "Dewspire"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     234,
+     486
+    ],
+    "cooldown": 0.83,
+    "range": 6.8,
+    "type": "t_light_water_nature",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 10.7,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.17,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "slow",
+     "amount": 0.27,
+     "duration": 2.0
+    },
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.49,
+     "duration": 4.0,
+     "bossImmune": false
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_light_water_earth": {
+   "id": "t_light_water_earth",
+   "element": "light",
+   "elements": [
+    "light",
+    "water",
+    "earth"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Bergbron",
+    "en": "Mountain Spring"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     300,
+     623
+    ],
+    "cooldown": 1.03,
+    "range": 6.8,
+    "type": "t_light_water_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 10.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.17,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "slow",
+     "amount": 0.27,
+     "duration": 2.0
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_light_fire_nature": {
+   "id": "t_light_fire_nature",
+   "element": "light",
+   "elements": [
+    "light",
+    "fire",
+    "nature"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Zomerzon",
+    "en": "Midsummer"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     234,
+     485
+    ],
+    "cooldown": 0.87,
+    "range": 6.8,
+    "type": "t_light_fire_nature",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 10.3,
+    "splash": [
+     0.61,
+     0.98,
+     1.46
+    ]
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.17,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.49,
+     "duration": 4.0,
+     "bossImmune": false
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_light_fire_earth": {
+   "id": "t_light_fire_earth",
+   "element": "light",
+   "elements": [
+    "light",
+    "fire",
+    "earth"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Smeltkroes",
+    "en": "Crucible"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     297,
+     617
+    ],
+    "cooldown": 1.07,
+    "range": 6.8,
+    "type": "t_light_fire_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.7,
+    "splash": [
+     0.61,
+     0.98,
+     1.46
+    ]
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.17,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_light_nature_earth": {
+   "id": "t_light_nature_earth",
+   "element": "light",
+   "elements": [
+    "light",
+    "nature",
+    "earth"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Edelsteenwoud",
+    "en": "Gemwood"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     316,
+     657
+    ],
+    "cooldown": 1.07,
+    "range": 6.8,
+    "type": "t_light_nature_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 10.0,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "crit",
+     "chance": 0.17,
+     "multiplier": 2.5
+    },
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.49,
+     "duration": 4.0,
+     "bossImmune": false
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_dark_water_fire": {
+   "id": "t_dark_water_fire",
+   "element": "dark",
+   "elements": [
+    "dark",
+    "water",
+    "fire"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Zwavelpoel",
+    "en": "Sulphur Pit"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     256,
+     532
+    ],
+    "cooldown": 0.97,
+    "range": 5.8,
+    "type": "t_dark_water_fire",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.0,
+    "splash": [
+     0.61,
+     0.98,
+     1.46
+    ]
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    },
+    {
+     "kind": "slow",
+     "amount": 0.27,
+     "duration": 2.0
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_dark_water_nature": {
+   "id": "t_dark_water_nature",
+   "element": "dark",
+   "elements": [
+    "dark",
+    "water",
+    "nature"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Giftmoeras",
+    "en": "Venom Bog"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     274,
+     568
+    ],
+    "cooldown": 0.97,
+    "range": 5.8,
+    "type": "t_dark_water_nature",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.3,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    },
+    {
+     "kind": "slow",
+     "amount": 0.27,
+     "duration": 2.0
+    },
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.49,
+     "duration": 4.0,
+     "bossImmune": false
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_dark_water_earth": {
+   "id": "t_dark_water_earth",
+   "element": "dark",
+   "elements": [
+    "dark",
+    "water",
+    "earth"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Dodenmoeras",
+    "en": "Deadmarsh"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     341,
+     708
+    ],
+    "cooldown": 1.17,
+    "range": 5.8,
+    "type": "t_dark_water_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.7,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    },
+    {
+     "kind": "slow",
+     "amount": 0.27,
+     "duration": 2.0
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_dark_fire_nature": {
+   "id": "t_dark_fire_nature",
+   "element": "dark",
+   "elements": [
+    "dark",
+    "fire",
+    "nature"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Aaskrater",
+    "en": "Ashen Grove"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     268,
+     558
+    ],
+    "cooldown": 1.0,
+    "range": 5.8,
+    "type": "t_dark_fire_nature",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 9.0,
+    "splash": [
+     0.61,
+     0.98,
+     1.46
+    ]
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    },
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.49,
+     "duration": 4.0,
+     "bossImmune": false
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_dark_fire_earth": {
+   "id": "t_dark_fire_earth",
+   "element": "dark",
+   "elements": [
+    "dark",
+    "fire",
+    "earth"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Onderwereld",
+    "en": "Underworld"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     333,
+     692
+    ],
+    "cooldown": 1.2,
+    "range": 5.8,
+    "type": "t_dark_fire_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.3,
+    "splash": [
+     0.61,
+     0.98,
+     1.46
+    ]
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_dark_nature_earth": {
+   "id": "t_dark_nature_earth",
+   "element": "dark",
+   "elements": [
+    "dark",
+    "nature",
+    "earth"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Spookwoud",
+    "en": "Hauntwood"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     355,
+     737
+    ],
+    "cooldown": 1.2,
+    "range": 5.8,
+    "type": "t_dark_nature_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.7,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "armor_reduce",
+     "amount": 3,
+     "duration": 3.0
+    },
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.49,
+     "duration": 4.0,
+     "bossImmune": false
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_water_fire_nature": {
+   "id": "t_water_fire_nature",
+   "element": "water",
+   "elements": [
+    "water",
+    "fire",
+    "nature"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Moessonketel",
+    "en": "Monsoon Cauldron"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     243,
+     504
+    ],
+    "cooldown": 0.97,
+    "range": 5.6,
+    "type": "t_water_fire_nature",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.7,
+    "splash": [
+     0.61,
+     0.98,
+     1.46
+    ]
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.27,
+     "duration": 2.0
+    },
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.49,
+     "duration": 4.0,
+     "bossImmune": false
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_water_fire_earth": {
+   "id": "t_water_fire_earth",
+   "element": "water",
+   "elements": [
+    "water",
+    "fire",
+    "earth"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Geiser",
+    "en": "Geyser"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     303,
+     630
+    ],
+    "cooldown": 1.17,
+    "range": 5.2,
+    "type": "t_water_fire_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.0,
+    "splash": [
+     0.61,
+     0.98,
+     1.46
+    ]
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.27,
+     "duration": 2.0
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_water_nature_earth": {
+   "id": "t_water_nature_earth",
+   "element": "water",
+   "elements": [
+    "water",
+    "nature",
+    "earth"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Delta",
+    "en": "Delta"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     325,
+     674
+    ],
+    "cooldown": 1.17,
+    "range": 5.6,
+    "type": "t_water_nature_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.3,
+    "splash": null
+   },
+   "effects": [
+    {
+     "kind": "slow",
+     "amount": 0.27,
+     "duration": 2.0
+    },
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.49,
+     "duration": 4.0,
+     "bossImmune": false
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  },
+  "t_fire_nature_earth": {
+   "id": "t_fire_nature_earth",
+   "element": "fire",
+   "elements": [
+    "fire",
+    "nature",
+    "earth"
+   ],
+   "tier": 5,
+   "name": {
+    "nl": "Vulkaanwoud",
+    "en": "Volcanic Grove"
+   },
+   "cost": {
+    "gold": 420,
+    "lumber": 0
+   },
+   "buildTime": 16,
+   "unlockAfter": 14,
+   "footprint": [
+    2,
+    2
+   ],
+   "attack": {
+    "damage": [
+     317,
+     658
+    ],
+    "cooldown": 1.2,
+    "range": 5.6,
+    "type": "t_fire_nature_earth",
+    "targets": [
+     "ground"
+    ],
+    "projectileSpeed": 8.0,
+    "splash": [
+     0.61,
+     0.98,
+     1.46
+    ]
+   },
+   "effects": [
+    {
+     "kind": "poison",
+     "slow": 0.0,
+     "dpsFactor": 0.49,
+     "duration": 4.0,
+     "bossImmune": false
+    },
+    {
+     "kind": "root",
+     "chance": 0.09,
+     "duration": 0.8,
+     "bossImmune": true
+    }
+   ],
+   "source": "gen:elements"
+  }
+ }
+}

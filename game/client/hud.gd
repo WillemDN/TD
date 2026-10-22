@@ -3,6 +3,7 @@ extends Control
 ## tray with big cards and an action sheet for the selected tower. It emits signals; main.gd decides what happens.
 
 const Minimap := preload("res://client/minimap.gd")
+const GameData := preload("res://core/game_data.gd")
 
 signal tower_chosen(id)
 signal card_down(id)
@@ -19,7 +20,7 @@ signal restart_pressed
 signal lang_pressed
 signal confirm_pressed
 signal cancel_pressed
-signal play_pressed(difficulty)
+signal play_pressed(mode, difficulty)
 signal again_pressed
 signal center_pressed
 signal wall_toggled(on)
@@ -27,11 +28,14 @@ signal minimap_focus(tile)
 signal tray_toggled(open)
 
 const DIFFS := ["easy", "normal", "hard", "perfection"]
+const MODES := ["classic", "elements"]
+const GROUP_COLORS := {"dual": Color("ffd98a"), "triple": Color("ff9bd8")}
 const ARMOR_COLORS := {"small": Color("8be36a"), "medium": Color("f2d94a"), "large": Color("f08a3a"), "fort": Color("7fa6d6"), "divine": Color("ffffff")}
 
 var data
 var i18n
 var difficulty := "normal"
+var mode := "classic"
 var minimap
 var tray_open := true
 
@@ -48,6 +52,8 @@ var _boss_tag: Label
 var _skip_btn
 var _toast: Label
 var _toast_ttl := 0.0
+var _interest: Label
+var _interest_ttl := 0.0
 var _speed_btn
 var _pause_btn
 var _center_btn
@@ -66,7 +72,11 @@ var _sell_btn
 var _wall_btn
 var _confirm_bar: HBoxContainer
 var _menu: Control
+var _menu_scroll: ScrollContainer
+var _menu_col: VBoxContainer
+var _menu_footer: HBoxContainer
 var _menu_diff := {}
+var _menu_mode := {}
 var _menu_texts := {}
 var _pause_sheet: Control
 var _pause_texts := {}
@@ -104,6 +114,11 @@ func setup(p_data, p_i18n) -> void:
 	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_toast)
+	_interest = _label(15, UiKit.GOLD)
+	_interest.position = Vector2(16, 48)
+	_interest.add_theme_color_override("font_outline_color", Color.BLACK)
+	_interest.add_theme_constant_override("outline_size", 5)
+	add_child(_interest)
 	refresh_static_texts()
 
 
@@ -302,9 +317,14 @@ func _build_tray() -> void:
 	head.add_child(_tray_toggle)
 	_tray_body = VBoxContainer.new()
 	col.add_child(_tray_body)
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.custom_minimum_size = Vector2(0, 74)
+	_tray_body.add_child(scroll)
 	_tower_row = HBoxContainer.new()
 	_tower_row.add_theme_constant_override("separation", 6)
-	_tray_body.add_child(_tower_row)
+	scroll.add_child(_tower_row)
 
 
 func _build_confirm() -> void:
@@ -326,7 +346,7 @@ func _build_confirm() -> void:
 	_confirm_bar.add_child(no)
 
 
-func _centered_panel(parent: Control, dim: float) -> VBoxContainer:
+func _centered_panel(parent: Control, dim: float, scrollable := false) -> VBoxContainer:
 	var shade := ColorRect.new()
 	shade.color = Color(0.02, 0.04, 0.08, dim)
 	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -341,14 +361,36 @@ func _centered_panel(parent: Control, dim: float) -> VBoxContainer:
 	var col := VBoxContainer.new()
 	col.custom_minimum_size = Vector2(380, 0)
 	col.add_theme_constant_override("separation", 8)
-	panel.add_child(col)
+	if scrollable:
+		# a small phone screen is shorter than the menu: the menu scrolls
+		var outer := VBoxContainer.new()
+		outer.add_theme_constant_override("separation", 8)
+		panel.add_child(outer)
+		_menu_scroll = ScrollContainer.new()
+		_menu_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		outer.add_child(_menu_scroll)
+		_menu_scroll.add_child(col)
+		_menu_col = col
+		_menu_footer = HBoxContainer.new()      # the play button stays in view while the rest scrolls
+		_menu_footer.add_theme_constant_override("separation", 8)
+		outer.add_child(_menu_footer)
+	else:
+		panel.add_child(col)
 	return col
+
+
+func fit_menu() -> void:
+	if _menu_scroll == null:
+		return
+	var vh := get_viewport_rect().size.y
+	var room := vh - 44.0 - _menu_footer.get_combined_minimum_size().y - 8.0
+	_menu_scroll.custom_minimum_size.y = clampf(_menu_col.get_combined_minimum_size().y, 80.0, maxf(80.0, room))
 
 
 func _build_menu() -> void:
 	_menu = Control.new()
 	_menu.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var col := _centered_panel(_menu, 0.72)
+	var col := _centered_panel(_menu, 0.72, true)
 	var title := _label(40, UiKit.ACCENT)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	col.add_child(title)
@@ -358,6 +400,26 @@ func _build_menu() -> void:
 	tag.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(tag)
 	_menu_texts["tagline"] = tag
+	var ml := _label(14, UiKit.MUTED)
+	col.add_child(ml)
+	_menu_texts["choose_mode"] = ml
+	var mrow := HBoxContainer.new()
+	mrow.add_theme_constant_override("separation", 6)
+	col.add_child(mrow)
+	for m in MODES:
+		var mb = UiKit.GlyphButton.new("", "", UiKit.ACCENT, Vector2(0, 56))
+		mb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		mb.add_theme_font_size_override("font_size", 18)
+		mb.pressed.connect(func():
+			mode = m
+			_refresh_menu())
+		mrow.add_child(mb)
+		_menu_mode[m] = mb
+	var mdesc := _label(13, UiKit.TEXT)
+	mdesc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	mdesc.custom_minimum_size = Vector2(0, 54)
+	col.add_child(mdesc)
+	_menu_texts["mode_desc"] = mdesc
 	var dl := _label(14, UiKit.MUTED)
 	col.add_child(dl)
 	_menu_texts["difficulty"] = dl
@@ -374,12 +436,10 @@ func _build_menu() -> void:
 			_refresh_menu())
 		grid.add_child(b)
 		_menu_diff[d] = b
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 8)
-	col.add_child(row)
+	var row := _menu_footer
 	var play = UiKit.GlyphButton.new("play", "", UiKit.GOOD, Vector2(0, 58))
 	play.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	play.pressed.connect(func(): play_pressed.emit(difficulty))
+	play.pressed.connect(func(): play_pressed.emit(mode, difficulty))
 	row.add_child(play)
 	_menu_texts["play"] = play
 	var lang = UiKit.GlyphButton.new("", "NL / EN", UiKit.ACCENT, Vector2(92, 58))
@@ -446,10 +506,11 @@ func _build_end() -> void:
 
 func refresh_static_texts() -> void:
 	_menu_texts.title.text = i18n.t("app.title")
-	_menu_texts.tagline.text = i18n.t("app.tagline") + "\n" + i18n.t("menu.mode")
+	_menu_texts.tagline.text = i18n.t("app.tagline")
+	_menu_texts.choose_mode.text = i18n.t("menu.choose_mode")
 	_menu_texts.difficulty.text = i18n.t("menu.difficulty")
 	_menu_texts.play.text = " " + i18n.t("menu.play")
-	_menu_texts.hint.text = i18n.t("menu.hint") + "\n" + i18n.t("help.tip")
+	_menu_texts.hint.text = i18n.t("menu.hint." + mode) + "\n" + i18n.t("help.tip." + mode)
 	_menu_texts.controls.text = i18n.t("help.controls")
 	_menu_texts.credits.text = i18n.t("app.credits")
 	_menu_texts.again.text = " " + i18n.t("end.again")
@@ -459,17 +520,28 @@ func refresh_static_texts() -> void:
 	_wall_btn.text = " " + i18n.t("hud.wall")
 	_refresh_menu()
 	_bar_sig = ""
+	call_deferred("fit_menu")
 
 
 func _refresh_menu() -> void:
+	call_deferred("fit_menu")
+	for m in MODES:
+		var mb = _menu_mode[m]
+		mb.text = i18n.t("mode." + m)
+		mb.set_selected(m == mode)
+	_menu_texts.mode_desc.text = i18n.t("mode." + mode + ".desc")
+	_menu_texts.hint.text = i18n.t("menu.hint." + mode) + "\n" + i18n.t("help.tip." + mode)
+	var lives: Dictionary = GameData.rules_of(mode).difficulties
 	for d in DIFFS:
 		var b = _menu_diff[d]
-		b.text = i18n.t("diff." + d)
+		var n: int = int(lives[d])
+		b.text = "%s (%s)" % [i18n.t("diff." + d), i18n.t("menu.life") if n == 1 else i18n.t("menu.lives", [n])]
 		b.set_selected(d == difficulty)
 
 
 func set_menu_visible(v: bool) -> void:
 	_menu.visible = v
+	call_deferred("fit_menu")
 	_end.visible = false
 	_pause_sheet.visible = false
 
@@ -497,7 +569,19 @@ func toast(text: String, color := Color.WHITE, seconds := 2.2) -> void:
 	_toast_ttl = seconds
 
 
+## A short "+3 interest" under the gold counter.
+func flash_interest(gold: int) -> void:
+	_interest.text = i18n.t("msg.interest", [gold])
+	_interest.modulate.a = 1.0
+	_interest_ttl = 2.5
+
+
 func tick(delta: float) -> void:
+	if _interest_ttl > 0.0:
+		_interest_ttl -= delta
+		_interest.modulate.a = clampf(_interest_ttl / 0.8, 0.0, 1.0)
+	elif _interest.text != "":
+		_interest.text = ""
 	if _toast_ttl > 0.0:
 		_toast_ttl -= delta
 		_toast.modulate.a = clampf(_toast_ttl / 0.6, 0.0, 1.0)
@@ -537,9 +621,14 @@ func update_state(sim, ctx: Dictionary) -> void:
 		_kind_icon.set_glyph("air" if creep.air else "ground", UiKit.TEXT)
 		_creep_name.text = i18n.n(creep.name)
 		var ac: Color = ARMOR_COLORS.get(creep.armorType, Color.WHITE)
+		var el: Dictionary = data.element_of(creep.armorType)
+		if not el.is_empty():
+			ac = Color(el.color)
 		_armor_icon.set_glyph("shield", ac)
 		_armor_label.text = "%s %d" % [i18n.t("armor." + creep.armorType), int(creep.armor)]
 		var tags: Array = []
+		for tr in creep.get("traits", []):
+			tags.append(i18n.t("trait." + tr))
 		if creep.air:
 			tags.append(i18n.t("hud.air"))
 		if creep.boss:
@@ -554,7 +643,7 @@ func update_state(sim, ctx: Dictionary) -> void:
 	_rebuild_bars(sim, ctx)
 	for id in _tower_buttons:
 		var def: Dictionary = data.towers[id]
-		var affordable: bool = sim.gold >= int(def.cost.gold) and sim.lumber >= int(def.cost.lumber)
+		var affordable: bool = sim.gold >= int(def.cost.gold) and sim.lumber >= int(def.cost.lumber) and sim.cleared >= int(def.get("unlockAfter", 0))
 		var b = _tower_buttons[id]
 		b.modulate = Color(1, 1, 1, 1) if affordable else Color(1, 1, 1, 0.55)
 		b.set_selected(ctx.build_id == id)
@@ -567,7 +656,7 @@ func update_state(sim, ctx: Dictionary) -> void:
 	_sheet_buttons.visible = ctx.selected
 	_move_btn.text = " " + ctx.move_text
 	_sell_btn.text = " " + ctx.sell_text
-	_wall_btn.visible = ctx.build_id != ""
+	_wall_btn.visible = ctx.build_id != "" and data.mode == "classic"
 	if _wall_btn.button_pressed != ctx.wall_mode:
 		_wall_btn.set_pressed_no_signal(ctx.wall_mode)
 	_confirm_bar.visible = ctx.touch and ctx.build_id != "" and ctx.ghost_valid and not ctx.wall_mode
@@ -576,7 +665,7 @@ func update_state(sim, ctx: Dictionary) -> void:
 
 
 func _rebuild_bars(sim, ctx: Dictionary) -> void:
-	var sig := "%s|%s|%s|%s" % [sim.elements, ctx.active_element, sim.lumber > 0, i18n.lang]
+	var sig := "%s|%s|%s|%s|%s" % [sim.elements, ctx.active_element, sim.lumber > 0, i18n.lang, sim.cleared]
 	if sig == _bar_sig:
 		return
 	_bar_sig = sig
@@ -595,12 +684,20 @@ func _rebuild_bars(sim, ctx: Dictionary) -> void:
 		b.set_selected(eid == ctx.active_element)
 		b.pressed.connect(func(): element_chosen.emit(eid))
 		_elem_row.add_child(b)
-	var ult = UiKit.GlyphButton.new("ultimate", "", Color("bff6ff"), Vector2(52, 40))
-	ult.glyph_size = 24
-	ult.set_selected(ctx.active_element == "__ultimate")
-	ult.pressed.connect(func(): element_chosen.emit("__ultimate"))
-	_elem_row.add_child(ult)
-	if sim.lumber > 0:
+	for gid in data.groups:
+		var gb = UiKit.GlyphButton.new(gid, "", GROUP_COLORS.get(gid, Color.WHITE), Vector2(52, 40))
+		gb.glyph_size = 24
+		gb.set_selected(ctx.active_element == "g:" + gid)
+		var gtab: String = "g:" + gid
+		gb.pressed.connect(func(): element_chosen.emit(gtab))
+		_elem_row.add_child(gb)
+	if data.ultimate != "":
+		var ult = UiKit.GlyphButton.new("ultimate", "", Color("bff6ff"), Vector2(52, 40))
+		ult.glyph_size = 24
+		ult.set_selected(ctx.active_element == "__ultimate")
+		ult.pressed.connect(func(): element_chosen.emit("__ultimate"))
+		_elem_row.add_child(ult)
+	if sim.lumber > 0 and sim.elements.size() < data.elements.size():
 		var more = UiKit.GlyphButton.new("log", "+", Color("d9a566"), Vector2(64, 40))
 		more.glyph_size = 20
 		more.pressed.connect(func(): element_chosen.emit("__unlock"))
@@ -612,6 +709,21 @@ func _rebuild_bars(sim, ctx: Dictionary) -> void:
 	var accent := Color("bff6ff")
 	if ctx.active_element == "__ultimate":
 		ids = [data.ultimate]
+	elif ctx.active_element.begins_with("g:"):
+		var gid: String = ctx.active_element.substr(2)
+		accent = GROUP_COLORS.get(gid, Color.WHITE)
+		# mixed towers: only the ones whose elements are all learned
+		for tid in data.groups.get(gid, []):
+			var ok := true
+			for e in sim.needed_elements(data.towers[tid]):
+				if not (e in sim.elements):
+					ok = false
+			if ok:
+				ids.append(tid)
+		if ids.is_empty():
+			var none := _label(13, UiKit.MUTED)
+			none.text = i18n.t("hud.elements_none")
+			_tower_row.add_child(none)
 	else:
 		var el: Dictionary = data.element_of(ctx.active_element)
 		if not el.is_empty():
@@ -622,10 +734,18 @@ func _rebuild_bars(sim, ctx: Dictionary) -> void:
 	for id in ids:
 		var def: Dictionary = data.towers[id]
 		var cost = "%dg" % int(def.cost.gold) + (" +%dh" % int(def.cost.lumber) if int(def.cost.lumber) > 0 else "")
-		var b = UiKit.GlyphButton.new(UiKit.element_glyph(def.element), cost, accent, Vector2(84, 70))
+		if sim.cleared < int(def.get("unlockAfter", 0)):
+			cost = i18n.t("hud.locked_level", [int(def.unlockAfter) + 1])
+		var els: Array = def.get("elements", [])
+		var card_color := accent
+		if els.size() == 1:
+			card_color = Color(data.element_of(els[0]).color)
+		var b = UiKit.GlyphButton.new(UiKit.element_glyph(def.element), cost, card_color, Vector2(84, 70))
 		b.top_icon = true
 		b.glyph_size = 26
-		b.badge = keys[mini(i, 5)]
+		b.badge = keys[mini(i, 5)] if els.size() < 2 and data.mode == "classic" else ("I" if int(def.tier) == 1 else ("II" if int(def.tier) == 2 else ("III" if int(def.tier) == 3 else "")))
+		if els.size() > 1:
+			b.glyphs = els
 		b.tooltip_text = i18n.n(def.name)
 		b.add_theme_font_size_override("font_size", 15)
 		b.set_selected(false)

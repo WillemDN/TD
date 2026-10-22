@@ -4,6 +4,7 @@ extends SceneTree
 ## Exit code 1 when a bot does not reach level 13. Engine script errors show up in the log, so read the output.
 
 const Bot := preload("res://tests/bot.gd")
+const BotElements := preload("res://tests/bot_elements.gd")
 
 
 func _init() -> void:
@@ -13,7 +14,7 @@ func _init() -> void:
 	await process_frame
 	var bad := 0
 	for element in ["electric", "crystal", "ice"]:
-		main._play("easy")
+		main._play("classic", "easy")
 		var sim = main.sim
 		sim.gold = 6000
 		sim.lumber = 3
@@ -35,4 +36,28 @@ func _init() -> void:
 		print("%s: level %d state %s towers %d creeps %d frames %d" % [element, sim.level, sim.state, sim.towers.size(), sim.creeps.size(), frames])
 		if sim.level < 13:
 			bad += 1
+	# the mode elements: the client switches data, the tray has the mixed tabs, and the view keeps up with a long wave
+	main._play("elements", "easy")
+	var esim = main.sim
+	esim.gold = 4000
+	esim.lumber = 4
+	var ebot = BotElements.new(["fire", "water", "nature", "earth"])
+	var eframes := 0
+	while esim.level < 11 and esim.state != "lost" and eframes < 30000:
+		if eframes % 20 == 0:
+			ebot.step(esim)
+			esim.gold += 300
+			esim.cleared = maxi(esim.cleared, esim.level)
+		main._process(1.0 / 20.0)
+		eframes += 1
+		if eframes % 500 == 0:
+			main._on_element_chosen("g:dual")
+		if eframes % 700 == 0:
+			main._on_element_chosen("fire")
+			main._on_tower_chosen("fire_1")
+			main._set_ghost(Vector2i(20 + eframes % 40, 8))
+			main._cancel()
+	print("elements: level %d state %s towers %d creeps %d frames %d" % [esim.level, esim.state, esim.towers.size(), esim.creeps.size(), eframes])
+	if esim.level < 11 or main.data.mode != "elements":
+		bad += 1
 	quit(bad)

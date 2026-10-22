@@ -6,6 +6,12 @@ const GridScript := preload("res://core/grid.gd")
 
 const DT := 0.05
 const TICKS_PER_SECOND := 20
+const REVIVE_TIME := 5.0         # undead creeps stand up once, this long after they went down, with REVIVE_HP of their HP
+const REVIVE_HP := 0.33
+const HEAL_RADIUS := 2.0         # healing creeps give their neighbours HEAL_SHARE of the max HP back when they die
+const HEAL_SHARE := 0.2
+const MECH_CYCLE := 12.0         # mechanical creeps are invulnerable for the last MECH_SHIELD seconds of every cycle
+const MECH_SHIELD := 3.0
 
 class Creep extends RefCounted:
 	var id := 0
@@ -29,6 +35,11 @@ class Creep extends RefCounted:
 	var poison_t := 0.0
 	var poison_src := 0
 	var alive := true
+	var spawn_index := 0
+	var traits: Array = []           # "fast" | "healing" | "undead" | "mechanical" (see creeps.json)
+	var revive_t := 0.0              # undead: seconds until it stands up again, 0 when it is not down
+	var revived := false
+	var mech_t := 0.0                # mechanical: clock for the invulnerability cycle
 
 class Tower extends RefCounted:
 	var id := 0
@@ -78,6 +89,7 @@ var record_events := false
 var events: Array = []
 var stats := {"kills": 0, "leaks": 0, "gold_earned": 0}
 var grid_revision := 0           # bumps whenever towers change the walkable grid
+var cleared := 0                 # number of waves that were cleared
 
 var _next_id := 1
 var _spawn_queue: Array = []
@@ -86,6 +98,7 @@ var _spawn_cells := PackedInt32Array()
 var _matrix := {}
 var _rules := {}
 var _boost := {"startGold": 1.0, "levelBonus": 1.0, "bounty": 1.0}
+var _interest_clock := 0.0
 
 
 func _init(game_data, seed_value: int = 1, difficulty_id: String = "", player_count: int = 1) -> void:
@@ -130,8 +143,11 @@ func can_place(def_id: String, cx: int, cy: int) -> Dictionary:
 		return _err("unknown")
 	if state == "won" or state == "lost":
 		return _err("ended")
-	if def.element != "ultimate" and not (def.element in elements):
-		return _err("locked")
+	for e in needed_elements(def):
+		if e != "ultimate" and not (e in elements):
+			return _err("locked")
+	if cleared < int(def.get("unlockAfter", 0)):
+		return _err("locked_level")
 	var spot := _can_place_here(cx, cy, int(def.footprint[0]), int(def.footprint[1]))
 	if not spot.ok:
 		return spot
@@ -140,6 +156,11 @@ func can_place(def_id: String, cx: int, cy: int) -> Dictionary:
 	if lumber < int(def.cost.lumber):
 		return _err("lumber")
 	return {"ok": true}
+
+
+## Elements a tower needs: a mixed tower (mode elements) lists all of its elements, other towers just their own.
+func needed_elements(def: Dictionary) -> Array:
+	return def.get("elements", [def.element])
 
 
 func _can_place_here(cx: int, cy: int, fw: int, fh: int) -> Dictionary:
@@ -301,12 +322,28 @@ func tick() -> void:
 	tick_count += 1
 	time += DT
 	_update_waves()
+	_update_interest()
 	for t in towers.values():
 		_update_tower(t)
 	_update_projectiles()
 	_update_creeps()
 	_cleanup()
 	_check_wave_end()
+
+
+## Mode elements: unspent gold earns interest on a timer (rules.interest = {rate, interval}).
+func _update_interest() -> void:
+	var interest = _rules.get("interest")
+	if interest == null:
+		return
+	_interest_clock += DT
+	if _interest_clock + 0.0001 >= float(interest.interval):
+		_interest_clock = 0.0
+		var g := int(floor(float(gold) * float(interest.rate)))
+		if g > 0:
+			gold += g
+			stats.gold_earned += g
+			_event({"type": "interest", "gold": g})
 
 
 func _update_waves() -> void:
@@ -345,13 +382,15 @@ func _spawn_creep(creep_id: String, spawn_index: int) -> void:
 	c.id = _take_id()
 	c.def = def
 	c.level = level
-	c.max_hp = float(def.hp)
+	c.max_hp = float(def.hp) * float(_rules.get("hpMultiplier", {}).get(difficulty, 1.0))
 	c.hp = c.max_hp
 	c.air = bool(def.air)
 	c.boss = bool(def.boss)
 	c.armor = float(def.armor)
 	c.armor_type = def.armorType
 	c.speed = float(def.speed)
+	c.traits = def.get("traits", [])
+	c.spawn_index = spawn_index
 	var cell: Array = data.map.spawns[spawn_index].cell
 	var cs: float = grid.cell_size
 	c.pos = Vector2((float(cell[0]) + 0.5) * cs + rng.randf_range(-0.2, 0.2), (float(cell[1]) + 0.5) * cs + rng.randf_range(-0.2, 0.2))
@@ -385,7 +424,7 @@ func _find_target(t: Tower) -> Creep:
 	var best: Creep = null
 	var best_d := INF
 	for c in creeps.values():
-		if not c.alive:
+		if not c.alive or c.revive_t > 0.0:
 			continue
 		if c.air and not can_air:
 			continue
@@ -452,7 +491,7 @@ func _impact(t: Tower, target: Creep, dmg: float) -> void:
 		var r_mid := float(splash[1])
 		var r_small := float(splash[2])
 		for c in creeps.values():
-			if c == target or not c.alive:
+			if c == target or not c.alive or c.revive_t > 0.0:
 				continue
 			var d: float = hit_pos.distance_to(c.pos)
 			if d > r_small:
@@ -480,7 +519,7 @@ func _chain(t: Tower, first: Creep, dmg: float, e: Dictionary, bounce: bool) -> 
 		var best: Creep = null
 		var best_d := INF
 		for c in creeps.values():
-			if not c.alive or hit.has(c.id):
+			if not c.alive or c.revive_t > 0.0 or hit.has(c.id):
 				continue
 			if c.air and not a.targets.has("air"):
 				continue
@@ -533,15 +572,26 @@ func _slow(c: Creep, amount: float, duration: float) -> void:
 	c.slow_t = maxf(c.slow_t, duration)
 
 
+func is_invulnerable(c: Creep) -> bool:
+	return "mechanical" in c.traits and fmod(c.mech_t, MECH_CYCLE) >= MECH_CYCLE - MECH_SHIELD
+
+
 func _deal(c: Creep, raw: float, attack_type: String, t: Tower, pure: bool) -> void:
-	if not c.alive:
+	if not c.alive or c.revive_t > 0.0 or is_invulnerable(c):
 		return
 	var dmg := raw if pure else raw * damage_multiplier(attack_type, c.armor_type, c.armor - c.ared_amt)
 	c.hp -= dmg
 	if t != null:
 		t.damage_dealt += dmg
 	if c.hp <= 0.0:
-		_kill(c, t)
+		if "undead" in c.traits and not c.revived:
+			c.hp = 0.0
+			c.revive_t = REVIVE_TIME
+			c.slow_t = 0.0
+			c.poison_t = 0.0
+			_event({"type": "down", "pos": c.pos})
+		else:
+			_kill(c, t)
 
 
 func _kill(c: Creep, t: Tower) -> void:
@@ -557,6 +607,10 @@ func _kill(c: Creep, t: Tower) -> void:
 	if t != null:
 		t.kills += 1
 	_event({"type": "kill", "pos": c.pos, "gold": g, "boss": c.boss})
+	if "healing" in c.traits:
+		for o in creeps.values():
+			if o != c and o.alive and o.revive_t <= 0.0 and o.pos.distance_to(c.pos) <= HEAL_RADIUS:
+				o.hp = minf(o.max_hp, o.hp + o.max_hp * HEAL_SHARE)
 
 
 func _update_creeps() -> void:
@@ -564,6 +618,15 @@ func _update_creeps() -> void:
 		if not c.alive:
 			continue
 		c.prev = c.pos
+		if c.revive_t > 0.0:
+			c.revive_t -= DT
+			if c.revive_t <= 0.0:
+				c.revive_t = 0.0
+				c.revived = true
+				c.hp = c.max_hp * REVIVE_HP
+				_event({"type": "revived", "pos": c.pos})
+			continue
+		c.mech_t += DT
 		if c.poison_t > 0.0:
 			c.poison_t -= DT
 			_deal(c, c.poison_dps * DT, "chaos", towers.get(c.poison_src), true)
@@ -617,15 +680,26 @@ func _move_along(c: Creep, step: float, route: PackedInt32Array) -> bool:
 
 
 func _leak(c: Creep) -> void:
-	c.alive = false
 	stats.leaks += 1
 	var wave: Dictionary = data.waves[c.level - 1]
 	_event({"type": "leak", "pos": c.pos, "boss": c.boss})
+	if bool(_rules.get("leakRespawn", false)) and not bool(wave.finalBoss):
+		# the creep is not lost: it appears at the start again and has to be killed (it costs a life every lap)
+		var cell: Array = data.map.spawns[c.spawn_index].cell
+		c.pos = Vector2((float(cell[0]) + 0.5) * grid.cell_size, (float(cell[1]) + 0.5) * grid.cell_size)
+		c.prev = c.pos
+		_lose_life(wave)
+		return
+	c.alive = false
 	if bool(wave.finalBoss) and c.boss:
 		state = "lost"
 		lost_reason = "boss"
 		_event({"type": "lost", "reason": "boss"})
 		return
+	_lose_life(wave)
+
+
+func _lose_life(wave: Dictionary) -> void:
 	if not bool(wave.noLifeLoss):
 		lives -= 1
 		if lives <= 0:
@@ -644,6 +718,7 @@ func _cleanup() -> void:
 func _check_wave_end() -> void:
 	if state != "active" or not _spawn_queue.is_empty() or not creeps.is_empty():
 		return
+	cleared = level
 	gold += level_bonus(level)
 	stats.gold_earned += level_bonus(level)
 	var extra = _rules.lumberAtLevel.get(str(level))

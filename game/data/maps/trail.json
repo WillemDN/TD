@@ -1,0 +1,122 @@
+{
+ "id": "trail",
+ "name": {
+  "nl": "Elementenpad",
+  "en": "Elemental Trail"
+ },
+ "width": 96,
+ "height": 52,
+ "cellSize": 0.5,
+ "rows": [
+  "################################################################################################",
+  "################################################################################################",
+  "################################################################################################",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "##,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,########",
+  "##,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,########",
+  "##,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,########",
+  "##,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo,,,,########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo,,,,########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo,,,,########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo,,,,########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo,,,,########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo,,,,########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo,,,,########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo,,,,########",
+  "########,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,########",
+  "########,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,########",
+  "########,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,########",
+  "########,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,########",
+  "########,,,,oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########,,,,oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########,,,,oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########,,,,oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########,,,,oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########,,,,oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########,,,,oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########,,,,oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,##",
+  "########,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,##",
+  "########,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,##",
+  "########,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,##",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "########oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo########",
+  "################################################################################################",
+  "################################################################################################",
+  "################################################################################################",
+  "################################################################################################",
+  "################################################################################################"
+ ],
+ "spawns": [
+  {
+   "cell": [
+    3,
+    12
+   ],
+   "lane": 0
+  }
+ ],
+ "goal": {
+  "rect": [
+   90,
+   35,
+   93,
+   38
+  ]
+ },
+ "lanes": [
+  {
+   "rows": [
+    11,
+    14
+   ],
+   "fieldX": [
+    8,
+    87
+   ]
+  },
+  {
+   "rows": [
+    23,
+    26
+   ],
+   "fieldX": [
+    8,
+    87
+   ]
+  },
+  {
+   "rows": [
+    35,
+    38
+   ],
+   "fieldX": [
+    8,
+    87
+   ]
+  }
+ ],
+ "shared": {
+  "rect": [
+   2,
+   3,
+   40,
+   22
+  ]
+ },
+ "note": "Generated by tools/gen_elements.py. \"o\" = build plate (towers yes, creeps never), \",\" = the path."
+}
