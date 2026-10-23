@@ -80,6 +80,14 @@ func _init() -> void:
 	print("survivor: %.0f s state %s weapons %d enemies %d frames %d" % [ssim.time, ssim.state, ssim.weapons.size(), ssim.enemies.size(), sframes])
 	if ssim.time < 150.0 or main.sim != null:
 		bad += 1
+	# the shop cards must survive a few frames of fighting: a card replaced between press and release swallows the tap
+	var card_ids: Array = game.shud._card_buttons.map(func(c): return c.get_instance_id())
+	for i in 5:
+		main._process(1.0 / 20.0)
+		game._process(1.0 / 20.0)
+	if card_ids != game.shud._card_buttons.map(func(c): return c.get_instance_id()):
+		print("survivor: shop cards were rebuilt while nothing changed")
+		bad += 1
 	main._play("classic", "easy")
 	if main.survivor != null or main.sim == null or main.data.mode != "classic":
 		bad += 1

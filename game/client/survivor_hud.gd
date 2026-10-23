@@ -387,7 +387,12 @@ func update_state(p_sim, ctx: Dictionary) -> void:
 
 
 func _rebuild(sim) -> void:
-	var sig := "%s|%s|%s|%s|%s|%s|%s" % [sim.offers, sim.weapons, sim.upgrades, _selected, i18n.lang, _info, sim.round_no]
+	# only what the buttons show: sim.weapons also holds cooldowns and angles that change every tick, which would rebuild
+	# the cards every frame and swallow every tap (a button that is replaced between press and release never fires)
+	var levels := {}
+	for id in sim.weapons:
+		levels[id] = int(sim.weapons[id].level)
+	var sig := "%s|%s|%s|%s|%s|%s|%s" % [sim.offers, levels, sim.upgrades, _selected, i18n.lang, _info, sim.round_no]
 	if sig == _sig:
 		return
 	_sig = sig
